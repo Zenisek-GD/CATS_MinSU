@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'auth.jwt' => \App\Http\Middleware\JwtAuth::class,
+            'role' => \App\Http\Middleware\RequireRole::class,
         ]);
 
         $middleware->appendToGroup('api', [

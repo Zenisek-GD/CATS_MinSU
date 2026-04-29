@@ -30,6 +30,15 @@ class JwtAuth
             return response()->json(['message' => 'Invalid or expired token.'], 401);
         }
 
+        $jti = $payload['jti'] ?? null;
+        if (!$jti || !is_string($jti)) {
+            return response()->json(['message' => 'Invalid token payload.'], 401);
+        }
+
+        if (Jwt::isBlacklisted($jti)) {
+            return response()->json(['message' => 'Token has been revoked.'], 401);
+        }
+
         $userId = $payload['sub'] ?? null;
         if (!$userId) {
             return response()->json(['message' => 'Invalid token payload.'], 401);
