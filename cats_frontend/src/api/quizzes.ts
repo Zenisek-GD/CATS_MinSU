@@ -60,11 +60,14 @@ export type ApiQuizAttempt = {
 
 export type ApiQuizAttemptResult = {
   question_id: number
+  prompt: string
+  scenario: string | null
   is_correct: boolean
   earned_points: number
   points: number
   explanation: string | null
   correct_option: { id: number; label: string | null; text: string | null } | null
+  selected_option: { id: number; label: string | null; text: string | null } | null
   selected_option_id: number | null
 }
 
@@ -79,6 +82,12 @@ export type ApiQuizAttemptFeedback = {
     recent_total: number
     recent_incorrect: number
   }
+}
+
+export type ApiAiFeedback = {
+  summary: string
+  red_flags: string[]
+  what_to_do_next: string
 }
 
 export async function getQuizCategories(): Promise<{ categories: ApiQuizCategory[] }> {
@@ -110,11 +119,17 @@ export async function submitQuizAttempt(
   payload: {
     answers: Array<{ question_id: number; selected_option_id: number | null }>
   },
-): Promise<{ attempt: Omit<ApiQuizAttempt, 'questions'>; results: ApiQuizAttemptResult[]; feedback: ApiQuizAttemptFeedback }> {
+): Promise<{
+  attempt: Omit<ApiQuizAttempt, 'questions'>
+  results: ApiQuizAttemptResult[]
+  feedback: ApiQuizAttemptFeedback
+  ai_feedback?: ApiAiFeedback | null
+}> {
   const resp = await api.post(`/api/quiz-attempts/${attemptId}/submit`, payload)
   return resp.data as {
     attempt: Omit<ApiQuizAttempt, 'questions'>
     results: ApiQuizAttemptResult[]
     feedback: ApiQuizAttemptFeedback
+    ai_feedback?: ApiAiFeedback | null
   }
 }

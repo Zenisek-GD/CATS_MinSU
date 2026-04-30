@@ -8,6 +8,7 @@ use App\Models\QuizAttemptAnswer;
 use App\Models\QuizOption;
 use App\Models\QuizQuestion;
 use App\Models\TrainingModule;
+use App\Support\CyberAwarenessAiCoach;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -122,6 +123,7 @@ class QuizAttemptController extends Controller
         $score = 0;
         $maxScore = (int) $questions->sum('points');
         $results = [];
+        $misses = [];
 
         foreach ($questionIds as $qid) {
             $qid = (int) $qid;
@@ -162,15 +164,54 @@ class QuizAttemptController extends Controller
                 ]
             );
 
+            // Build selected option display text
+            $selectedOptionData = null;
+            if ($selectedOptionId) {
+                $opt = $q->options->firstWhere('id', (int) $selectedOptionId);
+                if ($opt) {
+                    $selectedOptionData = ['id' => $opt->id, 'label' => $opt->label, 'text' => $opt->text];
+                }
+            }
+
             $results[] = [
                 'question_id' => $q->id,
+                'prompt' => $q->prompt,
+                'scenario' => $q->scenario,
                 'is_correct' => $isCorrect,
                 'earned_points' => $earned,
                 'points' => (int) $q->points,
                 'explanation' => $q->explanation,
                 'correct_option' => $correctOption ? ['id' => $correctOption->id, 'label' => $correctOption->label, 'text' => $correctOption->text] : null,
+                'selected_option' => $selectedOptionData,
                 'selected_option_id' => $selectedOptionId,
             ];
+
+            if (!$isCorrect) {
+                $selected = null;
+                if ($selectedOptionId) {
+                    $opt = $q->options->firstWhere('id', (int) $selectedOptionId);
+                    if ($opt) {
+                        $label = trim((string) ($opt->label ?? ''));
+                        $text = trim((string) ($opt->text ?? ''));
+                        $selected = $label && $text ? "{$label}. {$text}" : ($label ?: $text);
+                    }
+                }
+
+                $correct = null;
+                if ($correctOption) {
+                    $label = trim((string) ($correctOption->label ?? ''));
+                    $text = trim((string) ($correctOption->text ?? ''));
+                    $correct = $label && $text ? "{$label}. {$text}" : ($label ?: $text);
+                }
+
+                $misses[] = [
+                    'prompt' => (string) $q->prompt,
+                    'scenario' => $q->scenario,
+                    'selected' => $selected,
+                    'correct' => $correct,
+                    'explanation' => $q->explanation,
+                ];
+            }
         }
 
         $percent = $maxScore > 0 ? round(($score / $maxScore) * 100, 2) : 0;
@@ -183,6 +224,7 @@ class QuizAttemptController extends Controller
         $attempt->save();
 
         $feedback = $this->adaptiveFeedback($user->id, $quiz->category?->slug ?? null);
+        $aiFeedback = CyberAwarenessAiCoach::coachQuizMisses($quiz->category?->slug ?? null, array_slice($misses, 0, 5));
 
         return response()->json([
             'attempt' => [
@@ -204,6 +246,7 @@ class QuizAttemptController extends Controller
             ],
             'results' => $results,
             'feedback' => $feedback,
+            'ai_feedback' => $aiFeedback,
         ]);
     }
 

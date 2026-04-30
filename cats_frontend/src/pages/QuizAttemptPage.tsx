@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   getQuizAttempt,
   submitQuizAttempt,
+  type ApiAiFeedback,
   type ApiQuizAttempt,
   type ApiQuizAttemptFeedback,
   type ApiQuizAttemptResult,
@@ -20,7 +21,49 @@ type SubmitState =
       attempt: { id: number; status: string; score: number; max_score: number; percent: number }
       results: ApiQuizAttemptResult[]
       feedback: ApiQuizAttemptFeedback
+      ai_feedback?: ApiAiFeedback | null
     }
+
+function parseEmailScenario(raw: string) {
+  const text = (raw || '').trim()
+  if (!text) return null
+
+  const lines = text.split(/\r?\n/)
+  let subject: string | null = null
+  let from: string | null = null
+  const bodyLines: string[] = []
+
+  for (const line of lines) {
+    const trimmed = line.trim()
+
+    const subjMatch = trimmed.match(/^subject\s*:\s*(.*)$/i)
+    if (subjMatch) {
+      subject = subjMatch[1]?.trim() || null
+      continue
+    }
+
+    const fromMatch = trimmed.match(/^from\s*:\s*(.*)$/i)
+    if (fromMatch) {
+      from = fromMatch[1]?.trim() || null
+      continue
+    }
+
+    bodyLines.push(line)
+  }
+
+  const body = bodyLines.join('\n').trim()
+  const isEmailLike = !!(subject || from)
+  const bodyText = body || text
+  const showCta = /\b(verify|click|sign\s?in|login|reset|update)\b|https?:\/\//i.test(bodyText)
+
+  return {
+    isEmailLike,
+    subject,
+    from,
+    body: bodyText,
+    showCta,
+  }
+}
 
 export default function QuizAttemptPage() {
   const { user } = useAuth()
@@ -88,6 +131,7 @@ export default function QuizAttemptPage() {
         attempt: resp.attempt,
         results: resp.results,
         feedback: resp.feedback,
+        ai_feedback: resp.ai_feedback ?? null,
       })
     } catch (e: unknown) {
       setError(getApiErrorMessage(e, 'Failed to submit attempt.'))
@@ -141,10 +185,10 @@ export default function QuizAttemptPage() {
               <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
               <span>Assess</span>
             </Link>
-            <span className="modulesNavItem disabled" aria-disabled="true">
-              <span className="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
-              <span>Achievements</span>
-            </span>
+            <Link className="modulesNavItem" to="/profile">
+              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <span>Profile</span>
+            </Link>
           </nav>
         </aside>
 
@@ -223,7 +267,49 @@ export default function QuizAttemptPage() {
 
                             <h2 className="quizPrompt">{q.prompt}</h2>
 
-                            {q.scenario ? <p className="quizScenario">{q.scenario}</p> : null}
+                            {q.scenario ? (
+                              (() => {
+                                const parsed = parseEmailScenario(q.scenario)
+                                if (!parsed?.isEmailLike) return <p className="quizScenario">{q.scenario}</p>
+
+                                return (
+                                  <div className="quizScenarioBox" aria-label="Simulated scenario">
+                                    <div className="quizScenarioBoxHeader">
+                                      <span className="material-symbols-outlined" aria-hidden="true">
+                                        mail
+                                      </span>
+                                      <span className="quizScenarioBoxTitle">Simulated Scenario</span>
+                                    </div>
+
+                                    <div className="quizScenarioEmail">
+                                      {parsed.subject ? (
+                                        <div className="quizScenarioRow">
+                                          <span className="quizScenarioLabel">Subject:</span>
+                                          <span className="quizScenarioSubject">{parsed.subject}</span>
+                                        </div>
+                                      ) : null}
+
+                                      {parsed.from ? (
+                                        <div className="quizScenarioRow">
+                                          <span className="quizScenarioLabel">From:</span>
+                                          <span className="quizScenarioFrom">{parsed.from}</span>
+                                        </div>
+                                      ) : null}
+
+                                      <div className="quizScenarioBody">{parsed.body}</div>
+
+                                      {parsed.showCta ? (
+                                        <div className="quizScenarioCtaRow">
+                                          <span className="quizScenarioCta" aria-disabled="true">
+                                            VERIFY NOW →
+                                          </span>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                )
+                              })()
+                            ) : null}
 
                             {q.options?.length ? (
                               <div className="quizOptions" role="radiogroup" aria-label="Options">
@@ -272,6 +358,13 @@ export default function QuizAttemptPage() {
                           {submitState.status === 'submitting' ? 'Submitting…' : 'Submit'}
                         </button>
                       </div>
+
+                      {submitState.status === 'submitting' ? (
+                        <div className="quizAiLoading" style={{ marginTop: 14 }}>
+                          <span className="quizAiIcon" aria-hidden="true">🤖</span>
+                          <span>Generating adaptive feedback…</span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ) : null}
@@ -307,6 +400,38 @@ export default function QuizAttemptPage() {
                   </div>
                 </div>
 
+                {submitState.ai_feedback ? (
+                  <div className="quizCard" aria-label="Adaptive feedback">
+                    <div className="quizCardBody">
+                      <div className="quizMetaRow">
+                        <span>Adaptive feedback</span>
+                        <span className="quizBadge good">AI Coach</span>
+                      </div>
+
+                      <p className="quizResultExplain">{submitState.ai_feedback.summary}</p>
+
+                      {submitState.ai_feedback.red_flags?.length ? (
+                        <div className="quizTips" aria-label="Red flags">
+                          {submitState.ai_feedback.red_flags.map((t, i) => (
+                            <div className="quizTip" key={i}>
+                              {t}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      <p className="quizResultExplain">
+                        <strong>Next step:</strong> {submitState.ai_feedback.what_to_do_next}
+                      </p>
+                    </div>
+                  </div>
+                ) : submitState.ai_feedback === null ? (
+                  <div className="quizAiUnavailable">
+                    <span className="material-symbols-outlined" aria-hidden="true">info</span>
+                    <span>AI coaching is unavailable at this time. Review the explanations below for guidance.</span>
+                  </div>
+                ) : null}
+
                 {submitState.results.map((r, idx) => {
                   const badgeClass = r.is_correct ? 'good' : 'bad'
                   const badgeText = r.is_correct ? 'Correct' : 'Incorrect'
@@ -315,22 +440,69 @@ export default function QuizAttemptPage() {
                     ? `${(r.correct_option.label || '').trim()}${r.correct_option.text ? `. ${(r.correct_option.text || '').trim()}` : ''}`
                     : null
 
+                  const selectedLabel = r.selected_option
+                    ? `${(r.selected_option.label || '').trim()}${r.selected_option.text ? `. ${(r.selected_option.text || '').trim()}` : ''}`
+                    : null
+
                   return (
-                    <section key={r.question_id} className="quizCard" aria-label={`Result ${idx + 1}`}>
+                    <section key={r.question_id} className={`quizCard ${!r.is_correct ? 'quizCardWrong' : ''}`} aria-label={`Result ${idx + 1}`}>
                       <div className="quizCardBody">
                         <div className="quizMetaRow">
                           <span>Question {idx + 1}</span>
                           <span className={`quizBadge ${badgeClass}`}>{badgeText}</span>
                         </div>
 
-                        <div className="quizMetaRow">
+                        {/* Show the question prompt */}
+                        <h3 className="quizResultPrompt">{r.prompt}</h3>
+
+                        {/* Show scenario context if present */}
+                        {r.scenario ? (
+                          <div className="quizResultScenario">
+                            <span className="material-symbols-outlined quizResultScenarioIcon" aria-hidden="true">description</span>
+                            <span>{r.scenario}</span>
+                          </div>
+                        ) : null}
+
+                        {/* Show what the user selected */}
+                        {!r.is_correct && selectedLabel ? (
+                          <div className="quizResultAnswer wrong">
+                            <span className="material-symbols-outlined" aria-hidden="true">close</span>
+                            <div>
+                              <div className="quizResultAnswerLabel">Your answer</div>
+                              <div className="quizResultAnswerText">{selectedLabel}</div>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {/* Show the correct answer */}
+                        {correctLabel ? (
+                          <div className={`quizResultAnswer ${r.is_correct ? 'correct' : 'correctHint'}`}>
+                            <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                            <div>
+                              <div className="quizResultAnswerLabel">{r.is_correct ? 'Your answer' : 'Correct answer'}</div>
+                              <div className="quizResultAnswerText">{correctLabel}</div>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        <div className="quizMetaRow" style={{ marginTop: 8 }}>
                           <span>
                             Earned {r.earned_points} / {r.points} pts
                           </span>
-                          {correctLabel ? <span>Correct: {correctLabel}</span> : <span />}
                         </div>
 
-                        {r.explanation ? <p className="quizResultExplain">{r.explanation}</p> : null}
+                        {/* Show explanation — especially important for wrong answers */}
+                        {r.explanation ? (
+                          <div className={`quizResultExplainBox ${!r.is_correct ? 'warning' : ''}`}>
+                            <div className="quizResultExplainHeader">
+                              <span className="material-symbols-outlined" aria-hidden="true">
+                                {r.is_correct ? 'lightbulb' : 'warning'}
+                              </span>
+                              <span>{r.is_correct ? 'Why this is correct' : 'Why your answer was wrong'}</span>
+                            </div>
+                            <p className="quizResultExplainText">{r.explanation}</p>
+                          </div>
+                        ) : null}
                       </div>
                     </section>
                   )
@@ -352,10 +524,10 @@ export default function QuizAttemptPage() {
               <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
               <span>Assess</span>
             </Link>
-            <span className="bottomNavItem" aria-disabled="true">
-              <span className="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
-              <span>Achievements</span>
-            </span>
+            <Link className="bottomNavItem" to="/profile">
+              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <span>Profile</span>
+            </Link>
           </nav>
         </div>
       </div>

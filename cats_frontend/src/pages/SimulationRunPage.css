@@ -28,34 +28,335 @@
   font-size: 13px;
 }
 
+/* ── Step Header ── */
+.simStepHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(11, 28, 48, 0.08);
+}
+
+.simStepTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0b1c30;
+}
+
+.simStepTitle .material-symbols-outlined {
+  font-size: 22px;
+  color: rgba(0, 106, 97, 0.7);
+}
+
+.simStepStats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.simStatSafe {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: rgba(0, 106, 97, 0.75);
+}
+
+.simStatSafe .material-symbols-outlined { font-size: 16px; }
+
+.simStatUnsafe {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: rgba(186, 26, 26, 0.7);
+}
+
+.simStatUnsafe .material-symbols-outlined { font-size: 16px; }
+
+/* ── Realistic Email Card ── */
+.simEmailCard {
+  border: 1px solid rgba(11, 28, 48, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.65);
+  margin-bottom: 14px;
+}
+
+.simEmailHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(11, 28, 48, 0.04);
+  color: rgba(11, 28, 48, 0.72);
+  border-bottom: 1px solid rgba(11, 28, 48, 0.08);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.simEmailIcon { font-size: 18px; }
+
+.simEmailContent {
+  padding: 14px;
+}
+
+.simEmailRow {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 3px 0;
+}
+
+.simEmailLabel {
+  min-width: 62px;
+  color: rgba(11, 28, 48, 0.6);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.simEmailSubject {
+  color: rgba(186, 26, 26, 0.92);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.simEmailFrom,
+.simEmailTo {
+  color: rgba(11, 28, 48, 0.82);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  background: rgba(11, 28, 48, 0.04);
+  border: 1px solid rgba(11, 28, 48, 0.08);
+  border-radius: 10px;
+  padding: 3px 8px;
+}
+
+.simEmailBody {
+  margin-top: 12px;
+  white-space: pre-wrap;
+  color: rgba(11, 28, 48, 0.78);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.simEmailLinkWarn {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.simEmailLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(186, 26, 26, 0.05);
+  border: 1px solid rgba(186, 26, 26, 0.14);
+  color: rgba(186, 26, 26, 0.8);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.simEmailLink .material-symbols-outlined { font-size: 16px; }
+
+.simEmailCtaRow {
+  margin-top: 12px;
+}
+
+.simEmailCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  background: rgba(186, 26, 26, 0.07);
+  color: rgba(186, 26, 26, 0.92);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  user-select: none;
+  cursor: not-allowed;
+}
+
+/* ── Plain text prompt (non-email) ── */
 .simPrompt {
   white-space: pre-wrap;
   border: 1px solid rgba(11, 28, 48, 0.12);
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px;
   background: rgba(255, 255, 255, 0.65);
   color: rgba(11, 28, 48, 0.82);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 13px;
-  line-height: 1.45;
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 14px;
 }
 
-.simEducation {
-  margin-top: 10px;
+/* ── Education tip box ── */
+.simEducationBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 106, 97, 0.04);
+  border: 1px solid rgba(0, 106, 97, 0.12);
+  margin-bottom: 14px;
+}
+
+.simEducationBox .material-symbols-outlined {
+  font-size: 20px;
+  color: rgba(0, 106, 97, 0.7);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.simEducationLabel {
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 106, 97, 0.7);
+  margin-bottom: 2px;
+}
+
+.simEducationText {
   color: rgba(11, 28, 48, 0.72);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
+/* ── Question prompt ── */
+.simQuestionPrompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b1c30;
+}
+
+.simQuestionPrompt .material-symbols-outlined {
+  font-size: 20px;
+  color: rgba(0, 106, 97, 0.65);
+}
+
+/* ── Choice Action Buttons ── */
 .simChoices {
   display: grid;
   gap: 10px;
-  margin-top: 14px;
 }
 
-.simOutcome {
+.simChoiceBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(11, 28, 48, 0.12);
   border-radius: 12px;
-  padding: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.simChoiceBtn:hover:not(:disabled) {
+  border-color: rgba(0, 106, 97, 0.35);
+  background: rgba(0, 106, 97, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 106, 97, 0.08);
+}
+
+.simChoiceBtn:active:not(:disabled) {
+  background: rgba(0, 106, 97, 0.08);
+}
+
+.simChoiceBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.simChoiceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(0, 106, 97, 0.08);
+  flex-shrink: 0;
+}
+
+.simChoiceIcon .material-symbols-outlined {
+  font-size: 20px;
+  color: rgba(0, 106, 97, 0.7);
+}
+
+.simChoiceText {
+  flex: 1;
+  min-width: 0;
+  color: rgba(11, 28, 48, 0.85);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.simChoiceArrow {
+  font-size: 20px;
+  color: rgba(11, 28, 48, 0.25);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.simChoiceBtn:hover:not(:disabled) .simChoiceArrow {
+  color: rgba(0, 106, 97, 0.5);
+}
+
+/* ── Continue button ── */
+.simContinueWrap {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.simContinueBtn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px !important;
+  font-size: 14px !important;
+}
+
+.simContinueBtn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* ── Outcome card ── */
+.simOutcome {
+  border-radius: 14px;
+  padding: 16px 18px;
   border: 1px solid rgba(0, 106, 97, 0.35);
   background: rgba(0, 106, 97, 0.06);
   color: rgba(11, 28, 48, 0.9);
@@ -64,13 +365,493 @@
 
 .simOutcome.bad {
   border-color: rgba(186, 26, 26, 0.2);
-  background: rgba(186, 26, 26, 0.07);
+  background: rgba(186, 26, 26, 0.05);
+  border-left: 4px solid rgba(186, 26, 26, 0.6);
 }
+
+.simOutcomeHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.simOutcomeFeedback {
+  flex: 1;
+  min-width: 0;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.simOutcomeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.simOutcomeBadge .material-symbols-outlined { font-size: 15px; }
+
+.simOutcomeBadge.safe {
+  background: rgba(0, 106, 97, 0.12);
+  color: #006a61;
+  border: 1px solid rgba(0, 106, 97, 0.16);
+}
+
+.simOutcomeBadge.unsafe {
+  background: rgba(186, 26, 26, 0.08);
+  color: rgba(186, 26, 26, 0.85);
+  border: 1px solid rgba(186, 26, 26, 0.18);
+}
+
+/* Explanation box in simulation outcome */
+.simOutcomeExplainBox {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 106, 97, 0.04);
+  border: 1px solid rgba(0, 106, 97, 0.12);
+}
+
+.simOutcomeExplainBox.warning {
+  background: rgba(186, 26, 26, 0.04);
+  border-color: rgba(186, 26, 26, 0.14);
+}
+
+.simOutcomeExplainHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: rgba(0, 106, 97, 0.85);
+}
+
+.simOutcomeExplainBox.warning .simOutcomeExplainHeader {
+  color: rgba(186, 26, 26, 0.8);
+}
+
+.simOutcomeExplainHeader .material-symbols-outlined { font-size: 18px; }
+
+.simOutcomeExplainText {
+  margin: 0;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* Score delta indicator */
+.simOutcomeScore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(11, 28, 48, 0.04);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(11, 28, 48, 0.7);
+}
+
+.simOutcomeScore .material-symbols-outlined { font-size: 16px; }
 
 .simActions {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 16px;
 }
+
+/* ── AI Feedback card ── */
+.simAiFeedback {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 106, 97, 0.2);
+  background: rgba(0, 106, 97, 0.04);
+}
+
+.simAiFeedbackHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.simAiFeedbackTitle {
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(0, 106, 97, 0.85);
+}
+
+.simAiBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(0, 106, 97, 0.12);
+  color: #006a61;
+  border: 1px solid rgba(0, 106, 97, 0.16);
+}
+
+.simAiSummary {
+  color: rgba(11, 28, 48, 0.78);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.simAiRedFlags {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.simAiRedFlag {
+  padding-left: 12px;
+  border-left: 3px solid rgba(0, 106, 97, 0.35);
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.simAiNextStep {
+  color: rgba(11, 28, 48, 0.78);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  margin-top: 8px;
+}
+
+/* ── AI Loading shimmer ── */
+.simAiLoading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 106, 97, 0.18);
+  background: linear-gradient(110deg, rgba(0, 106, 97, 0.04) 0%, rgba(0, 106, 97, 0.10) 40%, rgba(0, 106, 97, 0.04) 60%);
+  background-size: 200% 100%;
+  animation: simAiShimmer 1.8s ease-in-out infinite;
+  color: rgba(0, 106, 97, 0.85);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.simAiLoading .simAiIcon {
+  font-size: 20px;
+  animation: simAiPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes simAiShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes simAiPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ── AI unavailable fallback ── */
+.simAiUnavailable {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px dashed rgba(11, 28, 48, 0.16);
+  background: rgba(11, 28, 48, 0.02);
+  color: rgba(11, 28, 48, 0.5);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+}
+
+.simAiUnavailable .material-symbols-outlined {
+  font-size: 18px;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── Decision Card (choice buttons redesign) ── */
+/* ══════════════════════════════════════════════ */
+.simChoiceCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid rgba(11, 28, 48, 0.1);
+  border-radius: 14px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.simChoiceCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 106, 97, 0.03), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.simChoiceCard:hover:not(:disabled)::before { opacity: 1; }
+.simChoiceCard:hover:not(:disabled) {
+  border-color: rgba(0, 106, 97, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 106, 97, 0.1);
+  transform: translateY(-1px);
+}
+.simChoiceCard:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+  box-shadow: 0 1px 4px rgba(0, 106, 97, 0.08);
+}
+.simChoiceCard:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.simChoiceCardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 106, 97, 0.1), rgba(0, 106, 97, 0.04));
+  flex-shrink: 0;
+  font-size: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.simChoiceCardContent {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+.simChoiceCardAction {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0b1c30;
+  margin-bottom: 2px;
+}
+.simChoiceCardDesc {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(11, 28, 48, 0.6);
+  line-height: 1.4;
+}
+.simChoiceCardArrow {
+  font-size: 20px;
+  color: rgba(11, 28, 48, 0.2);
+  flex-shrink: 0;
+  transition: color 0.15s, transform 0.15s;
+  align-self: center;
+  position: relative;
+  z-index: 1;
+}
+.simChoiceCard:hover:not(:disabled) .simChoiceCardArrow {
+  color: rgba(0, 106, 97, 0.6);
+  transform: translateX(3px);
+}
+
+/* ══════════════════════════════════════ */
+/* ── Danger Overlay (unsafe feedback) ── */
+/* ══════════════════════════════════════ */
+.simDangerOverlay {
+  border-radius: 16px;
+  padding: 0;
+  border: 2px solid rgba(186, 26, 26, 0.25);
+  background: linear-gradient(180deg, rgba(186, 26, 26, 0.04) 0%, rgba(255, 255, 255, 0.95) 40%);
+  overflow: hidden;
+  animation: simSlideInUp 0.35s ease-out;
+}
+.simDangerOverlayHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(186, 26, 26, 0.08), rgba(186, 26, 26, 0.03));
+  border-bottom: 1px solid rgba(186, 26, 26, 0.1);
+}
+.simDangerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(186, 26, 26, 0.1);
+  color: rgba(186, 26, 26, 0.9);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.simDangerBadge .material-symbols-outlined { font-size: 18px; }
+
+.simDangerBody { padding: 20px; }
+
+.simFeedbackPanel {
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(11, 28, 48, 0.06);
+}
+.simFeedbackPanel.what-you-did {
+  background: rgba(186, 26, 26, 0.03);
+  border-color: rgba(186, 26, 26, 0.1);
+}
+.simFeedbackPanel.why-dangerous {
+  background: rgba(186, 26, 26, 0.02);
+  border-color: rgba(186, 26, 26, 0.12);
+}
+.simFeedbackPanel.what-to-do {
+  background: rgba(0, 106, 97, 0.03);
+  border-color: rgba(0, 106, 97, 0.12);
+}
+
+.simFeedbackPanelTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.simFeedbackPanel.what-you-did .simFeedbackPanelTitle,
+.simFeedbackPanel.why-dangerous .simFeedbackPanelTitle {
+  color: rgba(186, 26, 26, 0.75);
+}
+.simFeedbackPanel.what-to-do .simFeedbackPanelTitle {
+  color: rgba(0, 106, 97, 0.8);
+}
+.simFeedbackPanelTitle .material-symbols-outlined { font-size: 16px; }
+
+.simFeedbackPanelText {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(11, 28, 48, 0.78);
+  margin: 0;
+}
+
+/* Animated red flags */
+.simRedFlagAnimated {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.simRedFlagItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(186, 26, 26, 0.04);
+  border: 1px solid rgba(186, 26, 26, 0.08);
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(11, 28, 48, 0.75);
+  animation: simFadeInStagger 0.4s ease-out both;
+}
+.simRedFlagItem:nth-child(1) { animation-delay: 0.1s; }
+.simRedFlagItem:nth-child(2) { animation-delay: 0.25s; }
+.simRedFlagItem:nth-child(3) { animation-delay: 0.4s; }
+.simRedFlagItem:nth-child(4) { animation-delay: 0.55s; }
+.simRedFlagItem:nth-child(5) { animation-delay: 0.7s; }
+.simRedFlagItem .material-symbols-outlined {
+  font-size: 16px;
+  color: rgba(186, 26, 26, 0.7);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ══════════════════════════════════════ */
+/* ── Success Overlay (safe feedback) ── */
+/* ══════════════════════════════════════ */
+.simSuccessOverlay {
+  border-radius: 16px;
+  padding: 0;
+  border: 2px solid rgba(0, 106, 97, 0.25);
+  background: linear-gradient(180deg, rgba(0, 106, 97, 0.04) 0%, rgba(255, 255, 255, 0.95) 40%);
+  overflow: hidden;
+  animation: simSlideInUp 0.35s ease-out;
+}
+.simSuccessOverlayHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(0, 106, 97, 0.08), rgba(0, 106, 97, 0.02));
+  border-bottom: 1px solid rgba(0, 106, 97, 0.1);
+}
+.simSuccessBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(0, 106, 97, 0.1);
+  color: #006a61;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.simSuccessBadge .material-symbols-outlined { font-size: 18px; }
+.simSuccessBody { padding: 20px; }
+
+/* ── Animations ── */
+@keyframes simSlideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes simFadeInStagger {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+

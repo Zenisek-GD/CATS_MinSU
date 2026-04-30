@@ -28,11 +28,13 @@ export default function AuthPage() {
     return 'Create account'
   }, [mode])
 
+  const { user } = useAuth()
+
   useEffect(() => {
-    if (isReady && token) {
-      navigate('/modules', { replace: true })
+    if (isReady && token && user) {
+      navigate(user.role === 'admin' ? '/admin/dashboard' : '/modules', { replace: true })
     }
-  }, [isReady, token, navigate])
+  }, [isReady, token, user, navigate])
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -48,7 +50,8 @@ export default function AuthPage() {
       if (mode === 'login') {
         const resp = await loginWithEmail(safeEmail, password)
         setSession(resp)
-        navigate('/modules', { replace: true })
+        const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
+        navigate(dest, { replace: true })
         return
       }
 
@@ -58,7 +61,8 @@ export default function AuthPage() {
         password,
       })
       setSession(resp)
-      navigate('/modules', { replace: true })
+      const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
+      navigate(dest, { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Something went wrong.'
       setError(msg)

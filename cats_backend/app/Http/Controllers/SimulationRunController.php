@@ -7,6 +7,7 @@ use App\Models\SimulationChoice;
 use App\Models\SimulationRun;
 use App\Models\SimulationRunEvent;
 use App\Models\SimulationStep;
+use App\Support\CyberAwarenessAiCoach;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -160,6 +161,20 @@ class SimulationRunController extends Controller
 
         $simulation = $run->simulation()->with('category:id,slug,name')->firstOrFail();
 
+        $aiFeedback = null;
+        $coachCtx = [
+            'simulation_title' => $simulation->title,
+            'step_prompt' => $step->prompt,
+            'choice_text' => $choice->text,
+            'explanation' => $choice->explanation,
+        ];
+
+        if (!(bool) $choice->is_safe) {
+            $aiFeedback = CyberAwarenessAiCoach::coachUnsafeSimulation($coachCtx);
+        } else {
+            $aiFeedback = CyberAwarenessAiCoach::coachSafeSimulation($coachCtx);
+        }
+
         return response()->json([
             'run' => $this->presentRun($run, $simulation, $nextStep),
             'outcome' => [
@@ -168,6 +183,7 @@ class SimulationRunController extends Controller
                 'score_delta' => (int) $choice->score_delta,
                 'feedback' => $choice->feedback,
                 'explanation' => $choice->explanation,
+                'ai_feedback' => $aiFeedback,
             ],
         ]);
     }

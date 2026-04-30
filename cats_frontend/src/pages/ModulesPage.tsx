@@ -82,10 +82,16 @@ export default function ModulesPage() {
               <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
               <span>Assess</span>
             </Link>
-            <span className="modulesNavItem disabled" aria-disabled="true">
-              <span className="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
-              <span>Achievements</span>
-            </span>
+            <Link className="modulesNavItem" to="/profile">
+              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <span>Profile</span>
+            </Link>
+            {user.role === 'admin' && (
+              <Link className="modulesNavItem" to="/admin/dashboard">
+                <span className="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
+                <span>Admin</span>
+              </Link>
+            )}
           </nav>
         </aside>
 
@@ -251,10 +257,10 @@ export default function ModulesPage() {
               <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
               <span>Assess</span>
             </Link>
-            <span className="bottomNavItem" aria-disabled="true">
-              <span className="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
-              <span>Achievements</span>
-            </span>
+            <Link className="bottomNavItem" to="/profile">
+              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <span>Profile</span>
+            </Link>
           </nav>
         </div>
       </div>

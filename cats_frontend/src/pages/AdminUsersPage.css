@@ -1,0 +1,135 @@
+/* ─── Admin Users Page ─── */
+
+.adminUsersToolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.adminSearchInput {
+  flex: 1; min-width: 200px; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid rgba(11,28,48,0.12); background: #fff; font-size: 14px;
+  font-family: "Public Sans", system-ui, sans-serif; outline: none; transition: border-color 180ms;
+}
+.adminSearchInput:focus { border-color: #006a61; box-shadow: 0 0 0 3px rgba(0,106,97,0.1); }
+.adminFilterSelect {
+  padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(11,28,48,0.12);
+  background: #fff; font-size: 13px; font-family: "Public Sans", system-ui, sans-serif; cursor: pointer;
+}
+.adminAddBtn {
+  display: flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 10px;
+  border: none; background: linear-gradient(135deg, #006a61, #00897b); color: #fff;
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 180ms; white-space: nowrap;
+}
+.adminAddBtn:hover { box-shadow: 0 4px 12px rgba(0,106,97,0.3); transform: translateY(-1px); }
+.adminAddBtn .material-symbols-outlined { font-size: 18px; }
+
+/* ─── Users Table ─── */
+.adminUsersWrap { background: #fff; border-radius: 14px; border: 1px solid rgba(11,28,48,0.06); box-shadow: 0 1px 6px rgba(15,23,42,0.04); overflow: hidden; }
+.adminUsersFullTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.adminUsersFullTable th {
+  text-align: left; padding: 12px 14px; border-bottom: 2px solid rgba(11,28,48,0.08);
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: rgba(11,28,48,0.5); background: rgba(11,28,48,0.015);
+}
+.adminUsersFullTable td { padding: 10px 14px; border-bottom: 1px solid rgba(11,28,48,0.04); color: #0b1c30; vertical-align: middle; }
+.adminUsersFullTable tr:last-child td { border-bottom: none; }
+.adminUsersFullTable tr:hover td { background: rgba(0,106,97,0.02); }
+
+.adminUserName { font-weight: 600; }
+.adminUserEmail { font-size: 12px; color: rgba(11,28,48,0.5); }
+
+.adminStatusBadge {
+  display: inline-flex; padding: 2px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; font-family: "Space Grotesk", system-ui, sans-serif;
+}
+.adminStatusBadge.active { background: rgba(0,106,97,0.1); color: #006a61; }
+.adminStatusBadge.suspended { background: rgba(239,68,68,0.1); color: #ef4444; }
+
+.adminRoleBadge {
+  display: inline-flex; padding: 2px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; font-family: "Space Grotesk", system-ui, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.adminRoleBadge.admin { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+.adminRoleBadge.user { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+.adminActionBtns { display: flex; gap: 4px; flex-wrap: wrap; }
+.adminActionBtn {
+  padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(11,28,48,0.1);
+  background: transparent; font-size: 11px; font-weight: 600; cursor: pointer;
+  font-family: "Space Grotesk", system-ui, sans-serif; transition: all 150ms;
+  color: #0b1c30;
+}
+.adminActionBtn:hover { background: rgba(11,28,48,0.04); }
+.adminActionBtn.danger { color: #ef4444; border-color: rgba(239,68,68,0.2); }
+.adminActionBtn.danger:hover { background: rgba(239,68,68,0.06); }
+.adminActionBtn.warn { color: #f59e0b; border-color: rgba(245,158,11,0.2); }
+.adminActionBtn.warn:hover { background: rgba(245,158,11,0.06); }
+.adminActionBtn.success { color: #006a61; border-color: rgba(0,106,97,0.2); }
+.adminActionBtn.success:hover { background: rgba(0,106,97,0.06); }
+
+/* ─── Modal ─── */
+.adminOverlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; }
+.adminOverlayBg { position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+.adminModalBox {
+  position: relative; z-index: 1; background: #fff; border-radius: 16px; padding: 28px;
+  width: 90%; max-width: 520px; max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.adminModalTitle { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-weight: 700; color: #0b1c30; margin-bottom: 18px; }
+.adminFormField { margin-bottom: 14px; }
+.adminFormLabel { display: block; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(11,28,48,0.5); margin-bottom: 4px; }
+.adminFormInput {
+  width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(11,28,48,0.12);
+  font-size: 14px; font-family: "Public Sans", system-ui, sans-serif; box-sizing: border-box;
+}
+.adminFormInput:focus { outline: none; border-color: #006a61; box-shadow: 0 0 0 3px rgba(0,106,97,0.1); }
+.adminFormSelect { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(11,28,48,0.12); font-size: 14px; background: #fff; cursor: pointer; }
+.adminFormActions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.adminFormBtn {
+  padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(11,28,48,0.12);
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 150ms; background: transparent; color: #0b1c30;
+}
+.adminFormBtn.primary { background: #006a61; color: #fff; border-color: #006a61; }
+.adminFormBtn.primary:hover { background: #005a53; }
+
+/* ─── Performance Panel ─── */
+.adminPerfGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.adminPerfStat { text-align: center; padding: 14px; background: rgba(11,28,48,0.02); border-radius: 10px; }
+.adminPerfStatValue { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 22px; font-weight: 800; color: #006a61; }
+.adminPerfStatLabel { font-size: 11px; color: rgba(11,28,48,0.5); margin-top: 2px; }
+.adminPerfSection { margin-top: 16px; }
+.adminPerfSectionTitle { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-weight: 700; color: #0b1c30; margin-bottom: 8px; }
+.adminPerfList { list-style: none; padding: 0; margin: 0; }
+.adminPerfList li { padding: 6px 0; border-bottom: 1px solid rgba(11,28,48,0.05); font-size: 13px; display: flex; justify-content: space-between; }
+.adminPerfList li:last-child { border-bottom: none; }
+
+.adminTempPwd {
+  padding: 12px 16px; background: rgba(0,106,97,0.06); border: 1px solid rgba(0,106,97,0.15);
+  border-radius: 8px; font-family: monospace; font-size: 16px; font-weight: 700;
+  color: #006a61; text-align: center; margin: 12px 0;
+  user-select: all;
+}
+
+/* ─── Users Table Responsive ─── */
+.adminUsersWrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.adminUsersFullTable { min-width: 640px; }
+
+@media (max-width: 900px) {
+  .adminUsersToolbar { flex-direction: column; }
+  .adminSearchInput { min-width: auto; width: 100%; }
+  .adminFilterSelect { width: 100%; }
+  .adminAddBtn { width: 100%; justify-content: center; }
+  .adminPerfGrid { grid-template-columns: 1fr; }
+  .adminModalBox { padding: 20px; width: 94%; }
+  .adminModalTitle { font-size: 16px; }
+  .adminPerfList li { flex-direction: column; gap: 2px; }
+  .adminPerfList li span:last-child { font-size: 12px; color: rgba(11,28,48,0.5); }
+}
+
+@media (max-width: 480px) {
+  .adminActionBtns { gap: 3px; }
+  .adminActionBtn { padding: 3px 7px; font-size: 10px; }
+  .adminFormInput { padding: 8px 10px; font-size: 13px; }
+  .adminFormSelect { padding: 8px 10px; font-size: 13px; }
+  .adminFormBtn { padding: 8px 14px; font-size: 12px; }
+  .adminTempPwd { font-size: 14px; padding: 10px; }
+}

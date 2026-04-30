@@ -53,6 +53,7 @@
   display: flex;
   gap: 10px;
   align-items: flex-start;
+  justify-content: flex-start;
   padding: 10px 12px;
   border: 1px solid rgba(11, 28, 48, 0.12);
   border-radius: 12px;
@@ -61,7 +62,12 @@
 }
 
 .quizOption input {
-  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  padding: 0;
+  flex: 0 0 auto;
+  accent-color: #006a61;
 }
 
 .quizOption:hover {
@@ -71,9 +77,100 @@
 
 .quizOptionText {
   min-width: 0;
+  flex: 1;
+  text-align: left;
   color: rgba(11, 28, 48, 0.82);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.45;
+}
+
+.quizScenarioBox {
+  margin-top: 10px;
+  border: 1px solid rgba(11, 28, 48, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.quizScenarioBoxHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(11, 28, 48, 0.04);
+  color: rgba(11, 28, 48, 0.72);
+  border-bottom: 1px solid rgba(11, 28, 48, 0.08);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.quizScenarioBoxHeader .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.quizScenarioEmail {
+  padding: 12px;
+}
+
+.quizScenarioRow {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 2px 0;
+}
+
+.quizScenarioLabel {
+  min-width: 62px;
+  color: rgba(11, 28, 48, 0.6);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+}
+
+.quizScenarioSubject {
+  color: rgba(186, 26, 26, 0.92);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.quizScenarioFrom {
+  color: rgba(11, 28, 48, 0.82);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  background: rgba(11, 28, 48, 0.04);
+  border: 1px solid rgba(11, 28, 48, 0.08);
+  border-radius: 10px;
+  padding: 3px 8px;
+}
+
+.quizScenarioBody {
+  margin-top: 10px;
+  white-space: pre-wrap;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+}
+
+.quizScenarioCtaRow {
+  margin-top: 10px;
+}
+
+.quizScenarioCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  background: rgba(186, 26, 26, 0.07);
+  color: rgba(186, 26, 26, 0.92);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  user-select: none;
 }
 
 .quizActions {
@@ -114,6 +211,146 @@
   line-height: 1.55;
 }
 
+/* Wrong answer card highlight */
+.quizCardWrong {
+  border-left: 4px solid rgba(186, 26, 26, 0.6);
+}
+
+/* Question prompt shown in results */
+.quizResultPrompt {
+  margin: 4px 0 10px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0b1c30;
+  line-height: 1.4;
+}
+
+/* Scenario context in results */
+.quizResultScenario {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(11, 28, 48, 0.03);
+  border: 1px solid rgba(11, 28, 48, 0.08);
+  color: rgba(11, 28, 48, 0.65);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.quizResultScenarioIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.6;
+}
+
+/* Answer display blocks — wrong / correct */
+.quizResultAnswer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.quizResultAnswer .material-symbols-outlined {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.quizResultAnswer.wrong {
+  background: rgba(186, 26, 26, 0.06);
+  border: 1px solid rgba(186, 26, 26, 0.18);
+}
+
+.quizResultAnswer.wrong .material-symbols-outlined {
+  color: rgba(186, 26, 26, 0.75);
+}
+
+.quizResultAnswer.correct {
+  background: rgba(0, 106, 97, 0.06);
+  border: 1px solid rgba(0, 106, 97, 0.18);
+}
+
+.quizResultAnswer.correct .material-symbols-outlined {
+  color: rgba(0, 106, 97, 0.75);
+}
+
+.quizResultAnswer.correctHint {
+  background: rgba(0, 106, 97, 0.04);
+  border: 1px solid rgba(0, 106, 97, 0.14);
+}
+
+.quizResultAnswer.correctHint .material-symbols-outlined {
+  color: rgba(0, 106, 97, 0.65);
+}
+
+.quizResultAnswerLabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(11, 28, 48, 0.5);
+  margin-bottom: 2px;
+}
+
+.quizResultAnswerText {
+  color: rgba(11, 28, 48, 0.85);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Explanation box with icon header */
+.quizResultExplainBox {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 106, 97, 0.04);
+  border: 1px solid rgba(0, 106, 97, 0.12);
+}
+
+.quizResultExplainBox.warning {
+  background: rgba(186, 26, 26, 0.04);
+  border-color: rgba(186, 26, 26, 0.14);
+}
+
+.quizResultExplainHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: rgba(0, 106, 97, 0.85);
+}
+
+.quizResultExplainBox.warning .quizResultExplainHeader {
+  color: rgba(186, 26, 26, 0.8);
+}
+
+.quizResultExplainHeader .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.quizResultExplainText {
+  margin: 0;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
 .quizTips {
   display: grid;
   gap: 8px;
@@ -126,3 +363,55 @@
   color: rgba(11, 28, 48, 0.72);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
+
+/* AI Feedback loading shimmer */
+.quizAiLoading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 106, 97, 0.18);
+  background: linear-gradient(110deg, rgba(0, 106, 97, 0.04) 0%, rgba(0, 106, 97, 0.10) 40%, rgba(0, 106, 97, 0.04) 60%);
+  background-size: 200% 100%;
+  animation: quizAiShimmer 1.8s ease-in-out infinite;
+  color: rgba(0, 106, 97, 0.85);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.quizAiLoading .quizAiIcon {
+  font-size: 20px;
+  animation: quizAiPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes quizAiShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes quizAiPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* AI feedback unavailable fallback */
+.quizAiUnavailable {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px dashed rgba(11, 28, 48, 0.16);
+  background: rgba(11, 28, 48, 0.02);
+  color: rgba(11, 28, 48, 0.5);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+}
+
+.quizAiUnavailable .material-symbols-outlined {
+  font-size: 18px;
+  opacity: 0.6;
+}
+

@@ -18,7 +18,8 @@
 }
 
 .modulesSidebar {
-  display: block;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid rgba(11, 28, 48, 0.08);
   background: #ffffff;
   padding: 18px 14px;

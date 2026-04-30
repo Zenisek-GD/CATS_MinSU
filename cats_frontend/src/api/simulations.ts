@@ -54,6 +54,11 @@ export type ApiSimulationOutcome = {
   feedback?: string | null
   explanation?: string | null
   message?: string
+  ai_feedback?: {
+    summary: string
+    red_flags: string[]
+    what_to_do_next: string
+  } | null
 }
 
 export async function getSimulations(params?: {

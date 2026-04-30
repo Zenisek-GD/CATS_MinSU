@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
                     'quiz_id' => $quiz->id,
                     'type' => 'scenario',
                     'prompt' => 'You receive an email: "Your account will be locked in 30 minutes" with a login button.',
-                    'scenario' => 'The sender address is slightly misspelled (support@bannk-example.com).',
+                    'scenario' => "Subject: URGENT: Your account will be suspended!\nFrom: security@paypa1-support.example\n\nDear Customer,\nWe detected suspicious activity on your account. Click here immediately to verify your identity or your account will be permanently suspended within 24 hours.",
                     'explanation' => 'Do not click the button. Verify through official channels and report suspicious emails.',
                     'points' => 1,
                     'sort_order' => 3,
@@ -169,6 +169,24 @@ class DatabaseSeeder extends Seeder
                     'time_limit_seconds' => 180,
                     'is_active' => true,
                 ]);
+            }
+        }
+
+        // Ensure the phishing scenario question stays aligned with the UI reference
+        // (safe to run repeatedly; updates in-place, no duplicates).
+        if (class_exists(Quiz::class)) {
+            $phishingQuiz = Quiz::query()->where('title', 'Phishing Basics Quiz')->first();
+            if ($phishingQuiz) {
+                $scenarioQ = QuizQuestion::query()
+                    ->where('quiz_id', $phishingQuiz->id)
+                    ->where('sort_order', 3)
+                    ->where('type', 'scenario')
+                    ->first();
+
+                if ($scenarioQ) {
+                    $scenarioQ->scenario = "Subject: URGENT: Your account will be suspended!\nFrom: security@paypa1-support.example\n\nDear Customer,\nWe detected suspicious activity on your account. Click here immediately to verify your identity or your account will be permanently suspended within 24 hours.";
+                    $scenarioQ->save();
+                }
             }
         }
 
@@ -423,5 +441,7 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+
+        $this->call(SimulationEnhancedSeeder::class);
     }
 }
