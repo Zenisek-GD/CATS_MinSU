@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ApiUser, AuthResponse } from '../api/auth'
 import { getMe, logout as apiLogout } from '../api/auth'
@@ -42,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsReady(true)
       }
     })()
-  }, [])
+  }, [token])
 
   const value = useMemo<AuthState>(
     () => ({

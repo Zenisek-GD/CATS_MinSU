@@ -30,7 +30,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (isReady && token) {
-      navigate('/', { replace: true })
+      navigate('/modules', { replace: true })
     }
   }, [isReady, token, navigate])
 
@@ -48,7 +48,7 @@ export default function AuthPage() {
       if (mode === 'login') {
         const resp = await loginWithEmail(safeEmail, password)
         setSession(resp)
-        navigate('/', { replace: true })
+        navigate('/modules', { replace: true })
         return
       }
 
@@ -58,7 +58,7 @@ export default function AuthPage() {
         password,
       })
       setSession(resp)
-      navigate('/', { replace: true })
+      navigate('/modules', { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Something went wrong.'
       setError(msg)

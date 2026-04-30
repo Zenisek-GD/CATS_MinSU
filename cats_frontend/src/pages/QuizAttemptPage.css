@@ -1,0 +1,128 @@
+.quizWrap {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.quizCard {
+  background: #ffffff;
+  border: 1px solid rgba(11, 28, 48, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.quizCardBody {
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.quizMetaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+}
+
+.quizPrompt {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b1c30;
+}
+
+.quizScenario {
+  margin-top: 8px;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+}
+
+.quizOptions {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.quizOption {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid rgba(11, 28, 48, 0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.quizOption input {
+  margin-top: 4px;
+}
+
+.quizOption:hover {
+  border-color: rgba(0, 106, 97, 0.35);
+  background: rgba(0, 106, 97, 0.06);
+}
+
+.quizOptionText {
+  min-width: 0;
+  color: rgba(11, 28, 48, 0.82);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.45;
+}
+
+.quizActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.quizBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quizBadge.good {
+  background: rgba(0, 106, 97, 0.12);
+  color: #006a61;
+  border: 1px solid rgba(0, 106, 97, 0.16);
+}
+
+.quizBadge.bad {
+  background: rgba(186, 26, 26, 0.07);
+  color: rgba(11, 28, 48, 0.9);
+  border: 1px solid rgba(186, 26, 26, 0.2);
+}
+
+.quizResultExplain {
+  margin-top: 10px;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+}
+
+.quizTips {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.quizTip {
+  border-left: 3px solid rgba(0, 106, 97, 0.35);
+  padding-left: 10px;
+  color: rgba(11, 28, 48, 0.72);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
