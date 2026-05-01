@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
+import { getVapidPublicKey, subscribeToPush, unsubscribeFromPush, urlBase64ToUint8Array } from '../api/push'
+import { TopbarActions } from '../components/TopbarActions'
 import './ModulesPage.css'
 import './ProfilePage.css'
 
@@ -8,6 +10,69 @@ export default function ProfilePage() {
   const { user, clearSession } = useAuth()
   const navigate = useNavigate()
   const [loggingOut, setLoggingOut] = useState(false)
+  const [pushEnabled, setPushEnabled] = useState(false)
+  const [pushBusy, setPushBusy] = useState(false)
+
+  // Check initial push subscription status
+  useEffect(() => {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.ready.then(reg => {
+        reg.pushManager.getSubscription().then(sub => {
+          setPushEnabled(!!sub)
+        })
+      })
+    }
+  }, [])
+
+  async function togglePush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert('Push notifications are not supported by your browser.')
+      return
+    }
+
+    setPushBusy(true)
+    try {
+      const reg = await navigator.serviceWorker.ready
+
+      if (pushEnabled) {
+        // Unsubscribe
+        const sub = await reg.pushManager.getSubscription()
+        if (sub) {
+          await sub.unsubscribe()
+          await unsubscribeFromPush(sub.endpoint)
+        }
+        setPushEnabled(false)
+      } else {
+        // Subscribe
+        const permission = await Notification.requestPermission()
+        if (permission !== 'granted') {
+          alert('Notification permission denied.')
+          setPushBusy(false)
+          return
+        }
+
+        const { publicKey } = await getVapidPublicKey()
+        const convertedVapidKey = urlBase64ToUint8Array(publicKey)
+
+        const sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey
+        })
+
+        // Send to backend
+        const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(sub.getKey('p256dh') as ArrayBuffer))))
+        const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(sub.getKey('auth') as ArrayBuffer))))
+
+        await subscribeToPush(sub.endpoint, { p256dh, auth })
+        setPushEnabled(true)
+      }
+    } catch (e: any) {
+      console.error(e)
+      alert('Failed to toggle notifications: ' + e.message)
+    } finally {
+      setPushBusy(false)
+    }
+  }
 
   if (!user) return null
 
@@ -79,11 +144,7 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <button type="button" className="modulesIconBtn" aria-label="Notifications">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  notifications
-                </span>
-              </button>
+              <TopbarActions />
             </div>
           </header>
 
@@ -155,6 +216,26 @@ export default function ProfilePage() {
                         </div>
                       </div>
                     ) : null}
+
+                    <div className="profileInfoRow" style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid var(--border-color)' }}>
+                      <div className="profileInfoIcon">
+                        <span className="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+                      </div>
+                      <div className="profileInfoContent" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <div className="profileInfoLabel">Push Notifications</div>
+                          <div className="profileInfoValue" style={{ fontSize: 13, color: 'var(--text-muted)' }}>Get notified about new modules and updates.</div>
+                        </div>
+                        <button 
+                          className={`modulesFilterBtn ${pushEnabled ? 'active' : ''}`} 
+                          onClick={togglePush} 
+                          disabled={pushBusy}
+                          style={{ minWidth: 100, justifyContent: 'center' }}
+                        >
+                          {pushBusy ? 'Wait...' : pushEnabled ? 'Enabled' : 'Enable'}
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="profileLogoutSection">

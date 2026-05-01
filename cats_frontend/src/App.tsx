@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthProvider'
 import LandingPage from './pages/LandingPage'
 import ModulesPage from './pages/ModulesPage'
+import ModuleViewerPage from './pages/ModuleViewerPage'
 import ProfilePage from './pages/ProfilePage'
 import QuizAttemptPage from './pages/QuizAttemptPage'
 import QuizzesPage from './pages/QuizzesPage'
@@ -30,6 +31,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/modules" element={token ? <ModulesPage /> : <Navigate to="/" replace />} />
+      <Route path="/modules/:id" element={token ? <ModuleViewerPage /> : <Navigate to="/" replace />} />
 
       <Route path="/profile" element={token ? <ProfilePage /> : <Navigate to="/" replace />} />
       <Route path="/quizzes" element={token ? <QuizzesPage /> : <Navigate to="/" replace />} />

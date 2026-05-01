@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../api/error'
+import { TopbarActions } from '../components/TopbarActions'
 import { chooseSimulation, getSimulationRun, type ApiSimulationOutcome, type ApiSimulationRun } from '../api/simulations'
 import { useAuth } from '../auth/AuthProvider'
 import './ModulesPage.css'
@@ -239,11 +240,7 @@ export default function SimulationRunPage() {
                 </div>
               </div>
 
-              <button type="button" className="modulesIconBtn" aria-label="Notifications">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  notifications
-                </span>
-              </button>
+              <TopbarActions />
             </div>
           </header>
 

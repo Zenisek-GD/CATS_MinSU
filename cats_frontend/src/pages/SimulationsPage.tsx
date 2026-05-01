@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../api/error'
 import { getSimulations, startSimulationRun, type ApiSimulation } from '../api/simulations'
 import { useAuth } from '../auth/AuthProvider'
+import { TopbarActions } from '../components/TopbarActions'
 import './ModulesPage.css'
 
 type SimUi = ApiSimulation & {
@@ -113,11 +114,7 @@ export default function SimulationsPage() {
                 </div>
               </div>
 
-              <button type="button" className="modulesIconBtn" aria-label="Notifications">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  notifications
-                </span>
-              </button>
+              <TopbarActions />
             </div>
           </header>
 

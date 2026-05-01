@@ -1,19 +1,31 @@
 import { api } from './client'
 
 /* ─── Modules ─── */
-export type AdminModule = { id: number; title: string; description: string | null; is_active: boolean; created_at?: string }
+export type AdminModuleTopic = { id: number; training_module_id: number; title: string; content: string; sort_order: number; created_at?: string }
+export type AdminModule = { id: number; title: string; description: string | null; is_active: boolean; quiz_id: number | null; created_at?: string; topics?: AdminModuleTopic[]; quiz?: { id: number; title: string } }
 
 export async function adminGetModules(): Promise<{ modules: AdminModule[] }> {
   const r = await api.get('/api/admin/modules'); return r.data as { modules: AdminModule[] }
 }
-export async function adminCreateModule(data: { title: string; description?: string; is_active?: boolean }): Promise<{ module: AdminModule }> {
+export async function adminCreateModule(data: { title: string; description?: string; is_active?: boolean; quiz_id?: number | null }): Promise<{ module: AdminModule }> {
   const r = await api.post('/api/admin/modules', data); return r.data as { module: AdminModule }
 }
-export async function adminUpdateModule(id: number, data: Partial<{ title: string; description: string | null; is_active: boolean }>): Promise<{ module: AdminModule }> {
+export async function adminUpdateModule(id: number, data: Partial<{ title: string; description: string | null; is_active: boolean; quiz_id: number | null }>): Promise<{ module: AdminModule }> {
   const r = await api.patch(`/api/admin/modules/${id}`, data); return r.data as { module: AdminModule }
 }
 export async function adminDeleteModule(id: number): Promise<void> {
   await api.delete(`/api/admin/modules/${id}`)
+}
+
+/* ─── Module Topics ─── */
+export async function adminCreateModuleTopic(moduleId: number, data: { title: string; content: string; sort_order?: number }): Promise<{ topic: AdminModuleTopic }> {
+  const r = await api.post(`/api/admin/modules/${moduleId}/topics`, data); return r.data as { topic: AdminModuleTopic }
+}
+export async function adminUpdateModuleTopic(topicId: number, data: Partial<{ title: string; content: string; sort_order: number }>): Promise<{ topic: AdminModuleTopic }> {
+  const r = await api.patch(`/api/admin/module-topics/${topicId}`, data); return r.data as { topic: AdminModuleTopic }
+}
+export async function adminDeleteModuleTopic(topicId: number): Promise<void> {
+  await api.delete(`/api/admin/module-topics/${topicId}`)
 }
 
 /* ─── Questions ─── */

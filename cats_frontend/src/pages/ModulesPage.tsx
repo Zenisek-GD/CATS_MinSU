@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getModules, type ApiTrainingModule } from '../api/modules'
 import { useAuth } from '../auth/AuthProvider'
+import { TopbarActions } from '../components/TopbarActions'
 import './ModulesPage.css'
 
 type ModuleUiState = {
@@ -108,11 +109,7 @@ export default function ModulesPage() {
                 </div>
               </div>
 
-              <button type="button" className="modulesIconBtn" aria-label="Notifications">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  notifications
-                </span>
-              </button>
+              <TopbarActions />
             </div>
           </header>
 
@@ -196,9 +193,9 @@ export default function ModulesPage() {
                             <div className="moduleBubble">+12</div>
                           </div>
 
-                          <button type="button" className="moduleCta primary">
+                          <Link to={`/modules/${m.id}`} className="moduleCta primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                             Continue Module
-                          </button>
+                          </Link>
                         </div>
 
                         <div className="moduleProgress" role="progressbar" aria-valuenow={state.progressPercent} aria-valuemin={0} aria-valuemax={100}>
@@ -233,9 +230,9 @@ export default function ModulesPage() {
                           <div className="moduleProgressInner" style={{ width: `${state.progressPercent}%` }} />
                         </div>
 
-                        <button type="button" className="moduleCta">
+                        <Link to={`/modules/${m.id}`} className="moduleCta" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                           {cta}
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </article>

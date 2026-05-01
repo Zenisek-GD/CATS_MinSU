@@ -7,7 +7,8 @@ import {
   adminGetSimulations, adminCreateSimulation, adminUpdateSimulation, adminDeleteSimulation,
   adminCreateStep, adminUpdateStep, adminDeleteStep,
   adminCreateChoice, adminUpdateChoice, adminDeleteChoice,
-  type AdminModule, type AdminQuestion, type AdminOption,
+  adminCreateModuleTopic, adminUpdateModuleTopic, adminDeleteModuleTopic,
+  type AdminModule, type AdminModuleTopic, type AdminQuestion, type AdminOption,
   type AdminSimulation, type AdminStep, type AdminChoice,
 } from '../api/admin'
 import { getQuizzes, type ApiQuiz } from '../api/quizzes'
@@ -43,24 +44,31 @@ export default function AdminManagePage() {
 /* ═══════════════ MODULES TAB ═══════════════ */
 function ModulesTab() {
   const [items, setItems] = useState<AdminModule[]>([])
+  const [quizzes, setQuizzes] = useState<ApiQuiz[]>([])
   const [error, setError] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<AdminModule | null>(null)
-  const [form, setForm] = useState({ title: '', description: '', is_active: true })
+  const [form, setForm] = useState<{ title: string; description: string; is_active: boolean; quiz_id: number | '' }>({ title: '', description: '', is_active: true, quiz_id: '' })
+
+  const [topicForm, setTopicForm] = useState<{ moduleId: number; title: string; content: string; sort_order: number; editingId?: number } | null>(null)
 
   async function load() {
-    try { const r = await adminGetModules(); setItems(r.modules) } catch (e) { setError(getApiErrorMessage(e, 'Load failed')) }
+    try { 
+      const [mr, qr] = await Promise.all([adminGetModules(), getQuizzes()])
+      setItems(mr.modules); setQuizzes(qr.quizzes)
+    } catch (e) { setError(getApiErrorMessage(e, 'Load failed')) }
   }
   useEffect(() => { load() }, [])
 
-  function openCreate() { setForm({ title: '', description: '', is_active: true }); setEditing(null); setShowForm(true) }
-  function openEdit(m: AdminModule) { setForm({ title: m.title, description: m.description || '', is_active: m.is_active }); setEditing(m); setShowForm(true) }
+  function openCreate() { setForm({ title: '', description: '', is_active: true, quiz_id: '' }); setEditing(null); setShowForm(true) }
+  function openEdit(m: AdminModule) { setForm({ title: m.title, description: m.description || '', is_active: m.is_active, quiz_id: m.quiz_id || '' }); setEditing(m); setShowForm(true) }
 
   async function onSave() {
     setError(null)
+    const dataToSave = { ...form, quiz_id: form.quiz_id === '' ? null : +form.quiz_id }
     try {
-      if (editing) { await adminUpdateModule(editing.id, form) }
-      else { await adminCreateModule(form) }
+      if (editing) { await adminUpdateModule(editing.id, dataToSave) }
+      else { await adminCreateModule(dataToSave) }
       setShowForm(false); load()
     } catch (e) { setError(getApiErrorMessage(e, 'Save failed')) }
   }
@@ -70,6 +78,24 @@ function ModulesTab() {
     try { await adminDeleteModule(id); load() } catch (e) { setError(getApiErrorMessage(e, 'Delete failed')) }
   }
 
+  function openAddTopic(moduleId: number) { setTopicForm({ moduleId, title: '', content: '', sort_order: 0 }) }
+  function openEditTopic(t: AdminModuleTopic) { setTopicForm({ moduleId: t.training_module_id, title: t.title, content: t.content, sort_order: t.sort_order, editingId: t.id }) }
+
+  async function onSaveTopic() {
+    if (!topicForm) return; setError(null)
+    try {
+      const { moduleId, title, content, sort_order, editingId } = topicForm
+      if (editingId) { await adminUpdateModuleTopic(editingId, { title, content, sort_order }) }
+      else { await adminCreateModuleTopic(moduleId, { title, content, sort_order }) }
+      setTopicForm(null); load()
+    } catch (e) { setError(getApiErrorMessage(e, 'Save topic failed')) }
+  }
+
+  async function onDeleteTopic(id: number) {
+    if (!confirm('Delete this topic?')) return
+    try { await adminDeleteModuleTopic(id); load() } catch (e) { setError(getApiErrorMessage(e, 'Delete topic failed')) }
+  }
+
   return (
     <div className="adminCard">
       <div className="adminCardHead">
@@ -77,22 +103,36 @@ function ModulesTab() {
         <button className="adminBtn primary" onClick={openCreate}><span className="material-symbols-outlined">add</span> Add Module</button>
       </div>
       {error && <div className="adminError">{error}</div>}
-      {items.length === 0 ? <div className="adminEmpty">No modules yet.</div> : (
-        <table className="adminTable">
-          <thead><tr><th>Title</th><th>Description</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>{items.map(m => (
-            <tr key={m.id}>
-              <td><strong>{m.title}</strong></td>
-              <td>{m.description || '—'}</td>
-              <td><span className={`adminBadge ${m.is_active ? 'active' : 'inactive'}`}>{m.is_active ? 'Active' : 'Inactive'}</span></td>
-              <td>
-                <button className="adminBtn sm" onClick={() => openEdit(m)}>Edit</button>{' '}
-                <button className="adminBtn sm danger" onClick={() => onDelete(m.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}</tbody>
-        </table>
-      )}
+      {items.length === 0 ? <div className="adminEmpty">No modules yet.</div> : items.map(m => (
+        <div key={m.id} className="adminCard" style={{ marginBottom: 14 }}>
+          <div className="adminCardHead">
+            <div>
+              <div className="adminCardTitle">{m.title}</div>
+              <div style={{ fontSize: 12, color: 'rgba(11,28,48,0.5)' }}>Quiz: {m.quiz?.title || 'None'}</div>
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button className="adminBtn sm" onClick={() => openEdit(m)}>Edit</button>
+              <button className="adminBtn sm" onClick={() => openAddTopic(m.id)}>+ Topic</button>
+              <button className="adminBtn sm danger" onClick={() => onDelete(m.id)}>Delete</button>
+            </div>
+          </div>
+          <div style={{ fontSize: 13, color: 'rgba(11,28,48,0.65)', marginBottom: 10 }}>{m.description || '—'}</div>
+          <span className={`adminBadge ${m.is_active ? 'active' : 'inactive'}`}>{m.is_active ? 'Active' : 'Inactive'}</span>
+
+          {(m.topics || []).map((topic, i) => (
+            <div key={topic.id} className="adminStepCard" style={{ marginTop: 10 }}>
+              <div className="adminStepHead">
+                <span className="adminStepTitle">Topic {i + 1}: {topic.title}</span>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <button className="adminBtn sm" onClick={() => openEditTopic(topic)}>Edit</button>
+                  <button className="adminBtn sm danger" onClick={() => onDeleteTopic(topic.id)}>×</button>
+                </div>
+              </div>
+              <div style={{ fontSize: 12, color: 'rgba(11,28,48,0.6)', whiteSpace: 'pre-wrap' }}>{topic.content.length > 150 ? topic.content.slice(0, 150) + '…' : topic.content}</div>
+            </div>
+          ))}
+        </div>
+      ))}
       {showForm && (
         <div className="adminModal">
           <div className="adminModalBg" onClick={() => setShowForm(false)} />
@@ -100,10 +140,36 @@ function ModulesTab() {
             <h3 className="adminModalTitle">{editing ? 'Edit Module' : 'Add Module'}</h3>
             <div className="adminField"><label className="adminLabel">Title</label><input className="adminInput" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
             <div className="adminField"><label className="adminLabel">Description</label><textarea className="adminTextarea" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
+            <div className="adminField">
+              <label className="adminLabel">Linked Quiz (Taken after module)</label>
+              <select className="adminSelect" value={form.quiz_id} onChange={e => setForm({ ...form, quiz_id: e.target.value ? parseInt(e.target.value, 10) : '' })}>
+                <option value="">No Quiz</option>
+                {quizzes.map(qz => <option key={qz.id} value={qz.id}>{qz.title}</option>)}
+              </select>
+            </div>
             <div className="adminField"><label className="adminOptionCheck"><input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} /> Active</label></div>
             <div className="adminActions">
               <button className="adminBtn" onClick={() => setShowForm(false)}>Cancel</button>
               <button className="adminBtn primary" onClick={onSave}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {topicForm && (
+        <div className="adminModal">
+          <div className="adminModalBg" onClick={() => setTopicForm(null)} />
+          <div className="adminModalContent" style={{ maxWidth: 700 }}>
+            <h3 className="adminModalTitle">{topicForm.editingId ? 'Edit Topic' : 'Add Topic'}</h3>
+            <div className="adminField"><label className="adminLabel">Title</label><input className="adminInput" value={topicForm.title} onChange={e => setTopicForm({ ...topicForm, title: e.target.value })} /></div>
+            <div className="adminField">
+              <label className="adminLabel">Content (Rich Text / Markdown supported)</label>
+              <textarea className="adminTextarea" style={{ height: 250, fontFamily: 'monospace' }} placeholder="Supports basic HTML and text..." value={topicForm.content} onChange={e => setTopicForm({ ...topicForm, content: e.target.value })} />
+            </div>
+            <div className="adminField"><label className="adminLabel">Sort Order</label><input className="adminInput" type="number" value={topicForm.sort_order} onChange={e => setTopicForm({ ...topicForm, sort_order: +e.target.value })} /></div>
+            <div className="adminActions">
+              <button className="adminBtn" onClick={() => setTopicForm(null)}>Cancel</button>
+              <button className="adminBtn primary" onClick={onSaveTopic}>Save Topic</button>
             </div>
           </div>
         </div>

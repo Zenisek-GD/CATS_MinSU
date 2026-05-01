@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { forgotPassword, loginWithEmail, registerWithEmail } from '../api/auth'
 import { useAuth } from '../auth/AuthProvider'
 import './LandingPageModal.css'

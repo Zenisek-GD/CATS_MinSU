@@ -15,6 +15,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\SimulationRunController;
 use App\Http\Controllers\TrainingModuleController;
+use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,9 +42,15 @@ Route::get('/me', function () {
     ]);
 })->middleware('role:user,admin');
 
+Route::get('/vapid-public-key', [PushNotificationController::class, 'getVapidPublicKey']);
+Route::post('/push/subscribe', [PushNotificationController::class, 'subscribe'])->middleware('role:user,admin');
+Route::post('/push/unsubscribe', [PushNotificationController::class, 'unsubscribe'])->middleware('role:user,admin');
+
 Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->middleware('role:user,admin');
 
 Route::get('/modules', [TrainingModuleController::class, 'index'])->middleware('role:user,admin');
+Route::get('/modules/{module}', [TrainingModuleController::class, 'show'])->middleware('role:user,admin');
+Route::post('/modules/{module}/progress', [TrainingModuleController::class, 'updateProgress'])->middleware('role:user,admin');
 
 Route::get('/simulations', [SimulationController::class, 'index'])->middleware('role:user,admin');
 Route::get('/simulations/{simulation}', [SimulationController::class, 'show'])->middleware('role:user,admin');
@@ -96,6 +103,9 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::post('/modules', [AdminTrainingModuleController::class, 'store']);
     Route::patch('/modules/{module}', [AdminTrainingModuleController::class, 'update']);
     Route::delete('/modules/{module}', [AdminTrainingModuleController::class, 'destroy']);
+    Route::post('/modules/{module}/topics', [AdminTrainingModuleController::class, 'storeTopic']);
+    Route::patch('/module-topics/{topic}', [AdminTrainingModuleController::class, 'updateTopic']);
+    Route::delete('/module-topics/{topic}', [AdminTrainingModuleController::class, 'destroyTopic']);
 
     // Quiz Management
     Route::get('/quizzes', [AdminQuizController::class, 'index']);

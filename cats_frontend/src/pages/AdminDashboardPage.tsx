@@ -7,6 +7,7 @@ import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
+import { TopbarActions } from '../components/TopbarActions'
 import './AdminDashboardPage.css'
 
 const COLORS = ['#006a61', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6', '#6366f1']
@@ -14,8 +15,7 @@ const COLORS = ['#006a61', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6'
 export type AdminTab = 'dashboard' | 'users' | 'content' | 'badges'
 
 export default function AdminDashboardPage() {
-  const { user, clearSession } = useAuth()
-  const navigate = useNavigate()
+  const { user } = useAuth()
   const [dash, setDash] = useState<AdminDashboard | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -262,11 +262,12 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
 
         <div className="adminDashMain">
           <header className="adminDashTopbar">
-            <div className="adminDashTopbarInner">
+            <div className="adminDashTopbarInner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div className="adminDashTitle">{pageTitle}</div>
                 {pageSubtitle && <div className="adminDashSubtitle">{pageSubtitle}</div>}
               </div>
+              <TopbarActions hideLogout hideTheme />
             </div>
           </header>
           <main className="adminDashContent">
@@ -307,12 +308,3 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
 /* ─── Legacy export for backward compat ─── */
 export { AdminLayout as AdminSidebar_DEPRECATED }
 
-export function AdminSidebar({ initial, user, activeTab, onLogout }: {
-  initial: string
-  user: { name: string; email: string }
-  activeTab: AdminTab
-  onLogout: () => void
-}) {
-  /* This is no longer used directly — AdminLayout wraps everything */
-  return null
-}

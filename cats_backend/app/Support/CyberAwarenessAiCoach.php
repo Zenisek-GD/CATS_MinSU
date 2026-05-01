@@ -164,8 +164,8 @@ class CyberAwarenessAiCoach
             ],
         ];
 
-        // Use stable v1 endpoint
-        $url = "{$baseUrl}/v1/models/{$model}:generateContent?key={$apiKey}";
+        // Use v1beta endpoint to support systemInstruction and responseSchema
+        $url = "{$baseUrl}/v1beta/models/{$model}:generateContent?key={$apiKey}";
 
         $lastError = null;
 
@@ -181,6 +181,7 @@ class CyberAwarenessAiCoach
                 }
 
                 $resp = Http::timeout($timeout)
+                    ->withoutVerifying()
                     ->acceptJson()
                     ->asJson()
                     ->post($url, $payload);

@@ -9,6 +9,7 @@ import {
   type ApiQuizAttemptResult,
 } from '../api/quizzes'
 import { getApiErrorMessage } from '../api/error'
+import { TopbarActions } from '../components/TopbarActions'
 import { useAuth } from '../auth/AuthProvider'
 import './ModulesPage.css'
 import './QuizAttemptPage.css'
@@ -208,11 +209,7 @@ export default function QuizAttemptPage() {
                 </div>
               </div>
 
-              <button type="button" className="modulesIconBtn" aria-label="Notifications">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  notifications
-                </span>
-              </button>
+              <TopbarActions />
             </div>
           </header>
 
