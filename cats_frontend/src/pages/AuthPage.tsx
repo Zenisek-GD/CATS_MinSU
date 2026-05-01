@@ -6,12 +6,13 @@ import {
   registerWithEmail,
 } from '../api/auth'
 import { useAuth } from '../auth/AuthProvider'
+import './AuthPage.css'
 
 type Mode = 'login' | 'register'
 
 export default function AuthPage() {
   const navigate = useNavigate()
-  const { setSession, token, isReady } = useAuth()
+  const { setSession, token, isReady, user } = useAuth()
 
   const [mode, setMode] = useState<Mode>('login')
 
@@ -24,11 +25,9 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null)
 
   const submitLabel = useMemo(() => {
-    if (mode === 'login') return 'Login'
-    return 'Create account'
+    if (mode === 'login') return 'Sign In'
+    return 'Create Account'
   }, [mode])
-
-  const { user } = useAuth()
 
   useEffect(() => {
     if (isReady && token && user) {
@@ -53,6 +52,10 @@ export default function AuthPage() {
         const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
         navigate(dest, { replace: true })
         return
+      }
+
+      if (mode === 'register' && !name.trim()) {
+        throw new Error('Name is required for registration.')
       }
 
       const resp = await registerWithEmail({
@@ -89,53 +92,67 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="page">
-      <div className="card">
-        <h1>CATS</h1>
-        <p className="muted">Login or create an account.</p>
+    <div className="authPage">
+      <div className="authCard">
+        {/* Brand */}
+        <div className="authBrand">
+          <div className="authLogo">
+            <span className="material-symbols-outlined">security</span>
+          </div>
+          <h1 className="authBrandTitle">CATS Platform</h1>
+          <p className="authBrandSub">Cyber Awareness Training System — MinSU</p>
+        </div>
 
-        <div className="tabs" role="tablist" aria-label="Auth mode">
+        {/* Tabs */}
+        <div className="authTabs" role="tablist" aria-label="Auth mode">
           <button
-            className="tab"
+            className={`authTab ${mode === 'login' ? 'active' : ''}`}
             type="button"
             role="tab"
             aria-selected={mode === 'login'}
-            onClick={() => setMode('login')}
+            onClick={() => { setMode('login'); setError(null); setMessage(null) }}
           >
-            Login
+            Sign In
           </button>
           <button
-            className="tab"
+            className={`authTab ${mode === 'register' ? 'active' : ''}`}
             type="button"
             role="tab"
             aria-selected={mode === 'register'}
-            onClick={() => setMode('register')}
+            onClick={() => { setMode('register'); setError(null); setMessage(null) }}
           >
             Register
           </button>
         </div>
 
-        {error ? <div className="error">{error}</div> : null}
-        {message ? <div className="error">{message}</div> : null}
+        {/* Messages */}
+        {error && <div className="authError">{error}</div>}
+        {message && <div className="authSuccess">{message}</div>}
 
-        <form className="form" onSubmit={onSubmit}>
-          {mode === 'register' ? (
-            <div className="row">
-              <label htmlFor="name">Name (optional)</label>
+        {/* Form */}
+        <form className="authForm" onSubmit={onSubmit}>
+          {mode === 'register' && (
+            <div className="authField">
+              <label className="authLabel" htmlFor="auth-name">Full Name</label>
               <input
-                id="name"
+                className="authInput"
+                id="auth-name"
+                placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoComplete="name"
                 disabled={busy}
               />
             </div>
-          ) : null}
+          )}
 
-          <div className="row">
-            <label htmlFor="email">Email</label>
+          <div className="authField">
+            <label className="authLabel" htmlFor="auth-email">Email Address</label>
             <input
-              id="email"
+              className="authInput"
+              id="auth-email"
+              type="email"
+              placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -144,11 +161,13 @@ export default function AuthPage() {
             />
           </div>
 
-          <div className="row">
-            <label htmlFor="password">Password</label>
+          <div className="authField">
+            <label className="authLabel" htmlFor="auth-password">Password</label>
             <input
-              id="password"
+              className="authInput"
+              id="auth-password"
               type="password"
+              placeholder={mode === 'register' ? 'Create a secure password' : 'Enter your password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
@@ -156,29 +175,27 @@ export default function AuthPage() {
             />
           </div>
 
-          <div className="actions">
-            <button className="btn" type="submit" disabled={busy}>
+          <div className="authActions">
+            <button className="authSubmitBtn" type="submit" disabled={busy}>
               {busy ? 'Please wait…' : submitLabel}
             </button>
 
-            {mode === 'login' ? (
+            {mode === 'login' && (
               <button
                 type="button"
-                className="btn secondary"
+                className="authForgotBtn"
                 disabled={busy}
                 onClick={onForgotPassword}
               >
-                Forgot password
+                Forgot your password?
               </button>
-            ) : (
-              <span className="muted">&nbsp;</span>
             )}
           </div>
-
-          <p className="muted">
-            Dev tip: for local dev, run backend on port 8000, then start Vite.
-          </p>
         </form>
+
+        <div className="authFooter">
+          © {new Date().getFullYear()} MinSU — Cyber Awareness Training System
+        </div>
       </div>
     </div>
   )

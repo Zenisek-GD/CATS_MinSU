@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthProvider'
-import AuthPage from './pages/AuthPage'
-
+import LandingPage from './pages/LandingPage'
 import ModulesPage from './pages/ModulesPage'
 import ProfilePage from './pages/ProfilePage'
 import QuizAttemptPage from './pages/QuizAttemptPage'
@@ -29,23 +28,22 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/" element={<Navigate to={token ? defaultPath : '/auth'} replace />} />
-      <Route path="/modules" element={token ? <ModulesPage /> : <Navigate to="/auth" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/modules" element={token ? <ModulesPage /> : <Navigate to="/" replace />} />
 
-      <Route path="/profile" element={token ? <ProfilePage /> : <Navigate to="/auth" replace />} />
-      <Route path="/quizzes" element={token ? <QuizzesPage /> : <Navigate to="/auth" replace />} />
-      <Route path="/quiz-attempts/:attemptId" element={token ? <QuizAttemptPage /> : <Navigate to="/auth" replace />} />
-      <Route path="/simulations" element={token ? <SimulationsPage /> : <Navigate to="/auth" replace />} />
-      <Route path="/simulation-runs/:runId" element={token ? <SimulationRunPage /> : <Navigate to="/auth" replace />} />
+      <Route path="/profile" element={token ? <ProfilePage /> : <Navigate to="/" replace />} />
+      <Route path="/quizzes" element={token ? <QuizzesPage /> : <Navigate to="/" replace />} />
+      <Route path="/quiz-attempts/:attemptId" element={token ? <QuizAttemptPage /> : <Navigate to="/" replace />} />
+      <Route path="/simulations" element={token ? <SimulationsPage /> : <Navigate to="/" replace />} />
+      <Route path="/simulation-runs/:runId" element={token ? <SimulationRunPage /> : <Navigate to="/" replace />} />
 
       {/* Admin routes */}
-      <Route path="/admin/dashboard" element={isAdmin ? <AdminDashboardPage /> : <Navigate to="/auth" replace />} />
-      <Route path="/admin/users" element={isAdmin ? <AdminUsersPage /> : <Navigate to="/auth" replace />} />
-      <Route path="/admin/manage" element={isAdmin ? <AdminManagePage /> : <Navigate to="/auth" replace />} />
-      <Route path="/admin/badges" element={isAdmin ? <AdminBadgesPage /> : <Navigate to="/auth" replace />} />
+      <Route path="/admin/dashboard" element={isAdmin ? <AdminDashboardPage /> : <Navigate to="/" replace />} />
+      <Route path="/admin/users" element={isAdmin ? <AdminUsersPage /> : <Navigate to="/" replace />} />
+      <Route path="/admin/manage" element={isAdmin ? <AdminManagePage /> : <Navigate to="/" replace />} />
+      <Route path="/admin/badges" element={isAdmin ? <AdminBadgesPage /> : <Navigate to="/" replace />} />
 
-      <Route path="*" element={<Navigate to={token ? defaultPath : '/auth'} replace />} />
+      <Route path="*" element={<Navigate to={token ? defaultPath : '/'} replace />} />
     </Routes>
   )
 }

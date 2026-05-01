@@ -1,0 +1,331 @@
+/* ─── Landing Page ─── */
+
+.landingPage { min-height: 100svh; background: #fff; overflow-x: hidden; }
+
+/* ─── Navbar ─── */
+.landingNav {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 40px; background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px); border-bottom: 1px solid rgba(11,28,48,0.05);
+}
+.landingNavBrand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.landingNavLogo {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  display: grid; place-items: center;
+}
+.landingNavLogo .material-symbols-outlined { font-size: 20px; color: #fff; }
+.landingNavTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 17px; font-weight: 800; color: #0b1c30;
+}
+.landingNavCta {
+  padding: 10px 24px; border: none; border-radius: 10px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 200ms; text-decoration: none;
+}
+.landingNavCta:hover { box-shadow: 0 4px 16px rgba(0,106,97,0.3); transform: translateY(-1px); }
+
+/* ─── Hero ─── */
+.landingHero {
+  position: relative; padding: 80px 40px 100px; text-align: center;
+  background: linear-gradient(180deg, #f4f6fa 0%, #fff 100%);
+  overflow: hidden;
+}
+.landingHero::before {
+  content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,106,97,0.07), transparent 70%);
+  pointer-events: none;
+}
+.landingHeroInner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+.landingBadge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px; border-radius: 999px;
+  background: rgba(0,106,97,0.08); color: #006a61;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 12px; font-weight: 700; margin-bottom: 24px;
+}
+.landingBadge .material-symbols-outlined { font-size: 16px; }
+.landingHeroTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 52px; font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; color: #0b1c30; margin: 0 0 18px;
+}
+.landingHeroTitleAccent { color: #006a61; }
+.landingHeroSub {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 17px; line-height: 1.6; color: rgba(11,28,48,0.55);
+  max-width: 520px; margin: 0 auto 32px;
+}
+.landingHeroActions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.landingCtaPrimary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border: none; border-radius: 14px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: all 250ms; text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0,106,97,0.25);
+}
+.landingCtaPrimary:hover { box-shadow: 0 8px 32px rgba(0,106,97,0.35); transform: translateY(-2px); }
+.landingCtaPrimary .material-symbols-outlined { font-size: 20px; }
+.landingCtaSecondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border: 1px solid rgba(11,28,48,0.12); border-radius: 14px;
+  background: #fff; color: #0b1c30; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: all 200ms; text-decoration: none;
+}
+.landingCtaSecondary:hover { border-color: #006a61; color: #006a61; }
+.landingCtaSecondary .material-symbols-outlined { font-size: 20px; }
+
+/* ─── Stats Strip ─── */
+.landingStats {
+  display: flex; justify-content: center; gap: 48px; padding: 40px 40px;
+  background: #fff; border-top: 1px solid rgba(11,28,48,0.04);
+  border-bottom: 1px solid rgba(11,28,48,0.04);
+}
+.landingStat { text-align: center; }
+.landingStatValue {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 32px; font-weight: 800; color: #006a61;
+}
+.landingStatLabel {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 12px; color: rgba(11,28,48,0.45); margin-top: 2px;
+}
+
+/* ─── Features ─── */
+.landingFeatures { padding: 80px 40px; background: #f4f6fa; }
+.landingFeaturesInner { max-width: 1000px; margin: 0 auto; }
+.landingFeaturesTitle {
+  text-align: center; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 32px; font-weight: 800; color: #0b1c30; margin: 0 0 8px;
+}
+.landingFeaturesSub {
+  text-align: center; font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 15px; color: rgba(11,28,48,0.5); margin: 0 0 48px;
+}
+.landingFeaturesGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.landingFeatureCard {
+  background: #fff; border-radius: 16px; padding: 28px 24px;
+  border: 1px solid rgba(11,28,48,0.05);
+  box-shadow: 0 1px 6px rgba(15,23,42,0.04);
+  transition: all 250ms;
+}
+.landingFeatureCard:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(15,23,42,0.08); }
+.landingFeatureIcon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: grid; place-items: center; margin-bottom: 16px;
+}
+.landingFeatureIcon .material-symbols-outlined { font-size: 24px; }
+.landingFeatureIcon.teal { background: rgba(0,106,97,0.1); color: #006a61; }
+.landingFeatureIcon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+.landingFeatureIcon.purple { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+.landingFeatureIcon.amber { background: rgba(245,158,11,0.1); color: #f59e0b; }
+.landingFeatureIcon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
+.landingFeatureIcon.indigo { background: rgba(99,102,241,0.1); color: #6366f1; }
+.landingFeatureTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 16px; font-weight: 700; color: #0b1c30; margin-bottom: 8px;
+}
+.landingFeatureDesc {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 13px; line-height: 1.6; color: rgba(11,28,48,0.5);
+}
+
+/* ─── CTA Section ─── */
+.landingCta {
+  padding: 80px 40px; text-align: center; background: #fff;
+}
+.landingCtaBox {
+  max-width: 600px; margin: 0 auto; padding: 48px 40px;
+  background: linear-gradient(135deg, #0f172a, #1a2847);
+  border-radius: 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.15);
+}
+.landingCtaBoxTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 28px; font-weight: 800; color: #fff; margin: 0 0 10px;
+}
+.landingCtaBoxSub {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px;
+}
+.landingCtaBoxBtn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 36px; border: none; border-radius: 14px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: all 250ms; text-decoration: none;
+}
+.landingCtaBoxBtn:hover { box-shadow: 0 6px 24px rgba(0,106,97,0.4); transform: translateY(-2px); }
+.landingCtaBoxBtn .material-symbols-outlined { font-size: 20px; }
+
+/* ─── Footer ─── */
+.landingFooter {
+  padding: 24px 40px; text-align: center;
+  border-top: 1px solid rgba(11,28,48,0.06);
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 12px; color: rgba(11,28,48,0.35);
+}
+
+/* ─── Auth Modal ─── */
+
+.authModalOverlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+
+.authModalBackdrop {
+  position: absolute; inset: 0;
+  background: rgba(11,28,48,0.5); backdrop-filter: blur(4px);
+}
+
+.authModalClose {
+  position: absolute; top: 16px; right: 16px;
+  background: transparent; border: none; cursor: pointer;
+  color: rgba(11,28,48,0.4); border-radius: 50%;
+  width: 32px; height: 32px; display: grid; place-items: center;
+  transition: all 200ms;
+}
+.authModalClose:hover { background: rgba(11,28,48,0.05); color: #0b1c30; }
+
+/* Auth Card styling adapted from AuthPage.css */
+.authCard {
+  position: relative; z-index: 1; width: 440px; max-width: 100%;
+  background: #fff; border: 1px solid rgba(11,28,48,0.06);
+  border-radius: 20px; padding: 40px 36px; box-sizing: border-box;
+  box-shadow: 0 4px 24px rgba(15,23,42,0.1), 0 1px 3px rgba(15,23,42,0.04);
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.authBrand { text-align: center; margin-bottom: 28px; }
+.authLogo {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 16px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,106,97,0.25);
+}
+.authLogo .material-symbols-outlined { font-size: 28px; color: #fff; }
+.authBrandTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+  color: #0b1c30; margin: 0;
+}
+.authBrandSub {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 13px; color: rgba(11,28,48,0.45); margin-top: 4px;
+}
+
+.authTabs {
+  display: flex; gap: 4px; padding: 4px;
+  background: rgba(11,28,48,0.04); border-radius: 12px;
+  margin-bottom: 24px;
+}
+.authTab {
+  flex: 1; padding: 10px 0; border: none; border-radius: 10px;
+  background: transparent; color: rgba(11,28,48,0.4);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 200ms;
+}
+.authTab:hover { color: rgba(11,28,48,0.65); }
+.authTab.active {
+  background: #fff; color: #006a61;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.authForm { display: flex; flex-direction: column; gap: 16px; }
+.authField { display: flex; flex-direction: column; gap: 5px; }
+.authLabel {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(11,28,48,0.45);
+}
+.authInput {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid rgba(11,28,48,0.12);
+  background: #fff; color: #0b1c30;
+  font-size: 14px; font-family: "Public Sans", system-ui, sans-serif;
+  box-sizing: border-box; transition: all 200ms; outline: none;
+}
+.authInput::placeholder { color: rgba(11,28,48,0.25); }
+.authInput:focus { border-color: #006a61; box-shadow: 0 0 0 3px rgba(0,106,97,0.1); }
+
+.authActions { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.authSubmitBtn {
+  width: 100%; padding: 13px 20px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #006a61, #00897b);
+  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: all 250ms; position: relative;
+}
+.authSubmitBtn:hover { box-shadow: 0 6px 24px rgba(0,106,97,0.3); transform: translateY(-1px); }
+.authSubmitBtn:active { transform: translateY(0); }
+.authSubmitBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.authForgotBtn {
+  width: 100%; padding: 10px 14px; border: 1px solid rgba(11,28,48,0.08);
+  border-radius: 10px; background: transparent;
+  color: rgba(11,28,48,0.45); font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: all 200ms;
+}
+.authForgotBtn:hover { color: #006a61; border-color: rgba(0,106,97,0.2); }
+.authForgotBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.authError {
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);
+  color: #dc2626; font-size: 13px; font-family: "Public Sans", system-ui, sans-serif;
+  margin-bottom: 4px;
+}
+.authSuccess {
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(0,106,97,0.06); border: 1px solid rgba(0,106,97,0.15);
+  color: #006a61; font-size: 13px; font-family: "Public Sans", system-ui, sans-serif;
+  margin-bottom: 4px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .landingNav { padding: 12px 16px; }
+  .landingNavTitle { font-size: 15px; }
+  .landingHero { padding: 50px 20px 60px; }
+  .landingHeroTitle { font-size: 34px; }
+  .landingHeroSub { font-size: 15px; }
+  .landingStats { gap: 24px; flex-wrap: wrap; padding: 30px 20px; }
+  .landingStatValue { font-size: 24px; }
+  .landingFeatures { padding: 50px 20px; }
+  .landingFeaturesGrid { grid-template-columns: 1fr; gap: 16px; }
+  .landingFeaturesTitle { font-size: 24px; }
+  .landingCta { padding: 50px 20px; }
+  .landingCtaBox { padding: 32px 24px; border-radius: 18px; }
+  .landingCtaBoxTitle { font-size: 22px; }
+  .landingFooter { padding: 20px 16px; }
+}
+
+@media (max-width: 480px) {
+  .landingHeroTitle { font-size: 28px; letter-spacing: -1px; }
+  .landingHeroActions { flex-direction: column; align-items: center; }
+  .landingCtaPrimary, .landingCtaSecondary { width: 100%; justify-content: center; }
+  .landingNavCta { padding: 8px 16px; font-size: 12px; }
+  .authCard { padding: 28px 22px; border-radius: 16px; }
+  .authBrandTitle { font-size: 20px; }
+  .authLogo { width: 48px; height: 48px; }
+  .authLogo .material-symbols-outlined { font-size: 24px; }
+  .authInput { padding: 11px 12px; }
+  .authSubmitBtn { padding: 12px 16px; font-size: 13px; }
+}
