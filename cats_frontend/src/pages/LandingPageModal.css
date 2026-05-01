@@ -65,6 +65,7 @@
 .landingCtaPrimary {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 32px; border: none; border-radius: 14px;
+  box-sizing: border-box;
   background: linear-gradient(135deg, #006a61, #00897b);
   color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 15px; font-weight: 700; cursor: pointer;
@@ -76,6 +77,7 @@
 .landingCtaSecondary {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 28px; border: 1px solid rgba(11,28,48,0.12); border-radius: 14px;
+  box-sizing: border-box;
   background: #fff; color: #0b1c30; font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 15px; font-weight: 700; cursor: pointer;
   transition: all 200ms; text-decoration: none;

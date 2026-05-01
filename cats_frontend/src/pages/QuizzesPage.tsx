@@ -19,8 +19,9 @@ function fmtSeconds(seconds: number | null) {
 }
 
 export default function QuizzesPage() {
-  const { user } = useAuth()
+  const { user, clearSession } = useAuth()
   const navigate = useNavigate()
+  const [loggingOut, setLoggingOut] = useState(false)
 
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -53,6 +54,18 @@ export default function QuizzesPage() {
   }, [quizzes])
 
   if (!user) return null
+
+  async function onLogout() {
+    setLoggingOut(true)
+    try {
+      await clearSession()
+      navigate('/auth', { replace: true })
+    } catch {
+      // ignore
+    } finally {
+      setLoggingOut(false)
+    }
+  }
 
   async function onStart(quizId: number) {
     setStartingQuizId(quizId)
@@ -99,6 +112,13 @@ export default function QuizzesPage() {
               <span>Profile</span>
             </Link>
           </nav>
+
+          <div className="modulesSidebarBottom">
+            <button type="button" className="sidebarLogoutBtn" onClick={onLogout} disabled={loggingOut}>
+              <span className="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span>{loggingOut ? 'Logging out…' : 'Logout'}</span>
+            </button>
+          </div>
         </aside>
 
         <div className="modulesMain">
@@ -114,7 +134,7 @@ export default function QuizzesPage() {
                 </div>
               </div>
 
-              <TopbarActions />
+              <TopbarActions hideLogout />
             </div>
           </header>
 

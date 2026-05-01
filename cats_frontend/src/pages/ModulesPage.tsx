@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getModules, type ApiTrainingModule } from '../api/modules'
 import { useAuth } from '../auth/AuthProvider'
 import { TopbarActions } from '../components/TopbarActions'
@@ -18,8 +18,10 @@ function getPlaceholderStateByIndex(idx: number): ModuleUiState {
 }
 
 export default function ModulesPage() {
-  const { user } = useAuth()
+  const { user, clearSession } = useAuth()
+  const navigate = useNavigate()
   const [busy, setBusy] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [modules, setModules] = useState<ApiTrainingModule[]>([])
   const [query, setQuery] = useState('')
@@ -55,6 +57,18 @@ export default function ModulesPage() {
   if (!user) return null
 
   const overallProgress = 42
+
+  async function onLogout() {
+    setLoggingOut(true)
+    try {
+      await clearSession()
+      navigate('/auth', { replace: true })
+    } catch {
+      // ignore
+    } finally {
+      setLoggingOut(false)
+    }
+  }
 
   return (
     <div className="modulesPage">
@@ -94,6 +108,13 @@ export default function ModulesPage() {
               </Link>
             )}
           </nav>
+
+          <div className="modulesSidebarBottom">
+            <button type="button" className="sidebarLogoutBtn" onClick={onLogout} disabled={loggingOut}>
+              <span className="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span>{loggingOut ? 'Logging out…' : 'Logout'}</span>
+            </button>
+          </div>
         </aside>
 
         <div className="modulesMain">
@@ -109,7 +130,7 @@ export default function ModulesPage() {
                 </div>
               </div>
 
-              <TopbarActions />
+              <TopbarActions hideLogout />
             </div>
           </header>
 
