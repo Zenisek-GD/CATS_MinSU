@@ -258,12 +258,17 @@
 .authInput {
   width: 100%; padding: 12px 14px; border-radius: 10px;
   border: 1px solid rgba(11,28,48,0.12);
-  background: #fff; color: #0b1c30;
+  background-color: #ffffff !important;
+  color: #0b1c30 !important;
   font-size: 14px; font-family: "Public Sans", system-ui, sans-serif;
   box-sizing: border-box; transition: all 200ms; outline: none;
 }
-.authInput::placeholder { color: rgba(11,28,48,0.25); }
+.authInput::placeholder { color: rgba(11,28,48,0.4) !important; }
 .authInput:focus { border-color: #006a61; box-shadow: 0 0 0 3px rgba(0,106,97,0.1); }
+.authInput:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #0b1c30 !important;
+}
 
 .authActions { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 .authSubmitBtn {
