@@ -31,7 +31,7 @@ class QuizController extends Controller
             ->orderBy('id');
 
         if (!empty($validated['category'])) {
-            $query->whereHas('category', fn ($q) => $q->where('slug', $validated['category']));
+            $query->whereHas('category', fn($q) => $q->where('slug', $validated['category']));
         }
 
         if (!empty($validated['kind'])) {
@@ -54,6 +54,13 @@ class QuizController extends Controller
             'time_limit_seconds',
             'created_at',
         ]);
+
+        // Add completion status for authenticated users
+        $userId = auth()->id();
+        $quizzes = $quizzes->map(function ($quiz) use ($userId) {
+            $quiz->completed = $userId ? $quiz->isCompletedByUser($userId) : false;
+            return $quiz;
+        });
 
         return response()->json(['quizzes' => $quizzes]);
     }

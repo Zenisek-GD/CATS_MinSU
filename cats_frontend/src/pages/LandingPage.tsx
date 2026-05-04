@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { forgotPassword, loginWithEmail, registerWithEmail } from '../api/auth'
 import { useAuth } from '../auth/AuthProvider'
+import { Icon } from '../components/IconMap'
 import './LandingPageModal.css'
 
 type AuthMode = 'login' | 'register'
@@ -102,9 +103,11 @@ export default function LandingPage() {
       {/* ─── Navbar ─── */}
       <nav className="landingNav">
         <div className="landingNavBrand">
-          <div className="landingNavLogo">
-            <span className="material-symbols-outlined">security</span>
-          </div>
+          <img 
+            src="/cats logo.png" 
+            alt="CATS Logo" 
+            style={{ width: 40, height: 40, objectFit: 'contain', borderRadius: '8px' }}
+          />
           <div className="landingNavTitle">CATS Platform</div>
         </div>
         <div className="landingNavActions">
@@ -116,7 +119,7 @@ export default function LandingPage() {
       <section className="landingHero">
         <div className="landingHeroInner">
           <div className="landingBadge">
-            <span className="material-symbols-outlined">workspace_premium</span>
+            <Icon name="workspace_premium" size={16} />
             MinSU Official Training
           </div>
           <h1 className="landingHeroTitle">
@@ -127,7 +130,7 @@ export default function LandingPage() {
           </p>
           <div className="landingHeroActions">
             <button onClick={() => openAuth('register')} className="landingCtaPrimary">
-              Get Started Now <span className="material-symbols-outlined">arrow_forward</span>
+              Get Started Now <Icon name="arrow_forward" size={20} />
             </button>
             <a href="#features" className="landingCtaSecondary">
               Explore Features
@@ -161,7 +164,7 @@ export default function LandingPage() {
           <div className="landingFeaturesGrid">
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon teal">
-                <span className="material-symbols-outlined">phishing</span>
+                <Icon name="phishing" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Phishing Defense</h3>
               <p className="landingFeatureDesc">Learn to identify deceptive emails, malicious links, and social engineering tactics used by cybercriminals.</p>
@@ -169,7 +172,7 @@ export default function LandingPage() {
             
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon blue">
-                <span className="material-symbols-outlined">vpn_key</span>
+                <Icon name="vpn_key" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Password Security</h3>
               <p className="landingFeatureDesc">Master password hygiene, multi-factor authentication, and secure credential management.</p>
@@ -177,7 +180,7 @@ export default function LandingPage() {
 
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon purple">
-                <span className="material-symbols-outlined">bug_report</span>
+                <Icon name="bug_report" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Malware Protection</h3>
               <p className="landingFeatureDesc">Understand different types of malware, infection vectors, and how to keep your devices secure.</p>
@@ -185,7 +188,7 @@ export default function LandingPage() {
 
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon amber">
-                <span className="material-symbols-outlined">admin_panel_settings</span>
+                <Icon name="admin_panel_settings" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Data Privacy</h3>
               <p className="landingFeatureDesc">Protect sensitive personal and institutional information in accordance with data privacy laws.</p>
@@ -193,7 +196,7 @@ export default function LandingPage() {
 
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon red">
-                <span className="material-symbols-outlined">security</span>
+                <Icon name="security" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Interactive Scenarios</h3>
               <p className="landingFeatureDesc">Put your skills to the test with real-world cyber attack simulations and interactive decision trees.</p>
@@ -201,7 +204,7 @@ export default function LandingPage() {
 
             <div className="landingFeatureCard">
               <div className="landingFeatureIcon indigo">
-                <span className="material-symbols-outlined">emoji_events</span>
+                <Icon name="emoji_events" size={24} />
               </div>
               <h3 className="landingFeatureTitle">Earn Certificates</h3>
               <p className="landingFeatureDesc">Get rewarded for your learning progress with badges, achievements, and official completion certificates.</p>
@@ -216,7 +219,7 @@ export default function LandingPage() {
           <h2 className="landingCtaBoxTitle">Ready to secure your digital life?</h2>
           <p className="landingCtaBoxSub">Join the MinSU Cyber Awareness Training platform today.</p>
           <button onClick={() => openAuth('register')} className="landingCtaBoxBtn">
-            Create Free Account <span className="material-symbols-outlined">arrow_forward</span>
+            Create Free Account <Icon name="arrow_forward" size={20} />
           </button>
         </div>
       </section>
@@ -234,14 +237,16 @@ export default function LandingPage() {
           
           <div className="authCard">
             <button className="authModalClose" onClick={closeAuth}>
-              <span className="material-symbols-outlined">close</span>
+              <Icon name="close" size={20} />
             </button>
 
             {/* Brand */}
             <div className="authBrand">
-              <div className="authLogo">
-                <span className="material-symbols-outlined">security</span>
-              </div>
+              <img 
+                src="/cats logo.png" 
+                alt="CATS Logo" 
+                style={{ width: 80, height: 80, marginBottom: 12, objectFit: 'contain', borderRadius: '16px' }}
+              />
               <h1 className="authBrandTitle">CATS Platform</h1>
               <p className="authBrandSub">Cyber Awareness Training System — MinSU</p>
             </div>

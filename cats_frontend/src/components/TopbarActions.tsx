@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ThemeToggle } from './ThemeToggle'
+import { Icon } from './IconMap'
 import { useAuth } from '../auth/AuthProvider'
 
 export function TopbarActions({ hideLogout = false, hideTheme = false }: { hideLogout?: boolean, hideTheme?: boolean }) {
@@ -24,9 +25,7 @@ export function TopbarActions({ hideLogout = false, hideTheme = false }: { hideL
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
       {!hideTheme && <ThemeToggle />}
       <button type="button" className="modulesIconBtn" aria-label="Notifications" title="Notifications">
-        <span className="material-symbols-outlined" aria-hidden="true">
-          notifications
-        </span>
+        <Icon name="notifications" size={20} />
       </button>
       {!hideLogout && (
         <button 
@@ -36,9 +35,7 @@ export function TopbarActions({ hideLogout = false, hideTheme = false }: { hideL
           disabled={loggingOut}
           title="Logout"
         >
-          <span className="material-symbols-outlined" aria-hidden="true">
-            logout
-          </span>
+          <Icon name="logout" size={20} />
         </button>
       )}
     </div>

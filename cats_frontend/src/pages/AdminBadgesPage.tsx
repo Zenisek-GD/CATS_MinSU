@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import {
   adminGetBadges, adminCreateBadge, adminUpdateBadge, adminDeleteBadge,
   adminGetAchievements, adminCreateAchievement, adminUpdateAchievement, adminDeleteAchievement,
@@ -64,7 +65,7 @@ function BadgesTab() {
       {error && <div style={{ color: '#ba1a1a', marginBottom: 12 }}>{error}</div>}
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
         <button className="adminAddBtn" onClick={openAdd}>
-          <span className="material-symbols-outlined">add</span> Add Badge
+          <Icon name="add" size={18} /> Add Badge
         </button>
       </div>
       <div className="adminUsersWrap">
@@ -73,7 +74,7 @@ function BadgesTab() {
           <tbody>
             {items.map(b => (
               <tr key={b.id}>
-                <td><span className="material-symbols-outlined" style={{ color: '#f59e0b' }}>{b.icon}</span></td>
+                <td><Icon name={b.icon} size={20} style={{ color: '#f59e0b' }} /></td>
                 <td><strong>{b.name}</strong><div style={{ fontSize: 11, color: 'rgba(11,28,48,0.5)' }}>{b.description || '—'}</div></td>
                 <td style={{ fontSize: 12 }}>{b.slug}</td>
                 <td style={{ fontSize: 12 }}>{b.condition_type || '—'} {b.condition_value ? `(${b.condition_value})` : ''}</td>
@@ -156,7 +157,7 @@ function AchievementsTab() {
       {error && <div style={{ color: '#ba1a1a', marginBottom: 12 }}>{error}</div>}
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
         <button className="adminAddBtn" onClick={openAdd}>
-          <span className="material-symbols-outlined">add</span> Add Achievement
+          <Icon name="add" size={18} /> Add Achievement
         </button>
       </div>
       <div className="adminUsersWrap">
@@ -165,7 +166,7 @@ function AchievementsTab() {
           <tbody>
             {items.map(a => (
               <tr key={a.id}>
-                <td><span className="material-symbols-outlined" style={{ color: '#8b5cf6' }}>{a.icon}</span></td>
+                <td><Icon name={a.icon} size={20} style={{ color: '#8b5cf6' }} /></td>
                 <td><strong>{a.name}</strong><div style={{ fontSize: 11, color: 'rgba(11,28,48,0.5)' }}>{a.description || '—'}</div></td>
                 <td>{a.xp_reward} XP</td>
                 <td style={{ fontSize: 12 }}>{a.condition_type || '—'} {a.condition_value ? `(${a.condition_value})` : ''}</td>

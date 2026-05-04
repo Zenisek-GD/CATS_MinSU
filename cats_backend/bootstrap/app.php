@@ -12,6 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(\App\Http\Middleware\Cors::class);
+
         $middleware->alias([
             'auth.jwt' => \App\Http\Middleware\JwtAuth::class,
             'role' => \App\Http\Middleware\RequireRole::class,

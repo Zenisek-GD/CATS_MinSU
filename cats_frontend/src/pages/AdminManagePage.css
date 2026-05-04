@@ -54,7 +54,7 @@
 .adminBtn.danger { color: rgba(186,26,26,0.8); border-color: rgba(186,26,26,0.2); }
 .adminBtn.danger:hover { background: rgba(186,26,26,0.06); border-color: rgba(186,26,26,0.35); }
 .adminBtn.sm { padding: 4px 10px; font-size: 12px; }
-.adminBtn .material-symbols-outlined { font-size: 16px; }
+/* Material symbols icon styling removed - now using React Icons Icon component */
 
 /* Badge */
 .adminBadge {
@@ -123,7 +123,7 @@
   text-decoration: none; margin-bottom: 16px; transition: color 0.15s;
 }
 .adminBack:hover { color: #006a61; }
-.adminBack .material-symbols-outlined { font-size: 18px; }
+/* Icon styling moved to React Icon component */
 
 /* Step card nested */
 .adminStepCard {

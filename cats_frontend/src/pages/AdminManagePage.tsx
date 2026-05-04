@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import {
   adminGetModules, adminCreateModule, adminUpdateModule, adminDeleteModule,
   adminGetQuestions, adminCreateQuestion, adminUpdateQuestion, adminDeleteQuestion,
@@ -100,7 +101,7 @@ function ModulesTab() {
     <div className="adminCard">
       <div className="adminCardHead">
         <span className="adminCardTitle">Training Modules</span>
-        <button className="adminBtn primary" onClick={openCreate}><span className="material-symbols-outlined">add</span> Add Module</button>
+        <button className="adminBtn primary" onClick={openCreate}><Icon name="add" size={18} /> Add Module</button>
       </div>
       {error && <div className="adminError">{error}</div>}
       {items.length === 0 ? <div className="adminEmpty">No modules yet.</div> : items.map(m => (
@@ -159,13 +160,62 @@ function ModulesTab() {
       {topicForm && (
         <div className="adminModal">
           <div className="adminModalBg" onClick={() => setTopicForm(null)} />
-          <div className="adminModalContent" style={{ maxWidth: 700 }}>
+          <div className="adminModalContent" style={{ maxWidth: 900, maxHeight: '90vh', overflowY: 'auto' }}>
             <h3 className="adminModalTitle">{topicForm.editingId ? 'Edit Topic' : 'Add Topic'}</h3>
             <div className="adminField"><label className="adminLabel">Title</label><input className="adminInput" value={topicForm.title} onChange={e => setTopicForm({ ...topicForm, title: e.target.value })} /></div>
-            <div className="adminField">
-              <label className="adminLabel">Content (Rich Text / Markdown supported)</label>
-              <textarea className="adminTextarea" style={{ height: 250, fontFamily: 'monospace' }} placeholder="Supports basic HTML and text..." value={topicForm.content} onChange={e => setTopicForm({ ...topicForm, content: e.target.value })} />
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 16 }}>
+              {/* Editor Column */}
+              <div>
+                <label className="adminLabel">Content Editor</label>
+                <div style={{ fontSize: 12, color: '#666', marginBottom: 8, lineHeight: 1.4 }}>
+                  <p><strong>Formatting Tips:</strong></p>
+                  <ul style={{ margin: '4px 0', paddingLeft: 20 }}>
+                    <li>Use &lt;p&gt;...&lt;/p&gt; for paragraphs (preserves spacing)</li>
+                    <li>Use &lt;br&gt; for line breaks</li>
+                    <li>Use &lt;strong&gt; or &lt;b&gt; for bold text</li>
+                    <li>Use &lt;em&gt; or &lt;i&gt; for italics</li>
+                    <li>Use &lt;h3&gt;...&lt;/h3&gt; for subheadings</li>
+                    <li>Use &lt;ul&gt;&lt;li&gt; for bullet lists</li>
+                    <li>Use &lt;code&gt; for code snippets</li>
+                    <li>Leave blank lines between paragraphs</li>
+                  </ul>
+                </div>
+                <textarea 
+                  className="adminTextarea" 
+                  style={{ height: 400, fontFamily: 'monospace', fontSize: 13 }} 
+                  placeholder={`Example:\n\n<p>This is your first paragraph with <strong>important text</strong>.</p>\n\n<p>This is your second paragraph.</p>\n\n<h3>Subheading</h3>\n<ul>\n  <li>Bullet point 1</li>\n  <li>Bullet point 2</li>\n</ul>`}
+                  value={topicForm.content} 
+                  onChange={e => setTopicForm({ ...topicForm, content: e.target.value })} 
+                />
+              </div>
+
+              {/* Preview Column */}
+              <div>
+                <label className="adminLabel">Live Preview</label>
+                <div style={{
+                  height: 400,
+                  border: '1px solid #ddd',
+                  borderRadius: 6,
+                  padding: 16,
+                  overflow: 'auto',
+                  backgroundColor: '#f9f9f9',
+                  fontSize: 14,
+                  lineHeight: 1.6,
+                  color: '#333'
+                }}>
+                  {topicForm.content ? (
+                    <div dangerouslySetInnerHTML={{ __html: topicForm.content }} />
+                  ) : (
+                    <div style={{ color: '#999', fontStyle: 'italic' }}>Preview will appear here as you type...</div>
+                  )}
+                </div>
+                <div style={{ fontSize: 11, color: '#999', marginTop: 8 }}>
+                  <strong>Note:</strong> HTML is fully supported. Content must use proper HTML tags.
+                </div>
+              </div>
             </div>
+
             <div className="adminField"><label className="adminLabel">Sort Order</label><input className="adminInput" type="number" value={topicForm.sort_order} onChange={e => setTopicForm({ ...topicForm, sort_order: +e.target.value })} /></div>
             <div className="adminActions">
               <button className="adminBtn" onClick={() => setTopicForm(null)}>Cancel</button>
@@ -232,7 +282,7 @@ function QuestionsTab() {
     <div className="adminCard">
       <div className="adminCardHead">
         <span className="adminCardTitle">Quiz Questions</span>
-        <button className="adminBtn primary" onClick={openCreate}><span className="material-symbols-outlined">add</span> Add Question</button>
+        <button className="adminBtn primary" onClick={openCreate}><Icon name="add" size={18} /> Add Question</button>
       </div>
       {error && <div className="adminError">{error}</div>}
       {items.length === 0 ? <div className="adminEmpty">No questions yet.</div> : (
@@ -384,7 +434,7 @@ function SimulationsTab() {
     <div className="adminCard">
       <div className="adminCardHead">
         <span className="adminCardTitle">Simulations</span>
-        <button className="adminBtn primary" onClick={openCreate}><span className="material-symbols-outlined">add</span> Add Simulation</button>
+        <button className="adminBtn primary" onClick={openCreate}><Icon name="add" size={18} /> Add Simulation</button>
       </div>
       {error && <div className="adminError">{error}</div>}
       {items.length === 0 ? <div className="adminEmpty">No simulations yet.</div> : items.map(sim => (

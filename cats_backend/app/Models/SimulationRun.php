@@ -47,4 +47,9 @@ class SimulationRun extends Model
     {
         return $this->hasMany(SimulationRunEvent::class, 'run_id');
     }
+
+    public function learningOutcome(): HasMany
+    {
+        return $this->hasMany(LearningOutcome::class, 'simulation_run_id');
+    }
 }

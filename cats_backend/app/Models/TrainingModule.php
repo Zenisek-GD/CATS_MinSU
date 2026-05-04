@@ -32,4 +32,14 @@ class TrainingModule extends Model
     {
         return $this->belongsTo(Quiz::class, 'quiz_id');
     }
+
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(UserFeedback::class, 'training_module_id');
+    }
+
+    public function learningOutcomes(): HasMany
+    {
+        return $this->hasMany(LearningOutcome::class, 'training_module_id');
+    }
 }

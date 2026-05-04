@@ -1,4 +1,5 @@
 import { useTheme } from './ThemeProvider'
+import { Icon } from './IconMap'
 import './ThemeToggle.css'
 
 export function ThemeToggle() {
@@ -22,7 +23,7 @@ export function ThemeToggle() {
       onClick={cycleTheme}
       title={`Current theme: ${theme}. Click to change.`}
     >
-      <span className="material-symbols-outlined">{getIcon()}</span>
+      <Icon name={getIcon()} size={20} />
     </button>
   )
 }

@@ -6,6 +6,7 @@ import {
   registerWithEmail,
 } from '../api/auth'
 import { useAuth } from '../auth/AuthProvider'
+import { Icon } from '../components/IconMap'
 import './AuthPage.css'
 
 type Mode = 'login' | 'register'
@@ -97,7 +98,7 @@ export default function AuthPage() {
         {/* Brand */}
         <div className="authBrand">
           <div className="authLogo">
-            <span className="material-symbols-outlined">security</span>
+            <Icon name="security" size={32} />
           </div>
           <h1 className="authBrandTitle">CATS Platform</h1>
           <p className="authBrandSub">Cyber Awareness Training System — MinSU</p>

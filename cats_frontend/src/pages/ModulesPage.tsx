@@ -2,19 +2,51 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getModules, type ApiTrainingModule } from '../api/modules'
 import { useAuth } from '../auth/AuthProvider'
+import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import './ModulesPage.css'
 
 type ModuleUiState = {
-  status: 'Essential' | 'In Progress' | 'Not Started'
+  status: 'Essential' | 'In Progress' | 'Not Started' | 'Completed'
   progressPercent: number
 }
 
-function getPlaceholderStateByIndex(idx: number): ModuleUiState {
-  if (idx === 0) return { status: 'Essential', progressPercent: 65 }
-  if (idx === 1) return { status: 'Not Started', progressPercent: 0 }
-  if (idx === 2) return { status: 'In Progress', progressPercent: 25 }
-  return { status: 'Not Started', progressPercent: 0 }
+function getModuleState(module: ApiTrainingModule): ModuleUiState {
+  const progress = module.user_progress
+  
+  if (!progress) {
+    // Not started
+    return { status: 'Not Started', progressPercent: 0 }
+  }
+  
+  if (progress.is_completed) {
+    // Completed
+    return { status: 'Completed', progressPercent: 100 }
+  }
+  
+  // In progress - estimate based on last_topic_id and total topics
+  const totalTopics = module.topics?.length || 1
+  const completedTopicIndex = module.topics?.findIndex(t => t.id === progress.last_topic_id) ?? -1
+  const progressPercent = Math.min(Math.round(((completedTopicIndex + 1) / totalTopics) * 100), 99)
+  
+  return { status: 'In Progress', progressPercent }
+}
+
+function getOverallProgress(modules: ApiTrainingModule[]): number {
+  if (modules.length === 0) return 0
+  const totalTopics = modules.reduce((sum, m) => sum + (m.topics?.length || 0), 0)
+  if (totalTopics === 0) return 0
+  
+  const completedTopics = modules.reduce((sum, m) => {
+    if (!m.user_progress) return sum
+    if (m.user_progress.is_completed) {
+      return sum + (m.topics?.length || 0)
+    }
+    const topicIndex = m.topics?.findIndex(t => t.id === m.user_progress?.last_topic_id) ?? -1
+    return sum + (topicIndex + 1)
+  }, 0)
+  
+  return Math.round((completedTopics / totalTopics) * 100)
 }
 
 export default function ModulesPage() {
@@ -56,7 +88,7 @@ export default function ModulesPage() {
 
   if (!user) return null
 
-  const overallProgress = 42
+  const overallProgress = getOverallProgress(filtered)
 
   async function onLogout() {
     setLoggingOut(true)
@@ -75,9 +107,12 @@ export default function ModulesPage() {
       <div className="modulesShell">
         <aside className="modulesSidebar" aria-label="Sidebar navigation">
           <div className="modulesSidebarBrand">
-            <div className="modulesAvatar" aria-hidden="true">
-              {user.name?.trim()?.slice(0, 1)?.toUpperCase() || 'U'}
-            </div>
+            <img 
+              src="/cats logo.png" 
+              alt="CATS Logo" 
+              className="modulesLogo"
+              style={{ width: 56, height: 56, objectFit: 'contain', borderRadius: '12px' }}
+            />
             <div className="modulesBrandText">
               <div className="modulesBrandTitle">MinSU CyberAware</div>
               <div className="modulesBrandMeta">{user.email}</div>
@@ -86,24 +121,24 @@ export default function ModulesPage() {
 
           <nav className="modulesNav">
             <Link className="modulesNavItem active" to="/modules" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="modulesNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="modulesNavItem" to="/quizzes">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="modulesNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
             {user.role === 'admin' && (
               <Link className="modulesNavItem" to="/admin/dashboard">
-                <span className="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
+                <Icon name="admin_panel_settings" size={20} />
                 <span>Admin</span>
               </Link>
             )}
@@ -111,7 +146,7 @@ export default function ModulesPage() {
 
           <div className="modulesSidebarBottom">
             <button type="button" className="sidebarLogoutBtn" onClick={onLogout} disabled={loggingOut}>
-              <span className="material-symbols-outlined" aria-hidden="true">logout</span>
+              <Icon name="logout" size={20} />
               <span>{loggingOut ? 'Logging out…' : 'Logout'}</span>
             </button>
           </div>
@@ -121,9 +156,11 @@ export default function ModulesPage() {
           <header className="modulesTopbar">
             <div className="modulesTopbarInner">
               <div className="modulesTopbarLeft">
-                <div className="modulesAvatar lg" aria-hidden="true">
-                  {user.name?.trim()?.slice(0, 1)?.toUpperCase() || 'U'}
-                </div>
+                <img 
+                  src="/cats logo.png" 
+                  alt="CATS Logo" 
+                  style={{ width: 52, height: 52, objectFit: 'contain', borderRadius: '12px' }}
+                />
                 <div>
                   <div className="modulesTitle">MinSU CyberAware</div>
                   <div className="modulesSubtitle">{user.name || 'Student'}</div>
@@ -158,7 +195,7 @@ export default function ModulesPage() {
 
             <div className="modulesSearchRow" aria-label="Search and filter">
               <div className="modulesSearch">
-                <span className="material-symbols-outlined" aria-hidden="true">search</span>
+                <Icon name="search" size={20} />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -167,7 +204,7 @@ export default function ModulesPage() {
                 />
               </div>
               <button type="button" className="modulesFilterBtn" aria-label="Filter topics">
-                <span className="material-symbols-outlined" aria-hidden="true">filter_list</span>
+                <Icon name="filter_list" size={20} />
                 <span>All Topics</span>
               </button>
             </div>
@@ -184,7 +221,7 @@ export default function ModulesPage() {
               ) : null}
 
               {filtered.map((m, idx) => {
-                const state = getPlaceholderStateByIndex(idx)
+                const state = getModuleState(m)
                 const isFeatured = idx === 0
 
                 if (isFeatured) {
@@ -197,13 +234,13 @@ export default function ModulesPage() {
                           loading="lazy"
                         />
                         <div className="moduleMediaOverlay" />
-                        <div className="moduleTag">Essential</div>
+                        <div className="moduleTag">{state.status === 'Completed' ? 'Completed' : 'Featured'}</div>
                       </div>
 
                       <div className="moduleBody">
                         <div className="moduleHeader">
                           <h2 className="moduleTitle">{m.title}</h2>
-                          <span className="moduleStatus">In Progress</span>
+                          <span className="moduleStatus">{state.status}</span>
                         </div>
                         <p className="moduleDesc">{m.description || '—'}</p>
 
@@ -215,7 +252,7 @@ export default function ModulesPage() {
                           </div>
 
                           <Link to={`/modules/${m.id}`} className="moduleCta primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                            Continue Module
+                            {state.status === 'Completed' ? 'Review Module' : 'Continue Module'}
                           </Link>
                         </div>
 
@@ -234,7 +271,7 @@ export default function ModulesPage() {
                   <article key={m.id} className="moduleCard">
                     <div className="moduleBody compact">
                       <div className="moduleIcon" aria-hidden="true">
-                        <span className="material-symbols-outlined">{icon}</span>
+                        <Icon name={icon} size={24} />
                       </div>
 
                       <h2 className="moduleTitle">{m.title}</h2>
@@ -243,8 +280,8 @@ export default function ModulesPage() {
                       <div className="moduleMeta">
                         <div className="moduleMetaRow">
                           <span>Progress</span>
-                          <span className={state.progressPercent > 0 ? 'inProgress' : 'notStarted'}>
-                            {state.progressPercent > 0 ? 'In Progress' : 'Not Started'}
+                          <span className={state.status === 'Completed' ? 'completed' : state.progressPercent > 0 ? 'inProgress' : 'notStarted'}>
+                            {state.status}
                           </span>
                         </div>
                         <div className="moduleProgress thin" role="progressbar" aria-valuenow={state.progressPercent} aria-valuemin={0} aria-valuemax={100}>
@@ -264,19 +301,19 @@ export default function ModulesPage() {
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
             <Link className="bottomNavItem active" to="/modules" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="bottomNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="bottomNavItem" to="/quizzes">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="bottomNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>

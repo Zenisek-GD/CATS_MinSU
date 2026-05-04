@@ -19,15 +19,19 @@ class QuizAttempt extends Model
         'max_score',
         'percent',
         'question_order',
+        'is_first_attempt',
+        'first_completed_at',
     ];
 
     protected $casts = [
         'started_at' => 'datetime',
         'finished_at' => 'datetime',
+        'first_completed_at' => 'datetime',
         'time_limit_seconds' => 'int',
         'score' => 'int',
         'max_score' => 'int',
         'percent' => 'float',
+        'is_first_attempt' => 'boolean',
         'question_order' => 'array',
     ];
 
@@ -44,5 +48,10 @@ class QuizAttempt extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(QuizAttemptAnswer::class, 'attempt_id');
+    }
+
+    public function learningOutcome(): HasMany
+    {
+        return $this->hasMany(LearningOutcome::class, 'quiz_attempt_id');
     }
 }

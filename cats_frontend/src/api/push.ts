@@ -32,3 +32,14 @@ export function urlBase64ToUint8Array(base64String: string) {
   }
   return outputArray
 }
+
+/**
+ * Uint8Array to base64 helper
+ */
+export function uint8arrayToBase64(arr: Uint8Array): string {
+  let binaryString = ''
+  for (let i = 0; i < arr.length; i++) {
+    binaryString += String.fromCharCode(arr[i])
+  }
+  return btoa(binaryString)
+}

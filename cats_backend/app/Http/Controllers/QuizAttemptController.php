@@ -69,7 +69,7 @@ class QuizAttemptController extends Controller
             ->with(['options:id,question_id,label,text,sort_order'])
             ->whereIn('id', $questionIds)
             ->get()
-            ->sortBy(fn ($q) => array_search($q->id, $questionIds, true))
+            ->sortBy(fn($q) => array_search($q->id, $questionIds, true))
             ->values();
 
         return response()->json([
@@ -128,7 +128,8 @@ class QuizAttemptController extends Controller
         foreach ($questionIds as $qid) {
             $qid = (int) $qid;
             $q = $questions->get($qid);
-            if (!$q) continue;
+            if (!$q)
+                continue;
 
             $answer = $byQuestion[$qid] ?? null;
             $selectedOptionId = $answer['selected_option_id'] ?? null;
@@ -145,8 +146,10 @@ class QuizAttemptController extends Controller
                 $normalizedCorrect = null;
                 if ($correctOption) {
                     $label = strtolower(trim((string) ($correctOption->label ?? $correctOption->text)));
-                    if ($label === 'true') $normalizedCorrect = true;
-                    if ($label === 'false') $normalizedCorrect = false;
+                    if ($label === 'true')
+                        $normalizedCorrect = true;
+                    if ($label === 'false')
+                        $normalizedCorrect = false;
                 }
                 $isCorrect = !is_null($normalizedCorrect) ? ((bool) $booleanAnswer === (bool) $normalizedCorrect) : false;
             }
@@ -216,11 +219,28 @@ class QuizAttemptController extends Controller
 
         $percent = $maxScore > 0 ? round(($score / $maxScore) * 100, 2) : 0;
 
+        // Check if this is the first completion for this user+quiz combination
+        $previousCompletions = QuizAttempt::query()
+            ->where('user_id', $user->id)
+            ->where('quiz_id', $quiz->id)
+            ->where('status', 'completed')
+            ->where('id', '!=', $attempt->id)
+            ->exists();
+
+        $isFirstAttempt = !$previousCompletions;
+
         $attempt->status = $expired ? 'expired' : 'completed';
         $attempt->finished_at = Carbon::now();
         $attempt->score = $score;
         $attempt->max_score = $maxScore;
         $attempt->percent = $percent;
+        $attempt->is_first_attempt = $isFirstAttempt;
+
+        // Mark first completion time
+        if ($isFirstAttempt && !$attempt->first_completed_at) {
+            $attempt->first_completed_at = Carbon::now();
+        }
+
         $attempt->save();
 
         $feedback = $this->adaptiveFeedback($user->id, $quiz->category?->slug ?? null);
@@ -260,7 +280,7 @@ class QuizAttemptController extends Controller
                 'prompt' => $q->prompt,
                 'scenario' => $q->scenario,
                 'points' => (int) $q->points,
-                'options' => $q->options->map(fn ($o) => [
+                'options' => $q->options->map(fn($o) => [
                     'id' => $o->id,
                     'label' => $o->label,
                     'text' => $o->text,

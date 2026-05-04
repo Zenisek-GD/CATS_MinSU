@@ -9,14 +9,23 @@ import {
   type ApiQuizAttemptResult,
 } from '../api/quizzes'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import { useAuth } from '../auth/AuthProvider'
+import { FeedbackForm } from '../components/FeedbackForm'
 import './ModulesPage.css'
 import './QuizAttemptPage.css'
 
 type SubmitState =
   | { status: 'idle' }
   | { status: 'submitting' }
+  | {
+      status: 'feedback_pending'
+      attempt: { id: number; status: string; score: number; max_score: number; percent: number; quiz_id: number }
+      results: ApiQuizAttemptResult[]
+      feedback: ApiQuizAttemptFeedback
+      ai_feedback?: ApiAiFeedback | null
+    }
   | {
       status: 'submitted'
       attempt: { id: number; status: string; score: number; max_score: number; percent: number }
@@ -127,6 +136,7 @@ export default function QuizAttemptPage() {
 
       const resp = await submitQuizAttempt(attemptId, payload)
 
+      // Show feedback form with results
       setSubmitState({
         status: 'submitted',
         attempt: resp.attempt,
@@ -137,6 +147,19 @@ export default function QuizAttemptPage() {
     } catch (e: unknown) {
       setError(getApiErrorMessage(e, 'Failed to submit attempt.'))
       setSubmitState({ status: 'idle' })
+    }
+  }
+
+  function onFeedbackSubmitted() {
+    // After feedback is submitted, show the results
+    if (submitState.status === 'feedback_pending') {
+      setSubmitState({
+        status: 'submitted',
+        attempt: submitState.attempt,
+        results: submitState.results,
+        feedback: submitState.feedback,
+        ai_feedback: submitState.ai_feedback,
+      })
     }
   }
 
@@ -175,19 +198,19 @@ export default function QuizAttemptPage() {
 
           <nav className="modulesNav">
             <Link className="modulesNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="modulesNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="modulesNavItem active" to="/quizzes" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="modulesNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>
@@ -209,7 +232,7 @@ export default function QuizAttemptPage() {
                 </div>
               </div>
 
-              <TopbarActions />
+              <TopbarActions hideLogout={true} />
             </div>
           </header>
 
@@ -272,9 +295,7 @@ export default function QuizAttemptPage() {
                                 return (
                                   <div className="quizScenarioBox" aria-label="Simulated scenario">
                                     <div className="quizScenarioBoxHeader">
-                                      <span className="material-symbols-outlined" aria-hidden="true">
-                                        mail
-                                      </span>
+                                      <Icon name="mail" size={20} />
                                       <span className="quizScenarioBoxTitle">Simulated Scenario</span>
                                     </div>
 
@@ -368,6 +389,19 @@ export default function QuizAttemptPage() {
               </div>
             ) : null}
 
+            {/* Feedback form after quiz submission */}
+            {attempt && submitState.status === 'feedback_pending' ? (
+              <FeedbackForm
+                activityType="quiz"
+                activityId={submitState.attempt.quiz_id}
+                onSubmit={onFeedbackSubmitted}
+                onCancel={() => {
+                  // Allow skipping feedback - move to results
+                  onFeedbackSubmitted()
+                }}
+              />
+            ) : null}
+
             {attempt && submitState.status === 'submitted' ? (
               <div className="quizWrap" aria-label="Quiz results">
                 <div className="quizCard">
@@ -424,7 +458,7 @@ export default function QuizAttemptPage() {
                   </div>
                 ) : submitState.ai_feedback === null ? (
                   <div className="quizAiUnavailable">
-                    <span className="material-symbols-outlined" aria-hidden="true">info</span>
+                    <Icon name="info" size={20} />
                     <span>AI coaching is unavailable at this time. Review the explanations below for guidance.</span>
                   </div>
                 ) : null}
@@ -455,7 +489,7 @@ export default function QuizAttemptPage() {
                         {/* Show scenario context if present */}
                         {r.scenario ? (
                           <div className="quizResultScenario">
-                            <span className="material-symbols-outlined quizResultScenarioIcon" aria-hidden="true">description</span>
+                            <Icon name="description" size={20} />
                             <span>{r.scenario}</span>
                           </div>
                         ) : null}
@@ -463,7 +497,7 @@ export default function QuizAttemptPage() {
                         {/* Show what the user selected */}
                         {!r.is_correct && selectedLabel ? (
                           <div className="quizResultAnswer wrong">
-                            <span className="material-symbols-outlined" aria-hidden="true">close</span>
+                            <Icon name="close" size={20} />
                             <div>
                               <div className="quizResultAnswerLabel">Your answer</div>
                               <div className="quizResultAnswerText">{selectedLabel}</div>
@@ -474,7 +508,7 @@ export default function QuizAttemptPage() {
                         {/* Show the correct answer */}
                         {correctLabel ? (
                           <div className={`quizResultAnswer ${r.is_correct ? 'correct' : 'correctHint'}`}>
-                            <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                            <Icon name="check_circle" size={20} />
                             <div>
                               <div className="quizResultAnswerLabel">{r.is_correct ? 'Your answer' : 'Correct answer'}</div>
                               <div className="quizResultAnswerText">{correctLabel}</div>
@@ -492,9 +526,7 @@ export default function QuizAttemptPage() {
                         {r.explanation ? (
                           <div className={`quizResultExplainBox ${!r.is_correct ? 'warning' : ''}`}>
                             <div className="quizResultExplainHeader">
-                              <span className="material-symbols-outlined" aria-hidden="true">
-                                {r.is_correct ? 'lightbulb' : 'warning'}
-                              </span>
+                              <Icon name={r.is_correct ? 'lightbulb' : 'warning'} size={20} />
                               <span>{r.is_correct ? 'Why this is correct' : 'Why your answer was wrong'}</span>
                             </div>
                             <p className="quizResultExplainText">{r.explanation}</p>
@@ -510,19 +542,19 @@ export default function QuizAttemptPage() {
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
             <Link className="bottomNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="bottomNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="bottomNavItem active" to="/quizzes" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="bottomNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>

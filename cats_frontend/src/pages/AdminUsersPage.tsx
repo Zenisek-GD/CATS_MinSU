@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import {
   getAdminUsers, adminCreateUser, adminUpdateUser, adminDeleteUser,
   adminUpdateUserStatus, adminResetPassword, adminGetUserPerformance,
@@ -113,7 +114,7 @@ export default function AdminUsersPage() {
             <option value="suspended">Suspended</option>
           </select>
           <button className="adminAddBtn" onClick={openAdd}>
-            <span className="material-symbols-outlined">person_add</span> Add User
+            <Icon name="person_add" size={18} /> Add User
           </button>
         </div>
 
@@ -264,7 +265,7 @@ export default function AdminUsersPage() {
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {perf.badges.map((b, i) => (
                     <span key={i} className="adminStatusBadge active" style={{ gap: 4 }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 14 }}>{b.badge.icon}</span>
+                      <Icon name={b.badge.icon} size={14} />
                       {b.badge.name}
                     </span>
                   ))}

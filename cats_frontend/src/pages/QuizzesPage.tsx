@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getQuizzes, startQuizAttempt, type ApiQuiz } from '../api/quizzes'
 import { getApiErrorMessage } from '../api/error'
 import { useAuth } from '../auth/AuthProvider'
+import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import './ModulesPage.css'
 
@@ -85,9 +86,12 @@ export default function QuizzesPage() {
       <div className="modulesShell">
         <aside className="modulesSidebar" aria-label="Sidebar navigation">
           <div className="modulesSidebarBrand">
-            <div className="modulesAvatar" aria-hidden="true">
-              {user.name?.trim()?.slice(0, 1)?.toUpperCase() || 'U'}
-            </div>
+            <img 
+              src="/cats logo.png" 
+              alt="CATS Logo" 
+              className="modulesLogo"
+              style={{ width: 56, height: 56, objectFit: 'contain', borderRadius: '12px' }}
+            />
             <div className="modulesBrandText">
               <div className="modulesBrandTitle">MinSU CyberAware</div>
               <div className="modulesBrandMeta">{user.email}</div>
@@ -96,26 +100,26 @@ export default function QuizzesPage() {
 
           <nav className="modulesNav">
             <Link className="modulesNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="modulesNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="modulesNavItem active" to="/quizzes" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="modulesNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>
 
           <div className="modulesSidebarBottom">
             <button type="button" className="sidebarLogoutBtn" onClick={onLogout} disabled={loggingOut}>
-              <span className="material-symbols-outlined" aria-hidden="true">logout</span>
+              <Icon name="logout" size={20} />
               <span>{loggingOut ? 'Logging out…' : 'Logout'}</span>
             </button>
           </div>
@@ -125,9 +129,11 @@ export default function QuizzesPage() {
           <header className="modulesTopbar">
             <div className="modulesTopbarInner">
               <div className="modulesTopbarLeft">
-                <div className="modulesAvatar lg" aria-hidden="true">
-                  {user.name?.trim()?.slice(0, 1)?.toUpperCase() || 'U'}
-                </div>
+                <img 
+                  src="/cats logo.png" 
+                  alt="CATS Logo" 
+                  style={{ width: 52, height: 52, objectFit: 'contain', borderRadius: '12px' }}
+                />
                 <div>
                   <div className="modulesTitle">Assessments</div>
                   <div className="modulesSubtitle">Choose a quiz to begin</div>
@@ -164,7 +170,7 @@ export default function QuizzesPage() {
                   <article key={q.id} className="moduleCard">
                     <div className="moduleBody compact">
                       <div className="moduleIcon" aria-hidden="true">
-                        <span className="material-symbols-outlined">quiz</span>
+                        <Icon name="quiz" size={24} />
                       </div>
 
                       <div className="moduleHeader">
@@ -199,19 +205,19 @@ export default function QuizzesPage() {
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
             <Link className="bottomNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="bottomNavItem" to="/simulations">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="bottomNavItem active" to="/quizzes" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="bottomNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>

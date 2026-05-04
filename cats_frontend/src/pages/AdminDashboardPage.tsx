@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 import { getAdminDashboard, type AdminDashboard } from '../api/dashboard'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
@@ -12,7 +13,7 @@ import './AdminDashboardPage.css'
 
 const COLORS = ['#006a61', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6', '#6366f1']
 
-export type AdminTab = 'dashboard' | 'users' | 'content' | 'badges'
+export type AdminTab = 'dashboard' | 'users' | 'content' | 'badges' | 'feedback'
 
 export default function AdminDashboardPage() {
   const { user } = useAuth()
@@ -184,7 +185,7 @@ function StatCard({ icon, color, label, value, meta }: { icon: string; color: st
   return (
     <div className="adminStatCard">
       <div className={`adminStatIcon ${color}`}>
-        <span className="material-symbols-outlined">{icon}</span>
+        <Icon name={icon} size={20} />
       </div>
       <div className="adminStatLabel">{label}</div>
       <div className="adminStatValue">{value}</div>
@@ -217,7 +218,7 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
           <span className="adminMobileHeaderTitle">{pageTitle}</span>
         </div>
         <button className="adminHamburger" onClick={() => setSidebarOpen(true)}>
-          <span className="material-symbols-outlined">menu</span>
+          <Icon name="menu" size={22} />
         </button>
       </div>
 
@@ -227,7 +228,7 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
       <div className="adminDashShell">
         <aside className={`adminSidebar ${sidebarOpen ? 'mobileOpen' : ''}`}>
           <button className="adminSidebarClose" onClick={() => setSidebarOpen(false)}>
-            <span className="material-symbols-outlined">close</span>
+            <Icon name="close" size={22} />
           </button>
           <div className="adminSidebarBrand">
             <div className="adminSidebarAvatar">{initial}</div>
@@ -238,24 +239,27 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
           </div>
           <nav className="adminSidebarNav">
             <Link className={`adminSidebarNavItem ${activeTab === 'dashboard' ? 'active' : ''}`} to="/admin/dashboard" onClick={() => setSidebarOpen(false)}>
-              <span className="material-symbols-outlined">dashboard</span> Dashboard
+              <Icon name="dashboard" size={20} /> Dashboard
             </Link>
             <Link className={`adminSidebarNavItem ${activeTab === 'users' ? 'active' : ''}`} to="/admin/users" onClick={() => setSidebarOpen(false)}>
-              <span className="material-symbols-outlined">group</span> Users
+              <Icon name="group" size={20} /> Users
             </Link>
             <Link className={`adminSidebarNavItem ${activeTab === 'content' ? 'active' : ''}`} to="/admin/manage" onClick={() => setSidebarOpen(false)}>
-              <span className="material-symbols-outlined">edit_note</span> Content
+              <Icon name="edit_note" size={20} /> Content
             </Link>
             <Link className={`adminSidebarNavItem ${activeTab === 'badges' ? 'active' : ''}`} to="/admin/badges" onClick={() => setSidebarOpen(false)}>
-              <span className="material-symbols-outlined">emoji_events</span> Badges
+              <Icon name="emoji_events" size={20} /> Badges
+            </Link>
+            <Link className={`adminSidebarNavItem ${activeTab === 'feedback' ? 'active' : ''}`} to="/admin/feedback" onClick={() => setSidebarOpen(false)}>
+              <Icon name="feedback" size={20} /> Feedback
             </Link>
             <Link className="adminSidebarNavItem" to="/modules" onClick={() => setSidebarOpen(false)}>
-              <span className="material-symbols-outlined">arrow_back</span> Back to App
+              <Icon name="arrow_back" size={20} /> Back to App
             </Link>
           </nav>
           <div className="adminSidebarBottom">
             <button type="button" className="adminSidebarNavItem" onClick={onLogout} style={{ width: '100%' }}>
-              <span className="material-symbols-outlined">logout</span> Logout
+              <Icon name="logout" size={20} /> Logout
             </button>
           </div>
         </aside>
@@ -280,23 +284,27 @@ export function AdminLayout({ activeTab, pageTitle, pageSubtitle, children }: {
       <nav className="adminBottomNav">
         <div className="adminBottomNavInner">
           <Link className={`adminBottomNavItem ${activeTab === 'dashboard' ? 'active' : ''}`} to="/admin/dashboard">
-            <span className="material-symbols-outlined">dashboard</span>
+            <Icon name="dashboard" size={22} />
             Dashboard
           </Link>
           <Link className={`adminBottomNavItem ${activeTab === 'users' ? 'active' : ''}`} to="/admin/users">
-            <span className="material-symbols-outlined">group</span>
+            <Icon name="group" size={22} />
             Users
           </Link>
           <Link className={`adminBottomNavItem ${activeTab === 'content' ? 'active' : ''}`} to="/admin/manage">
-            <span className="material-symbols-outlined">edit_note</span>
+            <Icon name="edit_note" size={22} />
             Content
           </Link>
           <Link className={`adminBottomNavItem ${activeTab === 'badges' ? 'active' : ''}`} to="/admin/badges">
-            <span className="material-symbols-outlined">emoji_events</span>
+            <Icon name="emoji_events" size={22} />
             Badges
           </Link>
+          <Link className={`adminBottomNavItem ${activeTab === 'feedback' ? 'active' : ''}`} to="/admin/feedback">
+            <Icon name="feedback" size={22} />
+            Feedback
+          </Link>
           <button className="adminBottomNavItem" onClick={onLogout}>
-            <span className="material-symbols-outlined">logout</span>
+            <Icon name="logout" size={22} />
             Logout
           </button>
         </div>

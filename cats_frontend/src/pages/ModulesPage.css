@@ -37,7 +37,7 @@
 
 .modulesSidebarBrand {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   margin-bottom: 18px;
 }
@@ -605,6 +605,11 @@
 
 .moduleMetaRow .notStarted {
   color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.moduleMetaRow .completed {
+  color: #10b981;
   font-weight: 700;
 }
 

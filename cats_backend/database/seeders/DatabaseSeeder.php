@@ -11,6 +11,8 @@ use App\Models\SimulationChoice;
 use App\Models\SimulationStep;
 use App\Models\TrainingModule;
 use App\Models\User;
+use App\Models\Achievement;
+use App\Models\Badge;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -442,6 +444,57 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Seed badges and achievements
+        $this->call(BadgeAchievementSeeder::class);
+
+        // Assign some achievements and badges to test users
+        $this->assignTestAchievementsAndBadges();
+
+        // Seed training module sample data (after creating default modules/quizzes/simulations)
+        $this->call(TrainingModuleSampleDataSeeder::class);
+
         $this->call(SimulationEnhancedSeeder::class);
+    }
+
+    /**
+     * Assign achievements and badges to test users
+     */
+    private function assignTestAchievementsAndBadges(): void
+    {
+        $users = User::query()->where('role', 'user')->limit(5)->get();
+
+        if ($users->isNotEmpty()) {
+            $achievements = Achievement::all();
+            $badges = Badge::all();
+
+            foreach ($users as $index => $user) {
+                // Assign some achievements to each user
+                $achCount = min(rand(1, 3), $achievements->count());
+                $selectedAchievements = $achievements->random($achCount);
+                
+                foreach ($selectedAchievements as $achievement) {
+                    $user->achievements()->firstOrCreate([
+                        'achievement_id' => $achievement->id,
+                    ], [
+                        'unlocked_at' => now(),
+                    ]);
+                }
+
+                // Assign some badges to each user
+                $badgeCount = min(rand(1, 2), $badges->count());
+                $selectedBadges = $badges->random($badgeCount);
+                
+                foreach ($selectedBadges as $badge) {
+                    $user->badges()->firstOrCreate([
+                        'badge_id' => $badge->id,
+                    ], [
+                        'awarded_at' => now(),
+                    ]);
+                }
+
+                // Add some XP to users
+                $user->update(['xp' => rand(100, 500)]);
+            }
+        }
     }
 }

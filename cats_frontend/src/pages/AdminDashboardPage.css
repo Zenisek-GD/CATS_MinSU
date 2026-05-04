@@ -30,7 +30,7 @@
 }
 .adminSidebarNavItem:hover { background: rgba(255,255,255,0.08); color: #fff; }
 .adminSidebarNavItem.active { background: rgba(0,106,97,0.35); color: #89f5e7; }
-.adminSidebarNavItem .material-symbols-outlined { font-size: 20px; }
+/* Material symbols icon styling removed - now using React Icons Icon component */
 .adminSidebarBottom { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
 .adminSidebarClose { display: none; }
 
@@ -48,7 +48,7 @@
   cursor: pointer; transition: background 180ms;
 }
 .adminHamburger:hover { background: rgba(255,255,255,0.18); }
-.adminHamburger .material-symbols-outlined { font-size: 22px; }
+/* Material symbols icon styling removed - now using React Icons Icon component */
 
 /* ─── Mobile Sidebar Overlay ─── */
 .adminSidebarOverlay {
@@ -73,9 +73,9 @@
   font-family: "Space Grotesk", system-ui, sans-serif; font-size: 10px; font-weight: 600;
   color: rgba(11,28,48,0.45); transition: all 180ms; border: none; background: none; cursor: pointer;
 }
-.adminBottomNavItem .material-symbols-outlined { font-size: 22px; }
 .adminBottomNavItem.active { color: #006a61; }
 .adminBottomNavItem:hover { color: #006a61; }
+/* Material symbols icon styling removed - now using React Icons Icon component */
 
 /* ─── Main content ─── */
 .adminDashMain { flex: 1; min-width: 0; overflow-y: auto; }
@@ -98,7 +98,7 @@
   width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
   margin-bottom: 12px;
 }
-.adminStatIcon .material-symbols-outlined { font-size: 20px; }
+/* Material symbols icon styling removed - now using React Icons Icon component */
 .adminStatIcon.blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
 .adminStatIcon.green { background: rgba(0,106,97,0.10); color: #006a61; }
 .adminStatIcon.purple { background: rgba(139,92,246,0.12); color: #8b5cf6; }
@@ -161,7 +161,7 @@
     background: rgba(255,255,255,0.1); color: #fff; align-items: center; justify-content: center;
     cursor: pointer;
   }
-  .adminSidebarClose .material-symbols-outlined { font-size: 18px; }
+  /* Icon styling moved to React Icon component */
 
   .adminMobileHeader { display: flex; }
   .adminBottomNav { display: block; }

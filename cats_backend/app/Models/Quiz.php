@@ -41,4 +41,33 @@ class Quiz extends Model
     {
         return $this->hasMany(QuizAttempt::class, 'quiz_id');
     }
+
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(UserFeedback::class, 'quiz_id');
+    }
+
+    /**
+     * Check if a user has completed this quiz (allows retakes)
+     */
+    public function isCompletedByUser($userId): bool
+    {
+        return $this->attempts()
+            ->where('user_id', $userId)
+            ->where('status', 'completed')
+            ->where('is_first_attempt', true)
+            ->exists();
+    }
+
+    /**
+     * Get first completion info for a user
+     */
+    public function getFirstCompletionForUser($userId)
+    {
+        return $this->attempts()
+            ->where('user_id', $userId)
+            ->where('is_first_attempt', true)
+            ->where('status', 'completed')
+            ->first();
+    }
 }

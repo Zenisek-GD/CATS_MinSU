@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getModule, updateModuleProgress, type ApiTrainingModule, type ApiModuleTopic } from '../api/modules'
 import { useAuth } from '../auth/AuthProvider'
+import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import './ModuleViewerPage.css'
 
@@ -106,9 +107,7 @@ export default function ModuleViewerPage() {
                       updateModuleProgress(module.id, { last_topic_id: t.id }).catch(console.error)
                     }}
                   >
-                    <span className="material-symbols-outlined mvTopicIcon">
-                      {isTopicCompleted && !isActive ? 'check_circle' : isActive ? 'radio_button_checked' : 'radio_button_unchecked'}
-                    </span>
+                    <Icon name={isTopicCompleted && !isActive ? 'check_circle' : isActive ? 'radio_button_checked' : 'radio_button_unchecked'} size={20} />
                     <span>{t.title}</span>
                   </button>
                 )
@@ -121,7 +120,7 @@ export default function ModuleViewerPage() {
           <header className="mvHeader">
             <div className="mvHeaderLeft">
               <Link to="/modules" className="mvBackBtn">
-                <span className="material-symbols-outlined">arrow_back</span>
+                <Icon name="arrow_back" size={20} />
               </Link>
               <h1 className="mvTitle">{module.title}</h1>
             </div>
@@ -132,7 +131,7 @@ export default function ModuleViewerPage() {
                   <div className="mvProgressFill" style={{ width: `${progressPercent}%` }} />
                 </div>
               </div>
-              <TopbarActions />
+              <TopbarActions hideLogout={true} />
             </div>
           </header>
 
@@ -168,11 +167,12 @@ export default function ModuleViewerPage() {
                   {showQuizCta && activeTopicIndex === topics.length - 1 && (
                     <div className="mvQuizCta">
                       <div className="mvQuizCtaInner">
-                        <span className="material-symbols-outlined mvQuizIcon">quiz</span>
+                        <Icon name="quiz" size={28} />
                         <h3 className="mvQuizTitle">Ready to test your knowledge?</h3>
                         <p className="mvQuizDesc">You've completed all topics in this module. Take the quiz to earn points!</p>
-                        <button className="mvQuizBtn" onClick={() => navigate(`/quizzes/${module.quiz_id}`)}>
-                          Take Module Quiz <span className="material-symbols-outlined">arrow_forward</span>
+                        <button className="mvQuizBtn" onClick={() => navigate(`/quizzes/${module.quiz_id}`)}
+>
+                          Take Module Quiz <Icon name="arrow_forward" size={18} />
                         </button>
                       </div>
                     </div>
@@ -184,16 +184,16 @@ export default function ModuleViewerPage() {
                       onClick={handlePrev} 
                       disabled={activeTopicIndex === 0}
                     >
-                      <span className="material-symbols-outlined">arrow_back</span> Previous
+                      <Icon name="arrow_back" size={18} /> Previous
                     </button>
                     
                     {activeTopicIndex < topics.length - 1 ? (
                       <button className="mvBtn primary" onClick={handleNext}>
-                        Next Topic <span className="material-symbols-outlined">arrow_forward</span>
+                        Next Topic <Icon name="arrow_forward" size={18} />
                       </button>
                     ) : !isCompleted ? (
                       <button className="mvBtn primary" onClick={handleNext}>
-                        Finish Module <span className="material-symbols-outlined">done_all</span>
+                        Finish Module <Icon name="done_all" size={18} />
                       </button>
                     ) : null}
                   </div>

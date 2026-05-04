@@ -28,6 +28,26 @@ class User extends Authenticatable
         return $this->hasMany(UserModuleProgress::class);
     }
 
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(UserFeedback::class);
+    }
+
+    public function learningOutcomes(): HasMany
+    {
+        return $this->hasMany(LearningOutcome::class);
+    }
+
+    public function achievements(): HasMany
+    {
+        return $this->hasMany(UserAchievement::class);
+    }
+
+    public function badges(): HasMany
+    {
+        return $this->hasMany(UserBadge::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

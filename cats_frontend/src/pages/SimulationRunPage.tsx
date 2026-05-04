@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../api/error'
+import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import { chooseSimulation, getSimulationRun, type ApiSimulationOutcome, type ApiSimulationRun } from '../api/simulations'
 import { useAuth } from '../auth/AuthProvider'
@@ -87,20 +88,10 @@ function parseChoiceText(raw: string) {
 }
 
 /** Map action keywords to emoji icons */
-function getChoiceIcon(action: string): string {
-  const a = action.toLowerCase()
-  if (a.includes('click') || a.includes('open') || a.includes('tap')) return '🔗'
-  if (a.includes('report') || a.includes('block')) return '🛡️'
-  if (a.includes('delete') || a.includes('ignore') || a.includes('close')) return '🗑️'
-  if (a.includes('reply') || a.includes('forward') || a.includes('send') || a.includes('submit')) return '✉️'
-  if (a.includes('verify') || a.includes('check') || a.includes('secure')) return '🔍'
-  if (a.includes('warn') || a.includes('alert')) return '📢'
-  if (a.includes('hang') || a.includes('end')) return '📵'
-  if (a.includes('share') || a.includes('enter') || a.includes('use')) return '⚠️'
-  if (a.includes('do nothing') || a.includes('forget')) return '💤'
-  if (a.includes('partial')) return '📝'
-  return '👆'
-}
+// Emojis removed from simulation choices for cleaner UI
+// function getChoiceIcon(action: string): string {
+//   ... (emoji mapping removed)
+// }
 
 export default function SimulationRunPage() {
   const { user } = useAuth()
@@ -209,19 +200,19 @@ export default function SimulationRunPage() {
 
           <nav className="modulesNav">
             <Link className="modulesNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="modulesNavItem active" to="/simulations" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="modulesNavItem" to="/quizzes">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="modulesNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>
@@ -240,7 +231,7 @@ export default function SimulationRunPage() {
                 </div>
               </div>
 
-              <TopbarActions />
+              <TopbarActions hideLogout={true} />
             </div>
           </header>
 
@@ -270,12 +261,12 @@ export default function SimulationRunPage() {
                     <div className="simDangerOverlay" aria-label="Unsafe choice feedback">
                       <div className="simDangerOverlayHeader">
                         <span className="simDangerBadge">
-                          <span className="material-symbols-outlined" aria-hidden="true">gpp_bad</span>
+                          <Icon name="gpp_bad" size={18} />
                           Unsafe Choice
                         </span>
                         {outcomeState.outcome.score_delta !== undefined && outcomeState.outcome.score_delta !== 0 ? (
                           <div className="simOutcomeScore">
-                            <span className="material-symbols-outlined" aria-hidden="true">trending_down</span>
+                            <Icon name="trending_down" size={18} />
                             <span>{outcomeState.outcome.score_delta} points</span>
                           </div>
                         ) : null}
@@ -284,7 +275,7 @@ export default function SimulationRunPage() {
                         {/* Panel 1: What you did */}
                         <div className="simFeedbackPanel what-you-did">
                           <div className="simFeedbackPanelTitle">
-                            <span className="material-symbols-outlined" aria-hidden="true">touch_app</span>
+                            <Icon name="touch_app" size={18} />
                             What you did
                           </div>
                           <p className="simFeedbackPanelText">{chosenText || 'Your choice'}</p>
@@ -293,7 +284,7 @@ export default function SimulationRunPage() {
                         {/* Panel 2: Why this is dangerous */}
                         <div className="simFeedbackPanel why-dangerous">
                           <div className="simFeedbackPanelTitle">
-                            <span className="material-symbols-outlined" aria-hidden="true">warning</span>
+                            <Icon name="warning" size={18} />
                             Why this is dangerous
                           </div>
                           <p className="simFeedbackPanelText">
@@ -303,7 +294,7 @@ export default function SimulationRunPage() {
                             <ul className="simRedFlagAnimated">
                               {outcomeState.outcome.ai_feedback.red_flags.map((rf, i) => (
                                 <li className="simRedFlagItem" key={i}>
-                                  <span className="material-symbols-outlined" aria-hidden="true">error</span>
+                                  <Icon name="error" size={18} />
                                   {rf}
                                 </li>
                               ))}
@@ -314,7 +305,7 @@ export default function SimulationRunPage() {
                         {/* Panel 3: What to do instead */}
                         <div className="simFeedbackPanel what-to-do">
                           <div className="simFeedbackPanelTitle">
-                            <span className="material-symbols-outlined" aria-hidden="true">lightbulb</span>
+                            <Icon name="lightbulb" size={18} />
                             What to do instead
                           </div>
                           <p className="simFeedbackPanelText">
@@ -324,7 +315,7 @@ export default function SimulationRunPage() {
 
                         {!outcomeState.outcome.ai_feedback && choosingId === null ? (
                           <div className="simAiUnavailable">
-                            <span className="material-symbols-outlined" aria-hidden="true">info</span>
+                            <Icon name="info" size={18} />
                             <span>AI coaching is unavailable at this time.</span>
                           </div>
                         ) : null}
@@ -332,12 +323,12 @@ export default function SimulationRunPage() {
                         <div className="simContinueWrap">
                           {step ? (
                             <button type="button" className="moduleCta primary simContinueBtn" onClick={onContinue}>
-                              <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                              <Icon name="arrow_forward" size={20} />
                               Continue to Next Step
                             </button>
                           ) : (
                             <button type="button" className="moduleCta primary simContinueBtn" onClick={onContinue}>
-                              <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                              <Icon name="check_circle" size={20} />
                               View Final Results
                             </button>
                           )}
@@ -349,12 +340,12 @@ export default function SimulationRunPage() {
                     <div className="simSuccessOverlay" aria-label="Safe choice feedback">
                       <div className="simSuccessOverlayHeader">
                         <span className="simSuccessBadge">
-                          <span className="material-symbols-outlined" aria-hidden="true">verified_user</span>
+                          <Icon name="verified_user" size={18} />
                           Safe Choice
                         </span>
                         {outcomeState.outcome.score_delta !== undefined && outcomeState.outcome.score_delta !== 0 ? (
                           <div className="simOutcomeScore">
-                            <span className="material-symbols-outlined" aria-hidden="true">trending_up</span>
+                            <Icon name="trending_up" size={18} />
                             <span>+{outcomeState.outcome.score_delta} points</span>
                           </div>
                         ) : null}
@@ -362,7 +353,7 @@ export default function SimulationRunPage() {
                       <div className="simSuccessBody">
                         <div className="simFeedbackPanel what-to-do">
                           <div className="simFeedbackPanelTitle">
-                            <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                            <Icon name="check_circle" size={18} />
                             Great decision
                           </div>
                           <p className="simFeedbackPanelText">
@@ -373,7 +364,7 @@ export default function SimulationRunPage() {
                         {outcomeState.outcome.explanation ? (
                           <div className="simFeedbackPanel what-to-do">
                             <div className="simFeedbackPanelTitle">
-                              <span className="material-symbols-outlined" aria-hidden="true">lightbulb</span>
+                              <Icon name="lightbulb" size={18} />
                               Why this was right
                             </div>
                             <p className="simFeedbackPanelText">{outcomeState.outcome.explanation}</p>
@@ -398,12 +389,12 @@ export default function SimulationRunPage() {
                         <div className="simContinueWrap">
                           {step ? (
                             <button type="button" className="moduleCta primary simContinueBtn" onClick={onContinue}>
-                              <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                              <Icon name="arrow_forward" size={20} />
                               Continue to Next Step
                             </button>
                           ) : (
                             <button type="button" className="moduleCta primary simContinueBtn" onClick={onContinue}>
-                              <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                              <Icon name="check_circle" size={20} />
                               View Final Results
                             </button>
                           )}
@@ -451,18 +442,16 @@ export default function SimulationRunPage() {
                       {/* Step header with stats */}
                       <div className="simStepHeader">
                         <div className="simStepTitle">
-                          <span className="material-symbols-outlined" aria-hidden="true">
-                            {parsedPrompt?.isEmailLike ? 'mail' : 'description'}
-                          </span>
+                          <Icon name={parsedPrompt?.isEmailLike ? 'mail' : 'description'} size={20} />
                           <span>{step.title || 'Scenario'}</span>
                         </div>
                         <div className="simStepStats">
                           <span className="simStatSafe">
-                            <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                            <Icon name="check_circle" size={18} />
                             {run.stats?.safe_choices ?? 0}
                           </span>
                           <span className="simStatUnsafe">
-                            <span className="material-symbols-outlined" aria-hidden="true">cancel</span>
+                            <Icon name="cancel" size={18} />
                             {run.stats?.unsafe_choices ?? 0}
                           </span>
                         </div>
@@ -472,7 +461,7 @@ export default function SimulationRunPage() {
                       {parsedPrompt?.isEmailLike ? (
                         <div className="simEmailCard" aria-label="Simulated email scenario">
                           <div className="simEmailHeader">
-                            <span className="material-symbols-outlined simEmailIcon" aria-hidden="true">mail</span>
+                            <Icon name="mail" size={20} />
                             <span className="simEmailHeaderLabel">Simulated Scenario</span>
                           </div>
 
@@ -511,7 +500,7 @@ export default function SimulationRunPage() {
                               <div className="simEmailLinkWarn">
                                 {parsedPrompt.urls.map((url, i) => (
                                   <div key={i} className="simEmailLink">
-                                    <span className="material-symbols-outlined" aria-hidden="true">link</span>
+                                    <Icon name="link" size={18} />
                                     <span>{url}</span>
                                   </div>
                                 ))}
@@ -534,7 +523,7 @@ export default function SimulationRunPage() {
                       {/* Education tip */}
                       {step.education ? (
                         <div className="simEducationBox">
-                          <span className="material-symbols-outlined" aria-hidden="true">lightbulb</span>
+                          <Icon name="lightbulb" size={20} />
                           <div>
                             <div className="simEducationLabel">Tip</div>
                             <div className="simEducationText">{step.education}</div>
@@ -544,7 +533,7 @@ export default function SimulationRunPage() {
 
                       {/* Question prompt */}
                       <div className="simQuestionPrompt">
-                        <span className="material-symbols-outlined" aria-hidden="true">help_outline</span>
+                        <Icon name="help_outline" size={20} />
                         <span>How would you handle this situation?</span>
                       </div>
 
@@ -552,7 +541,6 @@ export default function SimulationRunPage() {
                       <div className="simChoices" aria-label="Choices">
                         {step.choices.map((c) => {
                           const parsed = parseChoiceText(c.text)
-                          const icon = getChoiceIcon(parsed.action)
 
                           return (
                             <button
@@ -563,7 +551,6 @@ export default function SimulationRunPage() {
                               disabled={choosingId !== null}
                               aria-disabled={choosingId !== null}
                             >
-                              <span className="simChoiceCardIcon" aria-hidden="true">{icon}</span>
                               <div className="simChoiceCardContent">
                                 <div className="simChoiceCardAction">
                                   {choosingId === c.id ? 'Submitting…' : parsed.action}
@@ -572,7 +559,7 @@ export default function SimulationRunPage() {
                                   <div className="simChoiceCardDesc">{parsed.description}</div>
                                 ) : null}
                               </div>
-                              <span className="material-symbols-outlined simChoiceCardArrow" aria-hidden="true">chevron_right</span>
+                              <Icon name="chevron_right" size={18} />
                             </button>
                           )
                         })}
@@ -604,19 +591,19 @@ export default function SimulationRunPage() {
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
             <Link className="bottomNavItem" to="/modules">
-              <span className="material-symbols-outlined" aria-hidden="true">school</span>
+              <Icon name="school" size={20} />
               <span>Learn</span>
             </Link>
             <Link className="bottomNavItem active" to="/simulations" aria-current="page">
-              <span className="material-symbols-outlined" aria-hidden="true">security</span>
+              <Icon name="security" size={20} />
               <span>Simulate</span>
             </Link>
             <Link className="bottomNavItem" to="/quizzes">
-              <span className="material-symbols-outlined" aria-hidden="true">quiz</span>
+              <Icon name="quiz" size={20} />
               <span>Assess</span>
             </Link>
             <Link className="bottomNavItem" to="/profile">
-              <span className="material-symbols-outlined" aria-hidden="true">person</span>
+              <Icon name="person" size={20} />
               <span>Profile</span>
             </Link>
           </nav>

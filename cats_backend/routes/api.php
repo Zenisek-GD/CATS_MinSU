@@ -16,6 +16,9 @@ use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\SimulationRunController;
 use App\Http\Controllers\TrainingModuleController;
 use App\Http\Controllers\PushNotificationController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ResearchController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +44,8 @@ Route::get('/me', function () {
         ],
     ]);
 })->middleware('role:user,admin');
+
+Route::get('/profile', [ProfileController::class, 'show'])->middleware('role:user,admin');
 
 Route::get('/vapid-public-key', [PushNotificationController::class, 'getVapidPublicKey']);
 Route::post('/push/subscribe', [PushNotificationController::class, 'subscribe'])->middleware('role:user,admin');
@@ -71,6 +76,10 @@ Route::get('/leaderboard/categories/{category}', [LeaderboardController::class, 
 
 Route::get('/assessments/summary', [AssessmentController::class, 'summary'])->middleware('role:user,admin');
 Route::get('/assessments/report', [AssessmentController::class, 'report'])->middleware('role:user,admin');
+
+// Feedback (Objective 4)
+Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('role:user,admin');
+Route::get('/feedback', [FeedbackController::class, 'index'])->middleware('role:user,admin');
 
 Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::get('/me', function () {
@@ -148,4 +157,22 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::post('/achievements', [AdminBadgeController::class, 'storeAchievement']);
     Route::patch('/achievements/{achievement}', [AdminBadgeController::class, 'updateAchievement']);
     Route::delete('/achievements/{achievement}', [AdminBadgeController::class, 'destroyAchievement']);
+
+    // Feedback Analytics (Objective 4)
+    Route::get('/feedback/analytics', [FeedbackController::class, 'analytics']);
+    Route::get('/feedback/comparison', [FeedbackController::class, 'comparison']);
+
+    // Feedback Management (Admin)
+    Route::get('/feedback', [FeedbackController::class, 'adminIndex']);
+    Route::get('/feedback/{id}', [FeedbackController::class, 'adminShow']);
+    Route::patch('/feedback/{id}', [FeedbackController::class, 'adminUpdate']);
+    Route::get('/feedback/export/csv', [FeedbackController::class, 'adminExport']);
+
+    // Research Questions Data
+    Route::prefix('research')->group(function () {
+        Route::get('/rq1', [ResearchController::class, 'researchQuestion1']); // Understanding of cyber threats
+        Route::get('/rq2', [ResearchController::class, 'researchQuestion2']); // Quiz vs Simulation engagement
+        Route::get('/rq3', [ResearchController::class, 'researchQuestion3']); // Lived experiences & perceptions
+        Route::get('/rq4', [ResearchController::class, 'researchQuestion4']); // Behavioral readiness
+    });
 });

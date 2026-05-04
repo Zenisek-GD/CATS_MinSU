@@ -38,4 +38,9 @@ class Simulation extends Model
     {
         return $this->hasMany(SimulationRun::class, 'simulation_id');
     }
+
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(UserFeedback::class, 'simulation_id');
+    }
 }

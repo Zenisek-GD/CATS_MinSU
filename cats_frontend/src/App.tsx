@@ -12,6 +12,7 @@ import AdminManagePage from './pages/AdminManagePage'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminUsersPage from './pages/AdminUsersPage'
 import AdminBadgesPage from './pages/AdminBadgesPage'
+import { AdminFeedbackPage } from './pages/AdminFeedbackPage'
 import './App.css'
 
 function App() {
@@ -44,6 +45,7 @@ function AppRoutes() {
       <Route path="/admin/users" element={isAdmin ? <AdminUsersPage /> : <Navigate to="/" replace />} />
       <Route path="/admin/manage" element={isAdmin ? <AdminManagePage /> : <Navigate to="/" replace />} />
       <Route path="/admin/badges" element={isAdmin ? <AdminBadgesPage /> : <Navigate to="/" replace />} />
+      <Route path="/admin/feedback" element={isAdmin ? <AdminFeedbackPage /> : <Navigate to="/" replace />} />
 
       <Route path="*" element={<Navigate to={token ? defaultPath : '/'} replace />} />
     </Routes>

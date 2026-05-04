@@ -18,7 +18,7 @@
   cursor: pointer; transition: all 180ms; white-space: nowrap;
 }
 .adminAddBtn:hover { box-shadow: 0 4px 12px rgba(0,106,97,0.3); transform: translateY(-1px); }
-.adminAddBtn .material-symbols-outlined { font-size: 18px; }
+/* Icon styling moved to React Icon component */
 
 /* ─── Users Table ─── */
 .adminUsersWrap { background: #fff; border-radius: 14px; border: 1px solid rgba(11,28,48,0.06); box-shadow: 0 1px 6px rgba(15,23,42,0.04); overflow: hidden; }
