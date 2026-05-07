@@ -351,4 +351,63 @@ class FeedbackController extends Controller
             ]
         );
     }
+    /**
+     * Teacher: View feedback from students in own classrooms (read-only).
+     * Scoped strictly to the teacher's own classrooms. Optionally filter by
+     * a single classroom via ?classroom_id=<id>.
+     */
+    public function teacherFeedback(Request $request)
+    {
+        $teacher = Auth::user();
+
+        // All classrooms that belong to this teacher
+        $allClassrooms = \App\Models\Classroom::where('teacher_id', $teacher->id)
+            ->get(['id', 'name']);
+
+        // If filtering by a specific classroom, verify ownership first
+        $classroomId = $request->get('classroom_id');
+        if ($classroomId) {
+            $owned = $allClassrooms->pluck('id')->contains((int) $classroomId);
+            if (!$owned) {
+                return response()->json(['message' => 'Unauthorized'], 403);
+            }
+            $scope = $allClassrooms->where('id', (int) $classroomId);
+        } else {
+            $scope = $allClassrooms;
+        }
+
+        // Collect unique student IDs from the scoped classrooms only
+        $studentIds = collect();
+        foreach ($scope as $classroom) {
+            $ids = $classroom->students()->pluck('users.id');
+            $studentIds = $studentIds->merge($ids);
+        }
+        $studentIds = $studentIds->unique()->values();
+
+        $query = UserFeedback::with('user:id,name,email,participant_code')
+            ->whereIn('user_id', $studentIds)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('feedback_type') && $request->feedback_type !== 'all') {
+            $query->where('feedback_type', $request->feedback_type);
+        }
+
+        if ($request->has('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->has('date_to') && $request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        $perPage = $request->get('per_page', 50);
+
+        return response()->json([
+            'classrooms' => $allClassrooms->values(),   // for dropdown
+            'feedback'   => $query->paginate($perPage),
+        ]);
+    }
 }

@@ -137,21 +137,41 @@ export default function ProfilePage() {
           </div>
 
           <nav className="modulesNav">
-            <Link className="modulesNavItem" to="/modules">
-              <Icon name="school" size={20} />
-              <span>Learn</span>
-            </Link>
-            <Link className="modulesNavItem" to="/simulations">
-              <Icon name="security" size={20} />
-              <span>Simulate</span>
-            </Link>
-            <Link className="modulesNavItem" to="/quizzes">
-              <Icon name="quiz" size={20} />
-              <span>Assess</span>
-            </Link>
+            {(user.role === 'teacher' || user.role === 'admin') ? (
+              <>
+                <Link className="modulesNavItem" to="/teacher/classrooms">
+                  <Icon name="groups" size={20} /><span>Classes</span>
+                </Link>
+                <Link className="modulesNavItem" to="/teacher/reports">
+                  <Icon name="assessment" size={20} /><span>Reports</span>
+                </Link>
+                <Link className="modulesNavItem" to="/teacher/feedback">
+                  <Icon name="feedback" size={20} /><span>Feedback</span>
+                </Link>
+                {user.role === 'admin' && (
+                  <Link className="modulesNavItem" to="/admin/dashboard">
+                    <Icon name="admin_panel_settings" size={20} /><span>Admin</span>
+                  </Link>
+                )}
+              </>
+            ) : (
+              <>
+                <Link className="modulesNavItem" to="/modules">
+                  <Icon name="school" size={20} /><span>Learn</span>
+                </Link>
+                <Link className="modulesNavItem" to="/simulations">
+                  <Icon name="security" size={20} /><span>Simulate</span>
+                </Link>
+                <Link className="modulesNavItem" to="/quizzes">
+                  <Icon name="quiz" size={20} /><span>Assess</span>
+                </Link>
+                <Link className="modulesNavItem" to="/classrooms">
+                  <Icon name="groups" size={20} /><span>Classrooms</span>
+                </Link>
+              </>
+            )}
             <Link className="modulesNavItem active" to="/profile" aria-current="page">
-              <Icon name="person" size={20} />
-              <span>Profile</span>
+              <Icon name="person" size={20} /><span>Profile</span>
             </Link>
           </nav>
 
@@ -482,8 +502,8 @@ export default function ProfilePage() {
                   <div className="profileAvatarLg">{initial}</div>
                   <h2 className="profileName" style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.5px' }}>{user.name || 'User'}</h2>
                   <span className={`profileRoleBadge ${user.role}`} style={{ fontSize: 13, fontWeight: 700, paddingTop: 6, paddingBottom: 6 }}>
-                    <Icon name={user.role === 'admin' ? 'admin_panel_settings' : 'school'} size={16} />
-                    {user.role === 'admin' ? 'Administrator' : 'Student'}
+                    <Icon name={user.role === 'admin' ? 'admin_panel_settings' : user.role === 'teacher' ? 'manage_accounts' : 'school'} size={16} />
+                    {user.role === 'admin' ? 'Administrator' : user.role === 'teacher' ? 'Teacher' : 'Student'}
                   </span>
                 </div>
 
@@ -590,21 +610,36 @@ export default function ProfilePage() {
           </main>
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
-            <Link className="bottomNavItem" to="/modules">
-              <Icon name="school" size={20} />
-              <span>Learn</span>
-            </Link>
-            <Link className="bottomNavItem" to="/simulations">
-              <Icon name="security" size={20} />
-              <span>Simulate</span>
-            </Link>
-            <Link className="bottomNavItem" to="/quizzes">
-              <Icon name="quiz" size={20} />
-              <span>Assess</span>
-            </Link>
+            {(user.role === 'teacher' || user.role === 'admin') ? (
+              <>
+                <Link className="bottomNavItem" to="/teacher/classrooms">
+                  <Icon name="groups" size={20} /><span>Classes</span>
+                </Link>
+                <Link className="bottomNavItem" to="/teacher/reports">
+                  <Icon name="assessment" size={20} /><span>Reports</span>
+                </Link>
+                <Link className="bottomNavItem" to="/teacher/feedback">
+                  <Icon name="feedback" size={20} /><span>Feedback</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link className="bottomNavItem" to="/modules">
+                  <Icon name="school" size={20} /><span>Learn</span>
+                </Link>
+                <Link className="bottomNavItem" to="/simulations">
+                  <Icon name="security" size={20} /><span>Simulate</span>
+                </Link>
+                <Link className="bottomNavItem" to="/quizzes">
+                  <Icon name="quiz" size={20} /><span>Assess</span>
+                </Link>
+                <Link className="bottomNavItem" to="/classrooms">
+                  <Icon name="groups" size={20} /><span>Classes</span>
+                </Link>
+              </>
+            )}
             <Link className="bottomNavItem active" to="/profile" aria-current="page">
-              <Icon name="person" size={20} />
-              <span>Profile</span>
+              <Icon name="person" size={20} /><span>Profile</span>
             </Link>
           </nav>
         </div>

@@ -20,21 +20,23 @@ class Cors
 
         if ($request->isMethod('OPTIONS')) {
             Log::debug('Preflight request received', ['origin' => $origin]);
-            return response()
-                ->noContent()
-                ->header('Access-Control-Allow-Origin', '*')
-                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept')
-                ->header('Access-Control-Expose-Headers', 'Authorization')
-                ->header('Access-Control-Max-Age', '86400');
+            $preflight = response()->noContent();
+            $preflight->headers->set('Access-Control-Allow-Origin', '*');
+            $preflight->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+            $preflight->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+            $preflight->headers->set('Access-Control-Expose-Headers', 'Authorization');
+            $preflight->headers->set('Access-Control-Max-Age', '86400');
+            return $preflight;
         }
 
         $response = $next($request);
 
-        return $response
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
-            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept')
-            ->header('Access-Control-Expose-Headers', 'Authorization');
+        // Use the headers bag so this works for all response types
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+        $response->headers->set('Access-Control-Expose-Headers', 'Authorization');
+
+        return $response;
     }
 }

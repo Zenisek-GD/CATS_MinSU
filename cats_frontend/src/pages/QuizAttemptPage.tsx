@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import {
   getQuizAttempt,
   submitQuizAttempt,
@@ -12,7 +12,7 @@ import { getApiErrorMessage } from '../api/error'
 import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import { useAuth } from '../auth/AuthProvider'
-import { FeedbackForm } from '../components/FeedbackForm'
+import { FeedbackForm, hasFeedbackBeenGiven } from '../components/FeedbackForm'
 import './ModulesPage.css'
 import './QuizAttemptPage.css'
 
@@ -79,6 +79,14 @@ export default function QuizAttemptPage() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const params = useParams()
+  const location = useLocation()
+
+  // If coming from a module post-test, returnTo will be the module's feedback URL
+  const returnTo = useMemo(() => {
+    const sp = new URLSearchParams(location.search)
+    const raw = sp.get('returnTo')
+    return raw ? decodeURIComponent(raw) : null
+  }, [location.search])
 
   const attemptId = useMemo(() => {
     const raw = params.attemptId
@@ -136,14 +144,29 @@ export default function QuizAttemptPage() {
 
       const resp = await submitQuizAttempt(attemptId, payload)
 
-      // Show feedback form with results
-      setSubmitState({
-        status: 'submitted',
-        attempt: resp.attempt,
-        results: resp.results,
-        feedback: resp.feedback,
-        ai_feedback: resp.ai_feedback ?? null,
-      })
+      // Check if student already gave feedback for this quiz
+      const quizId = resp.attempt.quiz?.id
+      const alreadyGaveFeedback = hasFeedbackBeenGiven('quiz', quizId)
+
+      if (alreadyGaveFeedback || !quizId) {
+        // Skip feedback form — go straight to results
+        setSubmitState({
+          status: 'submitted',
+          attempt: resp.attempt,
+          results: resp.results,
+          feedback: resp.feedback,
+          ai_feedback: resp.ai_feedback ?? null,
+        })
+      } else {
+        // Show feedback form first
+        setSubmitState({
+          status: 'feedback_pending',
+          attempt: { ...resp.attempt, quiz_id: quizId },
+          results: resp.results,
+          feedback: resp.feedback,
+          ai_feedback: resp.ai_feedback ?? null,
+        })
+      }
     } catch (e: unknown) {
       setError(getApiErrorMessage(e, 'Failed to submit attempt.'))
       setSubmitState({ status: 'idle' })
@@ -151,7 +174,6 @@ export default function QuizAttemptPage() {
   }
 
   function onFeedbackSubmitted() {
-    // After feedback is submitted, show the results
     if (submitState.status === 'feedback_pending') {
       setSubmitState({
         status: 'submitted',
@@ -160,6 +182,10 @@ export default function QuizAttemptPage() {
         feedback: submitState.feedback,
         ai_feedback: submitState.ai_feedback,
       })
+    }
+    // If there's a returnTo (coming from module), navigate there now
+    if (returnTo) {
+      navigate(returnTo)
     }
   }
 
@@ -363,8 +389,8 @@ export default function QuizAttemptPage() {
                   <div className="quizCard">
                     <div className="quizCardBody">
                       <div className="quizActions">
-                        <button type="button" className="moduleCta" onClick={() => navigate('/quizzes')}>
-                          Exit
+                        <button type="button" className="moduleCta" onClick={() => navigate(returnTo || '/quizzes')}>
+                          {returnTo ? 'Back to Module' : 'Exit'}
                         </button>
                         <button
                           type="button"
@@ -414,8 +440,8 @@ export default function QuizAttemptPage() {
                     </div>
 
                     <div className="quizActions" style={{ marginTop: 12 }}>
-                      <button type="button" className="moduleCta" onClick={() => navigate('/quizzes')}>
-                        Back to quizzes
+                      <button type="button" className="moduleCta" onClick={() => navigate(returnTo || '/quizzes')}>
+                        {returnTo ? 'Back to Module' : 'Back to quizzes'}
                       </button>
                     </div>
 

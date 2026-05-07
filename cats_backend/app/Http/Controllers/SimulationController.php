@@ -50,17 +50,18 @@ class SimulationController extends Controller
             return response()->json(['message' => 'Simulation is not available.'], 404);
         }
 
-        $simulation->load(['category:id,slug,name']);
+        $simulation->load(['category:id,slug,name', 'videos']);
 
         return response()->json([
             'simulation' => [
-                'id' => $simulation->id,
-                'title' => $simulation->title,
-                'description' => $simulation->description,
-                'difficulty' => $simulation->difficulty,
-                'time_limit_seconds' => $simulation->time_limit_seconds,
-                'max_score' => $simulation->max_score,
-                'category' => $simulation->category,
+                'id'                  => $simulation->id,
+                'title'               => $simulation->title,
+                'description'         => $simulation->description,
+                'difficulty'          => $simulation->difficulty,
+                'time_limit_seconds'  => $simulation->time_limit_seconds,
+                'max_score'           => $simulation->max_score,
+                'category'            => $simulation->category,
+                'videos'              => $simulation->videos,
             ],
         ]);
     }

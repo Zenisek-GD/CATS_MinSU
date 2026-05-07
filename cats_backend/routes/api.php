@@ -18,7 +18,11 @@ use App\Http\Controllers\TrainingModuleController;
 use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ResearchController;
+use App\Http\Controllers\TeacherContentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeacherClassroomController;
+use App\Http\Controllers\TeacherReportController;
+use App\Http\Controllers\StudentClassroomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,43 +47,140 @@ Route::get('/me', function () {
             'participant_code' => $user->participant_code,
         ],
     ]);
-})->middleware('role:user,admin');
+})->middleware('role:student,user,teacher,admin');
 
-Route::get('/profile', [ProfileController::class, 'show'])->middleware('role:user,admin');
+Route::get('/profile', [ProfileController::class, 'show'])->middleware('role:student,user,teacher,admin');
 
 Route::get('/vapid-public-key', [PushNotificationController::class, 'getVapidPublicKey']);
-Route::post('/push/subscribe', [PushNotificationController::class, 'subscribe'])->middleware('role:user,admin');
-Route::post('/push/unsubscribe', [PushNotificationController::class, 'unsubscribe'])->middleware('role:user,admin');
+Route::post('/push/subscribe', [PushNotificationController::class, 'subscribe'])->middleware('role:student,user,teacher,admin');
+Route::post('/push/unsubscribe', [PushNotificationController::class, 'unsubscribe'])->middleware('role:student,user,teacher,admin');
 
-Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->middleware('role:user,admin');
+Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->middleware('role:student,user,teacher,admin');
 
-Route::get('/modules', [TrainingModuleController::class, 'index'])->middleware('role:user,admin');
-Route::get('/modules/{module}', [TrainingModuleController::class, 'show'])->middleware('role:user,admin');
-Route::post('/modules/{module}/progress', [TrainingModuleController::class, 'updateProgress'])->middleware('role:user,admin');
+Route::get('/modules', [TrainingModuleController::class, 'index'])->middleware('role:student,user,teacher,admin');
+Route::get('/modules/{module}', [TrainingModuleController::class, 'show'])->middleware('role:student,user,teacher,admin');
+Route::post('/modules/{module}/progress', [TrainingModuleController::class, 'updateProgress'])->middleware('role:student,user,teacher,admin');
 
-Route::get('/simulations', [SimulationController::class, 'index'])->middleware('role:user,admin');
-Route::get('/simulations/{simulation}', [SimulationController::class, 'show'])->middleware('role:user,admin');
-Route::post('/simulations/{simulation}/runs', [SimulationRunController::class, 'start'])->middleware('role:user,admin');
-Route::get('/simulation-runs/{run}', [SimulationRunController::class, 'show'])->middleware('role:user,admin');
-Route::post('/simulation-runs/{run}/choose', [SimulationRunController::class, 'choose'])->middleware('role:user,admin');
 
-Route::get('/quiz/categories', [QuizController::class, 'categories'])->middleware('role:user,admin');
-Route::get('/quizzes', [QuizController::class, 'index'])->middleware('role:user,admin');
-Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->middleware('role:user,admin');
+Route::get('/simulations', [SimulationController::class, 'index'])->middleware('role:student,user,teacher,admin');
+Route::get('/simulations/{simulation}', [SimulationController::class, 'show'])->middleware('role:student,user,teacher,admin');
+Route::post('/simulations/{simulation}/runs', [SimulationRunController::class, 'start'])->middleware('role:student,user,teacher,admin');
+Route::get('/simulation-runs/{run}', [SimulationRunController::class, 'show'])->middleware('role:student,user,teacher,admin');
+Route::post('/simulation-runs/{run}/choose', [SimulationRunController::class, 'choose'])->middleware('role:student,user,teacher,admin');
+Route::get('/my-simulation-runs', [SimulationRunController::class, 'myRuns'])->middleware('role:student,user,teacher,admin');
 
-Route::post('/quizzes/{quiz}/attempts', [QuizAttemptController::class, 'start'])->middleware('role:user,admin');
-Route::get('/quiz-attempts/{attempt}', [QuizAttemptController::class, 'show'])->middleware('role:user,admin');
-Route::post('/quiz-attempts/{attempt}/submit', [QuizAttemptController::class, 'submit'])->middleware('role:user,admin');
+Route::get('/quiz/categories', [QuizController::class, 'categories'])->middleware('role:student,user,teacher,admin');
+Route::get('/quizzes', [QuizController::class, 'index'])->middleware('role:student,user,teacher,admin');
+Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->middleware('role:student,user,teacher,admin');
 
-Route::get('/leaderboard/quizzes/{quiz}', [LeaderboardController::class, 'quiz'])->middleware('role:user,admin');
-Route::get('/leaderboard/categories/{category}', [LeaderboardController::class, 'category'])->middleware('role:user,admin');
+Route::post('/quizzes/{quiz}/attempts', [QuizAttemptController::class, 'start'])->middleware('role:student,user,teacher,admin');
+Route::get('/quiz-attempts/{attempt}', [QuizAttemptController::class, 'show'])->middleware('role:student,user,teacher,admin');
+Route::post('/quiz-attempts/{attempt}/submit', [QuizAttemptController::class, 'submit'])->middleware('role:student,user,teacher,admin');
+Route::get('/my-quiz-attempts', [QuizAttemptController::class, 'myAttempts'])->middleware('role:student,user,teacher,admin');
 
-Route::get('/assessments/summary', [AssessmentController::class, 'summary'])->middleware('role:user,admin');
-Route::get('/assessments/report', [AssessmentController::class, 'report'])->middleware('role:user,admin');
+Route::get('/leaderboard/quizzes/{quiz}', [LeaderboardController::class, 'quiz'])->middleware('role:student,user,teacher,admin');
+Route::get('/leaderboard/categories/{category}', [LeaderboardController::class, 'category'])->middleware('role:student,user,teacher,admin');
+
+Route::get('/assessments/summary', [AssessmentController::class, 'summary'])->middleware('role:student,user,teacher,admin');
+Route::get('/assessments/report', [AssessmentController::class, 'report'])->middleware('role:student,user,teacher,admin');
 
 // Feedback (Objective 4)
-Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('role:user,admin');
-Route::get('/feedback', [FeedbackController::class, 'index'])->middleware('role:user,admin');
+Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('role:student,user,teacher,admin');
+Route::get('/feedback', [FeedbackController::class, 'index'])->middleware('role:student,user,teacher,admin');
+
+// Teacher Classroom Routes
+Route::prefix('teacher/classrooms')->middleware('role:teacher,admin')->group(function () {
+    Route::get('/', [TeacherClassroomController::class, 'index']);
+    Route::post('/', [TeacherClassroomController::class, 'store']);
+    Route::get('/{classroom}', [TeacherClassroomController::class, 'show']);
+    Route::patch('/{classroom}', [TeacherClassroomController::class, 'update']);
+    Route::delete('/{classroom}', [TeacherClassroomController::class, 'destroy']);
+    
+    // QR Code
+    Route::get('/{classroom}/qr-code', [TeacherClassroomController::class, 'getQrCode']);
+    Route::post('/{classroom}/regenerate-code', [TeacherClassroomController::class, 'regenerateCode']);
+    
+    // Students Management
+    Route::get('/{classroom}/students', [TeacherClassroomController::class, 'getStudents']);
+    Route::delete('/{classroom}/students/{student}', [TeacherClassroomController::class, 'removeStudent']);
+    
+    // Assign Resources
+    Route::post('/{classroom}/quizzes', [TeacherClassroomController::class, 'assignQuiz']);
+    Route::delete('/{classroom}/quizzes/{quiz}', [TeacherClassroomController::class, 'removeQuiz']);
+    
+    Route::post('/{classroom}/simulations', [TeacherClassroomController::class, 'assignSimulation']);
+    Route::delete('/{classroom}/simulations/{simulation}', [TeacherClassroomController::class, 'removeSimulation']);
+    
+    Route::post('/{classroom}/modules', [TeacherClassroomController::class, 'assignModule']);
+    Route::delete('/{classroom}/modules/{module}', [TeacherClassroomController::class, 'removeModule']);
+    
+    // Analytics
+    Route::get('/{classroom}/analytics', [TeacherClassroomController::class, 'getAnalytics']);
+});
+
+// Teacher Reports (JSON + CSV)
+Route::prefix('teacher/reports')->middleware('role:teacher,admin')->group(function () {
+    Route::get('/summary', [TeacherReportController::class, 'summary']);
+    Route::get('/classrooms/{classroom}', [TeacherReportController::class, 'classroom']);
+});
+
+// Teacher Feedback (read-only view of classroom students' feedback)
+Route::get('/teacher/feedback', [FeedbackController::class, 'teacherFeedback'])
+    ->middleware('role:teacher,admin');
+
+// Teacher Content Management (own modules / quizzes / simulations)
+Route::prefix('teacher/content')->middleware('role:teacher,admin')->group(function () {
+
+    // Shared
+    Route::get('/categories', [TeacherContentController::class, 'categories']);
+
+    // Modules
+    Route::get('/modules',                            [TeacherContentController::class, 'indexModules']);
+    Route::post('/modules',                           [TeacherContentController::class, 'storeModule']);
+    Route::patch('/modules/{module}',                 [TeacherContentController::class, 'updateModule']);
+    Route::delete('/modules/{module}',                [TeacherContentController::class, 'destroyModule']);
+    Route::post('/modules/{module}/topics',           [TeacherContentController::class, 'storeTopic']);
+    Route::patch('/module-topics/{topic}',            [TeacherContentController::class, 'updateTopic']);
+    Route::delete('/module-topics/{topic}',           [TeacherContentController::class, 'destroyTopic']);
+
+    // Quizzes
+    Route::get('/quizzes',                            [TeacherContentController::class, 'indexQuizzes']);
+    Route::post('/quizzes',                           [TeacherContentController::class, 'storeQuiz']);
+    Route::patch('/quizzes/{quiz}',                   [TeacherContentController::class, 'updateQuiz']);
+    Route::delete('/quizzes/{quiz}',                  [TeacherContentController::class, 'destroyQuiz']);
+
+    // Questions (scoped via quiz.created_by)
+    Route::get('/questions',                          [TeacherContentController::class, 'indexQuestions']);
+    Route::post('/questions',                         [TeacherContentController::class, 'storeQuestion']);
+    Route::patch('/questions/{question}',             [TeacherContentController::class, 'updateQuestion']);
+    Route::delete('/questions/{question}',            [TeacherContentController::class, 'destroyQuestion']);
+
+    // Simulations
+    Route::get('/simulations',                        [TeacherContentController::class, 'indexSimulations']);
+    Route::post('/simulations',                       [TeacherContentController::class, 'storeSimulation']);
+    Route::patch('/simulations/{simulation}',         [TeacherContentController::class, 'updateSimulation']);
+    Route::delete('/simulations/{simulation}',        [TeacherContentController::class, 'destroySimulation']);
+    Route::post('/simulations/{simulation}/steps',    [TeacherContentController::class, 'storeStep']);
+    Route::patch('/simulation-steps/{step}',          [TeacherContentController::class, 'updateStep']);
+    Route::delete('/simulation-steps/{step}',         [TeacherContentController::class, 'destroyStep']);
+    Route::post('/simulation-steps/{step}/choices',   [TeacherContentController::class, 'storeChoice']);
+    Route::patch('/simulation-choices/{choice}',      [TeacherContentController::class, 'updateChoice']);
+    Route::delete('/simulation-choices/{choice}',     [TeacherContentController::class, 'destroyChoice']);
+});
+
+// Student Classroom Routes
+Route::prefix('student/classrooms')->middleware('role:student,user,admin')->group(function () {
+    Route::get('/', [StudentClassroomController::class, 'index']);
+    Route::post('/join', [StudentClassroomController::class, 'joinByCode']);
+    Route::post('/verify-code', [StudentClassroomController::class, 'verifyCode']);
+    Route::get('/{classroom}', [StudentClassroomController::class, 'show']);
+    Route::post('/{classroom}/leave', [StudentClassroomController::class, 'leave']);
+    
+    // Get Assigned Resources
+    Route::get('/{classroom}/quizzes', [StudentClassroomController::class, 'getQuizzes']);
+    Route::get('/{classroom}/simulations', [StudentClassroomController::class, 'getSimulations']);
+    Route::get('/{classroom}/modules', [StudentClassroomController::class, 'getModules']);
+});
 
 Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::get('/me', function () {
@@ -145,6 +246,12 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::post('/simulation-steps/{step}/choices', [AdminSimulationController::class, 'storeChoice']);
     Route::patch('/simulation-choices/{choice}', [AdminSimulationController::class, 'updateChoice']);
     Route::delete('/simulation-choices/{choice}', [AdminSimulationController::class, 'destroyChoice']);
+
+    // Simulation Videos
+    Route::get('/simulations/{simulation}/videos', [AdminSimulationController::class, 'indexVideos']);
+    Route::post('/simulations/{simulation}/videos', [AdminSimulationController::class, 'storeVideo']);
+    Route::patch('/simulation-videos/{video}', [AdminSimulationController::class, 'updateVideo']);
+    Route::delete('/simulation-videos/{video}', [AdminSimulationController::class, 'destroyVideo']);
 
     // Badges
     Route::get('/badges', [AdminBadgeController::class, 'indexBadges']);

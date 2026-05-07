@@ -18,6 +18,7 @@ class Quiz extends Model
         'question_count',
         'time_limit_seconds',
         'is_active',
+        'created_by',
     ];
 
     protected $casts = [

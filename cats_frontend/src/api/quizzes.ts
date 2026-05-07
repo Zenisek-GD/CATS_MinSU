@@ -133,3 +133,17 @@ export async function submitQuizAttempt(
     ai_feedback?: ApiAiFeedback | null
   }
 }
+
+export type AttemptSummary = {
+  attempt_id: number
+  score: number
+  max_score: number
+  percent: number
+  finished_at: string | null
+}
+
+/** Returns best completed attempt per quiz keyed by quiz_id string */
+export async function getMyQuizAttempts(): Promise<Record<string, AttemptSummary>> {
+  const resp = await api.get('/api/my-quiz-attempts')
+  return (resp.data as { attempts: Record<string, AttemptSummary> }).attempts
+}

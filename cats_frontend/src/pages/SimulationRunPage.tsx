@@ -5,6 +5,8 @@ import { Icon } from '../components/IconMap'
 import { TopbarActions } from '../components/TopbarActions'
 import { chooseSimulation, getSimulationRun, type ApiSimulationOutcome, type ApiSimulationRun } from '../api/simulations'
 import { useAuth } from '../auth/AuthProvider'
+import { FeedbackForm, hasFeedbackBeenGiven } from '../components/FeedbackForm'
+import { SimulationVideoPanel } from '../components/SimulationVideoPlayer'
 import './ModulesPage.css'
 import './SimulationRunPage.css'
 
@@ -111,6 +113,8 @@ export default function SimulationRunPage() {
   const [choosingId, setChoosingId] = useState<number | null>(null)
   const [showChoices, setShowChoices] = useState(true)
   const [chosenText, setChosenText] = useState<string>('')
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [showVideoPanel, setShowVideoPanel] = useState(false)
 
   useEffect(() => {
     if (!user) return
@@ -122,6 +126,11 @@ export default function SimulationRunPage() {
       try {
         const resp = await getSimulationRun(runId)
         setRun(resp.run)
+        // Show video panel if simulation has videos and the run just started
+        const videos = resp.run.simulation?.videos ?? []
+        if (videos.length > 0 && resp.run.status === 'in_progress') {
+          setShowVideoPanel(true)
+        }
       } catch (e: unknown) {
         setError(getApiErrorMessage(e, 'Failed to load simulation run.'))
       } finally {
@@ -177,6 +186,13 @@ export default function SimulationRunPage() {
   function onContinue() {
     setOutcomeState(null)
     setShowChoices(true)
+    // If simulation just finished, check if we should show feedback
+    if (run && run.status !== 'in_progress') {
+      const simId = run.simulation?.id
+      if (simId && !hasFeedbackBeenGiven('simulation', simId)) {
+        setShowFeedback(true)
+      }
+    }
   }
 
   const scoreLabel = run ? `${run.score} / ${run.max_score}` : '—'
@@ -236,6 +252,16 @@ export default function SimulationRunPage() {
           </header>
 
           <main className="modulesContent">
+            {/* ── Video Panel: shown before simulation if videos exist ── */}
+            {showVideoPanel && run?.simulation?.videos && run.simulation.videos.length > 0 && (
+              <SimulationVideoPanel
+                videos={run.simulation.videos}
+                simTitle={run.simulation.title}
+                onStart={() => setShowVideoPanel(false)}
+              />
+            )}
+
+            {!showVideoPanel && <>
             <section className="modulesHero" aria-label="Simulation intro">
               <div className="modulesHeroInner">
                 <div>
@@ -405,7 +431,7 @@ export default function SimulationRunPage() {
                 ) : null}
 
                 {/* ── COMPLETED/EXPIRED PANEL ── */}
-                {status !== 'in_progress' && !outcomeState ? (
+                {status !== 'in_progress' && !outcomeState && !showFeedback ? (
                   <div className="simCard">
                     <div className="simBody">
                       <div className="simMetaRow">
@@ -433,6 +459,16 @@ export default function SimulationRunPage() {
                     </div>
                   </div>
                 ) : null}
+
+                {/* ── FEEDBACK FORM after completion ── */}
+                {showFeedback && run && (
+                  <FeedbackForm
+                    activityType="simulation"
+                    activityId={run.simulation?.id}
+                    onSubmit={() => setShowFeedback(false)}
+                    onCancel={() => setShowFeedback(false)}
+                  />
+                )}
 
                 {/* ── ACTIVE STEP: SCENARIO + CHOICES ── */}
                 {status === 'in_progress' && step && showChoices ? (
@@ -587,6 +623,8 @@ export default function SimulationRunPage() {
                 ) : null}
               </div>
             ) : null}
+            {/* Close !showVideoPanel wrapper */}
+            </>}
           </main>
 
           <nav className="modulesBottomNav" aria-label="Bottom navigation">

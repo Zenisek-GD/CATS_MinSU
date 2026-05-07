@@ -454,6 +454,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TrainingModuleSampleDataSeeder::class);
 
         $this->call(SimulationEnhancedSeeder::class);
+        $this->call(ModuleWithPostTestSeeder::class);
     }
 
     /**

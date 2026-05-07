@@ -5,6 +5,7 @@ import {
   loginWithEmail,
   registerWithEmail,
 } from '../api/auth'
+import { getAuthErrorMessage } from '../api/error'
 import { useAuth } from '../auth/AuthProvider'
 import { Icon } from '../components/IconMap'
 import './AuthPage.css'
@@ -68,8 +69,7 @@ export default function AuthPage() {
       const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
       navigate(dest, { replace: true })
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Something went wrong.'
-      setError(msg)
+      setError(getAuthErrorMessage(err, mode))
     } finally {
       setBusy(false)
     }
@@ -85,8 +85,7 @@ export default function AuthPage() {
       const resp = await forgotPassword(safeEmail)
       setMessage(resp.message)
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Something went wrong.'
-      setError(msg)
+      setError(getAuthErrorMessage(err, 'forgot'))
     } finally {
       setBusy(false)
     }

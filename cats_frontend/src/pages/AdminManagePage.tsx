@@ -12,6 +12,10 @@ import {
   type AdminModule, type AdminModuleTopic, type AdminQuestion, type AdminOption,
   type AdminSimulation, type AdminStep, type AdminChoice,
 } from '../api/admin'
+import {
+  adminAddSimulationVideo, adminDeleteSimulationVideo,
+  type ApiSimulationVideo,
+} from '../api/simulations'
 import { getQuizzes, type ApiQuiz } from '../api/quizzes'
 import { getQuizCategories, type ApiQuizCategory } from '../api/quizzes'
 import { AdminLayout } from './AdminDashboardPage'
@@ -361,6 +365,8 @@ function SimulationsTab() {
   const [form, setForm] = useState({ category_id: 0, title: '', description: '', difficulty: 'easy', time_limit_seconds: 300, max_score: 100, is_active: true })
   const [stepForm, setStepForm] = useState<{ simId: number; title: string; prompt: string; education: string; editingId?: number } | null>(null)
   const [choiceForm, setChoiceForm] = useState<{ stepId: number; text: string; is_safe: boolean; score_delta: number; feedback: string; explanation: string; editingId?: number } | null>(null)
+  const [videoForm, setVideoForm] = useState<{ simId: number; title: string; description: string; video_url: string; video_file: File | null } | null>(null)
+  const [videoSaving, setVideoSaving] = useState(false)
 
   async function load() {
     try {
@@ -430,6 +436,33 @@ function SimulationsTab() {
     try { await adminDeleteChoice(id); load() } catch (e) { setError(getApiErrorMessage(e, 'Delete choice failed')) }
   }
 
+  /* Video handlers */
+  function openAddVideo(simId: number) {
+    setVideoForm({ simId, title: '', description: '', video_url: '', video_file: null })
+  }
+
+  async function onSaveVideo() {
+    if (!videoForm) return
+    if (!videoForm.title.trim()) { setError('Video title is required.'); return }
+    if (!videoForm.video_url.trim() && !videoForm.video_file) { setError('Provide a URL or upload a file.'); return }
+    setVideoSaving(true); setError(null)
+    try {
+      await adminAddSimulationVideo(videoForm.simId, {
+        title: videoForm.title,
+        description: videoForm.description || undefined,
+        video_url: videoForm.video_url || undefined,
+        video_file: videoForm.video_file ?? undefined,
+      })
+      setVideoForm(null); load()
+    } catch (e) { setError(getApiErrorMessage(e, 'Save video failed')) }
+    finally { setVideoSaving(false) }
+  }
+
+  async function onDeleteVideo(video: ApiSimulationVideo) {
+    if (!confirm(`Delete video "${video.title}"?`)) return
+    try { await adminDeleteSimulationVideo(video.id); load() } catch (e) { setError(getApiErrorMessage(e, 'Delete video failed')) }
+  }
+
   return (
     <div className="adminCard">
       <div className="adminCardHead">
@@ -447,6 +480,7 @@ function SimulationsTab() {
             <div style={{ display: 'flex', gap: 6 }}>
               <button className="adminBtn sm" onClick={() => openEdit(sim)}>Edit</button>
               <button className="adminBtn sm" onClick={() => openAddStep(sim.id)}>+ Step</button>
+              <button className="adminBtn sm" style={{ background: '#0ea5e9', color: '#fff' }} onClick={() => openAddVideo(sim.id)}>🎬 + Video</button>
               <button className="adminBtn sm danger" onClick={() => onDeleteSim(sim.id)}>Delete</button>
             </div>
           </div>
@@ -475,6 +509,24 @@ function SimulationsTab() {
               ))}
             </div>
           ))}
+
+          {/* Videos list */}
+          {(sim.videos && sim.videos.length > 0) && (
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#0ea5e9', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>🎬 Videos ({sim.videos.length})</div>
+              {(sim.videos as ApiSimulationVideo[]).map(v => (
+                <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', background: 'rgba(14,165,233,0.06)', borderRadius: 8, marginBottom: 4, border: '1px solid rgba(14,165,233,0.15)' }}>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{v.title}</div>
+                    {v.video_url && <div style={{ fontSize: 11, color: '#0ea5e9' }}>🔗 {v.video_url.slice(0, 60)}{v.video_url.length > 60 ? '…' : ''}</div>}
+                    {v.video_path && !v.video_url && <div style={{ fontSize: 11, color: '#64748b' }}>📁 Uploaded file</div>}
+                    {v.description && <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{v.description.slice(0, 80)}{v.description.length > 80 ? '…' : ''}</div>}
+                  </div>
+                  <button className="adminBtn sm danger" onClick={() => onDeleteVideo(v)}>×</button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ))}
 
@@ -546,6 +598,37 @@ function SimulationsTab() {
             <div className="adminActions">
               <button className="adminBtn" onClick={() => setChoiceForm(null)}>Cancel</button>
               <button className="adminBtn primary" onClick={onSaveChoice}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Video form modal */}
+      {videoForm && (
+        <div className="adminModal">
+          <div className="adminModalBg" onClick={() => setVideoForm(null)} />
+          <div className="adminModalContent">
+            <h3 className="adminModalTitle">🎬 Add Video to Simulation</h3>
+            <div className="adminField">
+              <label className="adminLabel">Video Title *</label>
+              <input className="adminInput" placeholder="e.g. Phishing Awareness Demo" value={videoForm.title} onChange={e => setVideoForm({ ...videoForm, title: e.target.value })} />
+            </div>
+            <div className="adminField">
+              <label className="adminLabel">Description / Learning Notes</label>
+              <textarea className="adminTextarea" placeholder="Explain what students should observe, learning objectives, key takeaways…" value={videoForm.description} onChange={e => setVideoForm({ ...videoForm, description: e.target.value })} />
+            </div>
+            <div className="adminField">
+              <label className="adminLabel">Video URL (YouTube, Google Drive, or direct link)</label>
+              <input className="adminInput" type="url" placeholder="https://www.youtube.com/watch?v=…" value={videoForm.video_url} onChange={e => setVideoForm({ ...videoForm, video_url: e.target.value })} />
+            </div>
+            <div className="adminField">
+              <label className="adminLabel">— OR — Upload Video File (MP4, max 200MB)</label>
+              <input type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime" onChange={e => setVideoForm({ ...videoForm, video_file: e.target.files?.[0] ?? null })} />
+              {videoForm.video_file && <div style={{ fontSize: 12, color: '#16a34a', marginTop: 4 }}>✓ {videoForm.video_file.name}</div>}
+            </div>
+            <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 16px' }}>If both a URL and a file are provided, the URL takes priority for playback.</p>
+            <div className="adminActions">
+              <button className="adminBtn" onClick={() => setVideoForm(null)}>Cancel</button>
+              <button className="adminBtn primary" onClick={onSaveVideo} disabled={videoSaving}>{videoSaving ? 'Saving…' : 'Save Video'}</button>
             </div>
           </div>
         </div>

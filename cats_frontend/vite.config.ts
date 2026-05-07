@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   const backendUrl = env.VITE_BACKEND_URL || 'http://127.0.0.1:8000'
 
   return {
+    base: '/dist/',
     plugins: [
       react(),
       VitePWA({
@@ -75,14 +76,23 @@ export default defineConfig(({ mode }) => {
       })
     ],
     server: {
+      port: 5173,
+      host: true,  // listen on 0.0.0.0 so other devices can connect
       proxy: {
         '/api': {
           target: backendUrl,
           changeOrigin: true,
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+        },
+        '/storage': {
+          target: backendUrl,
+          changeOrigin: true,
+          headers: { 'ngrok-skip-browser-warning': 'true' },
         },
         '/password': {
           target: backendUrl,
           changeOrigin: true,
+          headers: { 'ngrok-skip-browser-warning': 'true' },
         },
       },
     },

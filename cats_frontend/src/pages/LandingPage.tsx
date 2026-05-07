@@ -1,9 +1,15 @@
 import { useState, useMemo } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { forgotPassword, loginWithEmail, registerWithEmail } from '../api/auth'
+import { forgotPassword, loginWithEmail, registerWithEmail, type Role } from '../api/auth'
 import { useAuth } from '../auth/AuthProvider'
 import { Icon } from '../components/IconMap'
 import './LandingPageModal.css'
+
+function roleHome(role: Role | undefined): string {
+  if (role === 'admin') return '/admin/dashboard'
+  if (role === 'teacher') return '/teacher/classrooms'
+  return '/modules'
+}
 
 type AuthMode = 'login' | 'register'
 
@@ -28,7 +34,7 @@ export default function LandingPage() {
 
   // If already logged in, redirect to appropriate dashboard
   if (token && user) {
-    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/modules'} replace />
+    return <Navigate to={roleHome(user.role)} replace />
   }
 
   function openAuth(mode: AuthMode) {
@@ -56,8 +62,7 @@ export default function LandingPage() {
       if (authMode === 'login') {
         const resp = await loginWithEmail(safeEmail, password)
         setSession(resp)
-        const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
-        navigate(dest, { replace: true })
+        navigate(roleHome(resp.user.role), { replace: true })
         return
       }
 
@@ -71,8 +76,7 @@ export default function LandingPage() {
         password,
       })
       setSession(resp)
-      const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
-      navigate(dest, { replace: true })
+      navigate(roleHome(resp.user.role), { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Something went wrong.'
       setError(msg)

@@ -8,6 +8,8 @@ export const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
+    // Bypass the ngrok browser warning page for API requests
+    'ngrok-skip-browser-warning': 'true',
   },
 })
 

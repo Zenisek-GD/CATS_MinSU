@@ -378,4 +378,39 @@ class QuizAttemptController extends Controller
             ],
         ];
     }
+
+    /**
+     * GET /api/my-quiz-attempts
+     * Returns the best completed attempt per quiz for the current user.
+     * Shape: { attempts: { [quiz_id]: { score, max_score, percent, finished_at, attempt_id } } }
+     */
+    public function myAttempts(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $rows = QuizAttempt::query()
+            ->where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->orderByDesc('percent')
+            ->orderByDesc('finished_at')
+            ->get(['id', 'quiz_id', 'score', 'max_score', 'percent', 'finished_at']);
+
+        // Keep best (highest percent) per quiz
+        $map = [];
+        foreach ($rows as $row) {
+            $qid = (string) $row->quiz_id;
+            if (!isset($map[$qid])) {
+                $map[$qid] = [
+                    'attempt_id'  => $row->id,
+                    'score'       => $row->score,
+                    'max_score'   => $row->max_score,
+                    'percent'     => (float) $row->percent,
+                    'finished_at' => optional($row->finished_at)->toIso8601String(),
+                ];
+            }
+        }
+
+        return response()->json(['attempts' => $map]);
+    }
 }

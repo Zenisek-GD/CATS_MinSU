@@ -13,6 +13,7 @@ class TrainingModule extends Model
         'description',
         'is_active',
         'quiz_id',
+        'created_by',
     ];
 
     protected function casts(): array

@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════
+   SimulationsPage — Design System
+   ═══════════════════════════════════════════ */
+
+/* ── Hero ───────────────────────────────── */
+.simHero {
+  padding: 20px 0 4px;
+}
+
+.simHeroMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.simHeroMeta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Filter Bar ─────────────────────────── */
+.simFilterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.simFilterGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.simFilterPill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.simFilterPill:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.simFilterPill.active {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #0f172a;
+}
+
+.simFilterPill--diff.active {
+  /* overridden inline for colored diffs */
+}
+
+/* ── Group section ──────────────────────── */
+.simGroup {
+  margin-bottom: 32px;
+}
+
+.simGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.simGroupIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.simGroupTitle {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.simGroupCount {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--border-color);
+  color: var(--text-muted);
+}
+
+/* ── Grid ───────────────────────────────── */
+.simGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* ── Card ───────────────────────────────── */
+.simCard {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.14s;
+  overflow: hidden;
+}
+
+.simCard:hover:not(.simCard--placeholder) {
+  border-color: #38bdf860;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.simCard--placeholder {
+  opacity: 0.45;
+  border-style: dashed;
+  pointer-events: none;
+}
+
+.simCardInner {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+}
+
+.simCardIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.simCardBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.simCardTitle {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 5px;
+  line-height: 1.35;
+}
+
+/* Category badge — block element under title */
+.simCatBadge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+
+/* 2-line clamp */
+.simCardDesc {
+  font-size: 0.81rem;
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta row */
+.simCardMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.simDiffPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+}
+
+.simMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Personal best */
+.simBestScore {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: 8px;
+  border: 1.5px solid;
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+/* Actions */
+.simCardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.simDoneLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+/* ── Buttons ────────────────────────────── */
+.simBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: 9px;
+  border: none;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.14s, transform 0.12s, box-shadow 0.14s;
+  white-space: nowrap;
+}
+
+.simBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.simBtn--start {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.simBtn--replay {
+  background: transparent;
+  border: 1.5px solid #38bdf8;
+  color: #38bdf8;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+}
+
+.simBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 680px) {
+  .simGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .simFilterBar {
+    flex-direction: column;
+  }
+
+  .simCardInner {
+    flex-direction: column;
+  }
+
+  .simCardActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .simBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

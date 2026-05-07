@@ -232,4 +232,39 @@ class SimulationRunController extends Controller
                 ->values(),
         ];
     }
+
+    /**
+     * GET /api/my-simulation-runs
+     * Best completed run per simulation for the current user.
+     */
+    public function myRuns(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $rows = SimulationRun::query()
+            ->where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->orderByDesc('score')
+            ->orderByDesc('finished_at')
+            ->get(['id', 'simulation_id', 'score', 'max_score', 'finished_at']);
+
+        $map = [];
+        foreach ($rows as $row) {
+            $sid = (string) $row->simulation_id;
+            if (!isset($map[$sid])) {
+                $map[$sid] = [
+                    'run_id'      => $row->id,
+                    'score'       => $row->score,
+                    'max_score'   => $row->max_score,
+                    'percent'     => $row->max_score > 0
+                        ? round(($row->score / $row->max_score) * 100, 1)
+                        : 0,
+                    'finished_at' => optional($row->finished_at)->toIso8601String(),
+                ];
+            }
+        }
+
+        return response()->json(['runs' => $map]);
+    }
 }

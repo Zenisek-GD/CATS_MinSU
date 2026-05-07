@@ -1,0 +1,655 @@
+/* Teacher Dashboard extras — builds on ModulesPage.css */
+
+.teacherStats {
+  display: flex;
+  gap: 2rem;
+  flex-shrink: 0;
+}
+
+.teacherStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.teacherStatVal {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #89f5e7;
+  line-height: 1;
+}
+
+.teacherStatLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(190, 198, 224, 0.85);
+}
+
+.teacherActionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem 0 1rem;
+  gap: 1rem;
+}
+
+.teacherSectionTitle {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.teacherEmpty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 2rem;
+  border-radius: 14px;
+  border: 1px dashed var(--border-strong);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.teacherEmpty .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--text-muted);
+}
+
+.teacherEmpty p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.teacherCard {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.teacherCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+}
+
+.teacherCardArchived {
+  opacity: 0.65;
+}
+
+.teacherCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.teacherCode {
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* ── Modal ── */
+.tcModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+
+.tcModalBox {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+.tcModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.tcModalHeader h2 {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tcModalClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.tcModalClose:hover {
+  background: var(--border-color);
+}
+
+.tcField {
+  margin-bottom: 1.25rem;
+}
+
+.tcField label {
+  display: block;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.tcField input,
+.tcField textarea,
+.tcField select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--search-bg);
+  color: var(--text-primary);
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.tcField input:focus,
+.tcField textarea:focus,
+.tcField select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.tcField textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.tcModalActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .tcModalBox {
+    padding: 1.25rem;
+  }
+
+  .tcModalActions {
+    flex-direction: column-reverse;
+  }
+
+  .tcModalActions .moduleCta {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* 2×2 grid for analytics stat row on mobile */
+  .teacherStats {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .teacherStat {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+    background: var(--page-bg);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    align-items: flex-start;
+  }
+
+  .teacherStatVal {
+    font-size: 1.5rem;
+  }
+}
+
+/* Sidebar bottom / logout (mirrors ProfilePage.css) */
+.modulesSidebarBottom {
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.sidebarLogoutBtn {
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebarLogoutBtn:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* ── Join-code copy widget ── */
+.teacherCodeWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.teacherCodeBlurred {
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  filter: blur(4px);
+  user-select: none;
+  transition: filter 0.2s;
+  flex: 1;
+}
+
+.teacherCodeWrap:hover .teacherCodeBlurred {
+  filter: blur(0);
+}
+
+.teacherCodeCopyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.teacherCodeCopyBtn:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Quick-action menu ── */
+.cardMenuWrap {
+  position: relative;
+}
+
+.cardMenuBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cardMenuBtn:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+.cardMenuDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 160px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 100;
+  overflow: hidden;
+  animation: menuFadeIn 0.12s ease;
+}
+
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cardMenuDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: background 0.12s;
+}
+
+.cardMenuDropdownItem:hover {
+  background: var(--border-color);
+}
+
+.cardMenuDanger {
+  color: #ba1a1a;
+}
+
+.cardMenuDanger:hover {
+  background: rgba(186, 26, 26, 0.07);
+}
+
+/* ── Per-card progress ── */
+.cardProgressWrap {
+  margin-top: 6px;
+}
+
+.cardProgressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.cardNoStudents {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── Contextual 0% replacement ── */
+.statContextual {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(190, 198, 224, 0.75);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 100px;
+}
+
+.statSkeleton {
+  opacity: 0.4;
+}
+
+/* ── Search bar clear button ── */
+.classroomSearch {
+  margin-bottom: 16px;
+}
+
+.classroomSearchClear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.classroomSearchClear:hover {
+  color: var(--text-primary);
+}
+
+/* ── Reports page ── */
+.rptDateRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.rptDateInput {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 0.88rem;
+  min-width: 140px;
+  color-scheme: dark;
+}
+
+.rptDateInput:focus {
+  outline: none;
+  border-color: #89f5e7;
+}
+
+.rptDateSep {
+  color: rgba(190, 198, 224, 0.7);
+  font-size: 1rem;
+  user-select: none;
+}
+
+.rptPresets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.rptPresetChip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(190, 198, 224, 0.9);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.rptPresetChip:hover {
+  background: rgba(137, 245, 231, 0.15);
+  border-color: #89f5e7;
+  color: #89f5e7;
+}
+
+/* Two-column report layout */
+.rptLayout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .rptLayout { grid-template-columns: 1fr; }
+}
+
+.rptControlPanel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.25rem;
+  position: sticky;
+  top: 80px;
+}
+
+.rptOutputPanel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.25rem;
+  min-height: 300px;
+}
+
+/* Skeleton loader */
+.rptSkeleton { display: flex; flex-direction: column; gap: 12px; }
+
+.rptSkeletonRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--page-bg);
+  border: 1px solid var(--border-color);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.rptSkeletonAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--border-color);
+  flex-shrink: 0;
+}
+
+.rptSkeletonLine {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--border-color);
+}
+
+.rptSkeletonBar {
+  width: 80px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-color);
+  flex-shrink: 0;
+}
+
+/* Sidebar stats — 2×2 grid */
+.rptStatGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+.rptStat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  background: var(--page-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+.rptStatVal { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.rptStatLabel { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+
+
+/* Report list rows */
+.rptPanelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.rptPanelHeader h3 {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rptPanelMeta { font-size: 0.78rem; color: var(--text-muted); }
+
+.rptListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--page-bg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 8px;
+}
+
+.rptListAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--avatar-bg);
+  display: grid;
+  place-items: center;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.rptListInfo { flex: 1; min-width: 0; }
+.rptListName { font-family: "Space Grotesk", system-ui, sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+.rptListMeta { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
+.rptListProgress { margin-top: 6px; }
+.rptListBar { height: 5px; border-radius: 999px; background: var(--border-color); overflow: hidden; margin-bottom: 3px; }
+.rptListBarFill { height: 100%; background: var(--accent); border-radius: 999px; }
+.rptListPct { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
+

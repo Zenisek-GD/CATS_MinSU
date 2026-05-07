@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->hasMany(UserModuleProgress::class);
     }
 
+    public function quizAttempts(): HasMany
+    {
+        return $this->hasMany(QuizAttempt::class, 'user_id');
+    }
+
     public function feedback(): HasMany
     {
         return $this->hasMany(UserFeedback::class);
@@ -48,6 +53,19 @@ class User extends Authenticatable
         return $this->hasMany(UserBadge::class);
     }
 
+    public function teachingClassrooms(): HasMany
+    {
+        return $this->hasMany(Classroom::class, 'teacher_id');
+    }
+
+    public function enrolledClassrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_students', 'student_id', 'classroom_id')
+            ->withPivot('joined_at', 'status')
+            ->withTimestamps()
+            ->wherePivot('status', 'active');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -57,6 +75,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

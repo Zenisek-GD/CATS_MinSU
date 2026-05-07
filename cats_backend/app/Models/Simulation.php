@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Simulation extends Model
 {
     protected $fillable = [
@@ -16,6 +17,7 @@ class Simulation extends Model
         'time_limit_seconds',
         'max_score',
         'is_active',
+        'created_by',
     ];
 
     protected $casts = [
@@ -42,5 +44,10 @@ class Simulation extends Model
     public function feedback(): HasMany
     {
         return $this->hasMany(UserFeedback::class, 'simulation_id');
+    }
+
+    public function videos(): HasMany
+    {
+        return $this->hasMany(SimulationVideo::class, 'simulation_id')->orderBy('sort_order');
     }
 }

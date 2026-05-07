@@ -1,6 +1,6 @@
 import { api } from './client'
 
-export type Role = 'user' | 'admin'
+export type Role = 'user' | 'student' | 'teacher' | 'admin'
 
 export type ApiUser = {
   id: number

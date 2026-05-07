@@ -70,6 +70,7 @@ export type AdminSimulation = {
   id: number; category_id: number; title: string; description: string | null
   difficulty: string; time_limit_seconds: number | null; max_score: number; is_active: boolean
   category?: { id: number; slug: string; name: string } | null; steps?: AdminStep[]
+  videos?: import('./simulations').ApiSimulationVideo[]
 }
 
 export async function adminGetSimulations(): Promise<{ simulations: AdminSimulation[] }> {
