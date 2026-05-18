@@ -302,7 +302,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(11, 28, 48, 0.45);
+  color: var(--text-muted);
 }
 
 .modulesSearch input {
@@ -343,9 +343,9 @@
 }
 
 .modulesError {
-  border: 1px solid rgba(186, 26, 26, 0.2);
-  background: rgba(186, 26, 26, 0.07);
-  color: rgba(11, 28, 48, 0.9);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.07);
+  color: var(--text-primary);
   border-radius: 12px;
   padding: 10px 12px;
   font-size: 14px;
@@ -1099,3 +1099,139 @@
   .mGrid { grid-template-columns: 1fr; }
 }
 
+/* ═══════════════════════════════════════════
+   Lock Gate — Pre-Test Required
+   ═══════════════════════════════════════════ */
+
+.mLockGate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  padding: 40px 20px;
+}
+
+.mLockGateInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 400px;
+  gap: 16px;
+  padding: 48px 36px;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  animation: mLockGateFadeIn 0.4s ease;
+}
+
+@keyframes mLockGateFadeIn {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.mLockGateIcon {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(245,158,11,0.12));
+  border: 2px solid rgba(239, 68, 68, 0.25);
+  display: grid;
+  place-items: center;
+  color: #ef4444;
+  font-size: 40px;
+  margin-bottom: 4px;
+}
+
+.mLockGateTitle {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.mLockGateText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mLockGateText strong {
+  color: var(--text-primary);
+}
+
+.mLockGateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #0f172a;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: filter 0.15s, transform 0.12s;
+  margin-top: 4px;
+}
+
+.mLockGateBtn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Locked sidebar nav item */
+.modulesNavItem--locked {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  opacity: 0.7;
+  cursor: not-allowed;
+  border: 1px solid var(--border-color);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.modulesNavLockBadge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Locked bottom nav item */
+.bottomNavItem--locked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 6px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  opacity: 0.55;
+  cursor: not-allowed;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  user-select: none;
+}

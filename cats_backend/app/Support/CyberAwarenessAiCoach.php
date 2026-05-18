@@ -24,7 +24,7 @@ class CyberAwarenessAiCoach
         $category = $categorySlug ?: 'general';
 
         $userPrompt = "Topic: {$category}\n\n";
-        $userPrompt .= "The learner got these items wrong. Provide adaptive coaching within cybercrime awareness training only.\n";
+        $userPrompt .= "The learner got these items wrong. Provide adaptive coaching within cyber awareness training only.\n";
         $userPrompt .= "For each item we include the question/scenario, what they chose, the correct answer, and a canonical explanation.\n\n";
 
         foreach ($misses as $i => $m) {
@@ -121,7 +121,7 @@ class CyberAwarenessAiCoach
         }
 
         $system = implode("\n", [
-            "You are a cybercrime awareness training coach.",
+            "You are a cyber awareness training coach.",
             "ONLY provide defensive, safety-focused guidance for phishing awareness, account safety, privacy, and secure habits.",
             "Do NOT provide instructions, steps, code, or templates that facilitate wrongdoing (phishing templates, bypassing security, hacking, malware).",
             "If the content appears offensive or asks for wrongdoing: refuse and redirect to safe awareness advice.",

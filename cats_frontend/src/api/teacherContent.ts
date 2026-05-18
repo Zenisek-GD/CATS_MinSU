@@ -103,3 +103,12 @@ export async function tcUpdateChoice(choiceId: number, data: Partial<{ text: str
 export async function tcDeleteChoice(choiceId: number): Promise<void> {
   await api.delete(`${BASE}/simulation-choices/${choiceId}`)
 }
+
+// ─── Simulation Videos ────────────────────────────────────────────────────────
+export type TcVideo = { id: number; simulation_id: number; title: string; description: string | null; video_url: string | null; sort_order: number; playback_url: string | null }
+export async function tcCreateVideo(simId: number, data: { title: string; description?: string; video_url?: string; sort_order?: number }): Promise<{ video: TcVideo }> {
+  const r = await api.post(`${BASE}/simulations/${simId}/videos`, data); return r.data
+}
+export async function tcDeleteVideo(videoId: number): Promise<void> {
+  await api.delete(`${BASE}/simulation-videos/${videoId}`)
+}

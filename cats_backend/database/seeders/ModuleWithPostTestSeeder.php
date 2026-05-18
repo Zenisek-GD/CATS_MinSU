@@ -23,15 +23,15 @@ class ModuleWithPostTestSeeder extends Seeder
         );
 
         $this->seedModule(
-            title: 'Understanding Cybercrime in the Philippines',
-            description: 'Learn about RA 10175 (Cybercrime Prevention Act), common cybercrime types, and legal consequences.',
+            title: 'Understanding Cyber in the Philippines',
+            description: 'Learn about RA 10175 (Cyber Prevention Act), common cyber types, and legal consequences.',
             topics: [
                 [
-                    'title' => 'What is Cybercrime?',
+                    'title' => 'What is Cyber?',
                     'sort_order' => 1,
-                    'content' => '<h2>What is Cybercrime?</h2>
-<p>Cybercrime refers to any criminal activity that involves a computer, networked device, or network. In the Philippines, cybercrime is governed by <strong>Republic Act 10175</strong> — the Cybercrime Prevention Act of 2012.</p>
-<h3>Common Types of Cybercrime</h3>
+                    'content' => '<h2>What is Cyber?</h2>
+<p>Cyber refers to any criminal activity that involves a computer, networked device, or network. In the Philippines, cyber is governed by <strong>Republic Act 10175</strong> — the Cyber Prevention Act of 2012.</p>
+<h3>Common Types of Cyber</h3>
 <ul>
   <li><strong>Hacking</strong> — unauthorized access to systems or data</li>
   <li><strong>Identity Theft</strong> — stealing personal information to impersonate someone</li>
@@ -51,10 +51,10 @@ class ModuleWithPostTestSeeder extends Seeder
   <li>Illegal Access — imprisonment of 6 years and a day to 12 years</li>
   <li>Cybersex — imprisonment of 6 years and a day to 12 years</li>
   <li>Cyber Libel — higher penalty than ordinary libel</li>
-  <li>Aiding or abetting in cybercrime is also punishable</li>
+  <li>Aiding or abetting in cyber is also punishable</li>
 </ul>
-<h3>Reporting Cybercrime</h3>
-<p>You can report cybercrime to the <strong>PNP Anti-Cybercrime Group (ACG)</strong> or the <strong>NBI Cybercrime Division</strong>. Always document evidence (screenshots, URLs, messages) before reporting.</p>',
+<h3>Reporting Cyber</h3>
+<p>You can report cyber to the <strong>PNP Anti-Cyber Group (ACG)</strong> or the <strong>NBI Cyber Division</strong>. Always document evidence (screenshots, URLs, messages) before reporting.</p>',
                 ],
                 [
                     'title' => 'Protecting Yourself from Cybercrime',

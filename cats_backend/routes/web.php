@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\File;
 
 // Serve SPA frontend static files
 Route::get('/assets/{path}', function ($path) {
-    $file = public_path("dist/assets/$path");
+    $file = public_path("assets/$path");
     if (File::exists($file)) {
         return response()->file($file);
     }
@@ -13,16 +13,17 @@ Route::get('/assets/{path}', function ($path) {
 })->where('path', '.*');
 
 Route::get('/{file}', function ($file) {
-    $filePath = public_path("dist/$file");
+    $filePath = public_path("$file");
     if (File::exists($filePath) && !str_starts_with($file, 'api')) {
         return response()->file($filePath);
     }
     return null;
 })->where('file', '.*\.(js|css|svg|png|jpg|gif|woff|woff2|ttf|eot)');
 
+
 // Serve SPA frontend index.html for all routes
 Route::fallback(function () {
-    $distPath = public_path('dist/index.html');
+    $distPath = public_path('index.html');
     if (File::exists($distPath)) {
         return file_get_contents($distPath);
     }

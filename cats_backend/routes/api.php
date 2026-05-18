@@ -166,6 +166,8 @@ Route::prefix('teacher/content')->middleware('role:teacher,admin')->group(functi
     Route::post('/simulation-steps/{step}/choices',   [TeacherContentController::class, 'storeChoice']);
     Route::patch('/simulation-choices/{choice}',      [TeacherContentController::class, 'updateChoice']);
     Route::delete('/simulation-choices/{choice}',     [TeacherContentController::class, 'destroyChoice']);
+    Route::post('/simulations/{simulation}/videos',   [TeacherContentController::class, 'storeVideo']);
+    Route::delete('/simulation-videos/{video}',       [TeacherContentController::class, 'destroyVideo']);
 });
 
 // Student Classroom Routes

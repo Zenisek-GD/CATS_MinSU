@@ -179,6 +179,9 @@ export default function TeacherResourcesPage() {
             <Link className="modulesNavItem active" to="/teacher/resources" aria-current="page">
               <Icon name="video_library" size={20} /><span>Resources</span>
             </Link>
+            <Link className="modulesNavItem" to="/teacher/manage">
+              <Icon name="edit_note" size={20} /><span>Content</span>
+            </Link>
             <Link className="modulesNavItem" to="/teacher/feedback">
               <Icon name="feedback" size={20} /><span>Feedback</span>
             </Link>
@@ -360,6 +363,7 @@ export default function TeacherResourcesPage() {
               <span>Reports</span>
             </Link>
             <Link className="bottomNavItem active" to="/teacher/resources" aria-current="page"><Icon name="video_library" size={20} /><span>Resources</span></Link>
+            <Link className="bottomNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="bottomNavItem" to="/teacher/feedback"><Icon name="feedback" size={20} /><span>Feedback</span></Link>
             <Link className="bottomNavItem" to="/profile"><Icon name="person" size={20} /><span>Profile</span></Link>
           </nav>

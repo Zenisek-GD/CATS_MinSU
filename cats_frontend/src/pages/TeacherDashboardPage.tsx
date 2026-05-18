@@ -81,9 +81,12 @@ export default function TeacherDashboardPage() {
       await teacherClassroomAPI.createClassroom({ name: form.name.trim(), description: form.description.trim() || undefined })
       setShowCreate(false)
       setForm({ name: '', description: '' })
-      load()
-    } catch {
-      alert('Failed to create classroom.')
+      // Reload classrooms after creating
+      await load()
+    } catch (err: any) {
+      console.error('Classroom creation error:', err)
+      const errorMsg = err?.response?.data?.message || err?.message || 'Failed to create classroom.'
+      alert(errorMsg)
     } finally {
       setCreating(false)
     }
@@ -132,6 +135,7 @@ export default function TeacherDashboardPage() {
             <Link className="modulesNavItem" to="/teacher/resources">
               <Icon name="library_books" size={20} /><span>Resources</span>
             </Link>
+            <Link className="modulesNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="modulesNavItem" to="/teacher/feedback">
               <Icon name="feedback" size={20} /><span>Feedback</span>
             </Link>
@@ -319,6 +323,7 @@ export default function TeacherDashboardPage() {
               <Icon name="school" size={20} /><span>Classes</span>
             </Link>
             <Link className="bottomNavItem" to="/teacher/reports"><Icon name="assessment" size={20} /><span>Reports</span></Link>
+            <Link className="bottomNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="bottomNavItem" to="/teacher/feedback"><Icon name="feedback" size={20} /><span>Feedback</span></Link>
             <Link className="bottomNavItem" to="/profile"><Icon name="person" size={20} /><span>Profile</span></Link>
           </nav>

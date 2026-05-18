@@ -99,6 +99,7 @@ export default function QuizAttemptPage() {
   const [attempt, setAttempt] = useState<ApiQuizAttempt | null>(null)
   const [answers, setAnswers] = useState<Record<number, number | null>>({})
   const [submitState, setSubmitState] = useState<SubmitState>({ status: 'idle' })
+  const [showScorePopup, setShowScorePopup] = useState(false)
 
   useEffect(() => {
     if (!user) return
@@ -157,6 +158,7 @@ export default function QuizAttemptPage() {
           feedback: resp.feedback,
           ai_feedback: resp.ai_feedback ?? null,
         })
+        setShowScorePopup(true)
       } else {
         // Show feedback form first
         setSubmitState({
@@ -166,6 +168,7 @@ export default function QuizAttemptPage() {
           feedback: resp.feedback,
           ai_feedback: resp.ai_feedback ?? null,
         })
+        setShowScorePopup(true)
       }
     } catch (e: unknown) {
       setError(getApiErrorMessage(e, 'Failed to submit attempt.'))
@@ -191,6 +194,51 @@ export default function QuizAttemptPage() {
 
   if (!user) return null
 
+  // Score popup helper
+  function ScorePopup() {
+    if (!showScorePopup) return null
+    const st = submitState
+    if (st.status !== 'submitted' && st.status !== 'feedback_pending') return null
+    const score = st.attempt.score
+    const maxScore = st.attempt.max_score
+    const pct = st.attempt.percent
+    const isExcellent = pct >= 80
+    const isGood = pct >= 60
+    const medal = isExcellent ? '🏅' : isGood ? '👍' : '📚'
+    const message = isExcellent
+      ? "Excellent! You're ready to proceed."
+      : isGood
+      ? 'Good job! Keep reviewing to strengthen your skills.'
+      : 'Keep studying! Review the material and try again.'
+    const levelLabel = isExcellent ? 'Outstanding' : isGood ? 'Passing' : 'Needs Review'
+    const colorClass = isExcellent ? 'excellent' : isGood ? 'good' : 'needs-review'
+
+    return (
+      <div className="qaScorePopupOverlay" role="dialog" aria-modal="true" aria-label="Quiz result">
+        <div className={`qaScorePopup qaScorePopup--${colorClass}`}>
+          <div className="qaScorePopupMedal" aria-hidden="true">{medal}</div>
+          <div className="qaScorePopupLevel">{levelLabel}</div>
+          <div className="qaScorePopupScore">
+            <span className="qaScoreNum">{score}</span>
+            <span className="qaScoreSlash">/</span>
+            <span className="qaScoreMax">{maxScore}</span>
+          </div>
+          <div className="qaScorePopupPct">{Math.round(pct)}% correct</div>
+          <p className="qaScorePopupMsg">{message}</p>
+          <button
+            type="button"
+            className="qaScorePopupBtn"
+            onClick={() => setShowScorePopup(false)}
+            id="score-popup-dismiss-btn"
+          >
+            See Detailed Results
+            <Icon name="arrow_downward" size={16} />
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   if (!attemptId) {
     return (
       <div className="modulesPage">
@@ -210,6 +258,7 @@ export default function QuizAttemptPage() {
 
   return (
     <div className="modulesPage">
+      <ScorePopup />
       <div className="modulesShell">
         <aside className="modulesSidebar" aria-label="Sidebar navigation">
           <div className="modulesSidebarBrand">

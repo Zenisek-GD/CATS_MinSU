@@ -4,9 +4,10 @@
   margin-top: 16px;
 }
 
+/* ── Simulation card shell ── */
 .simCard {
-  background: #ffffff;
-  border: 1px solid rgba(11, 28, 48, 0.12);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
@@ -23,7 +24,7 @@
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  color: rgba(11, 28, 48, 0.72);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
 }
@@ -37,7 +38,7 @@
   flex-wrap: wrap;
   margin-bottom: 14px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(11, 28, 48, 0.08);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .simStepTitle {
@@ -47,12 +48,13 @@
   font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 16px;
   font-weight: 800;
-  color: #0b1c30;
+  color: var(--text-primary);
 }
 
 .simStepTitle .material-symbols-outlined {
   font-size: 22px;
-  color: rgba(0, 106, 97, 0.7);
+  color: var(--accent);
+  opacity: 0.7;
 }
 
 .simStepStats {
@@ -68,7 +70,7 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  color: rgba(0, 106, 97, 0.75);
+  color: #22c55e;
 }
 
 .simStatSafe .material-symbols-outlined { font-size: 16px; }
@@ -77,17 +79,17 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  color: rgba(186, 26, 26, 0.7);
+  color: #ef4444;
 }
 
 .simStatUnsafe .material-symbols-outlined { font-size: 16px; }
 
 /* ── Realistic Email Card ── */
 .simEmailCard {
-  border: 1px solid rgba(11, 28, 48, 0.12);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--card-bg);
   margin-bottom: 14px;
 }
 
@@ -96,9 +98,9 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background: rgba(11, 28, 48, 0.04);
-  color: rgba(11, 28, 48, 0.72);
-  border-bottom: 1px solid rgba(11, 28, 48, 0.08);
+  background: var(--border-color);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
   font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 12px;
   font-weight: 800;
@@ -121,14 +123,14 @@
 
 .simEmailLabel {
   min-width: 62px;
-  color: rgba(11, 28, 48, 0.6);
+  color: var(--text-muted);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
   flex-shrink: 0;
 }
 
 .simEmailSubject {
-  color: rgba(186, 26, 26, 0.92);
+  color: #ef4444;
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-weight: 800;
   font-size: 14px;
@@ -136,11 +138,11 @@
 
 .simEmailFrom,
 .simEmailTo {
-  color: rgba(11, 28, 48, 0.82);
+  color: var(--text-primary);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 12px;
-  background: rgba(11, 28, 48, 0.04);
-  border: 1px solid rgba(11, 28, 48, 0.08);
+  background: var(--border-color);
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
   padding: 3px 8px;
 }
@@ -148,7 +150,7 @@
 .simEmailBody {
   margin-top: 12px;
   white-space: pre-wrap;
-  color: rgba(11, 28, 48, 0.78);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -166,9 +168,9 @@
   gap: 6px;
   padding: 6px 10px;
   border-radius: 8px;
-  background: rgba(186, 26, 26, 0.05);
-  border: 1px solid rgba(186, 26, 26, 0.14);
-  color: rgba(186, 26, 26, 0.8);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 12px;
   word-break: break-all;
@@ -185,9 +187,9 @@
   align-items: center;
   padding: 8px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(186, 26, 26, 0.2);
-  background: rgba(186, 26, 26, 0.07);
-  color: rgba(186, 26, 26, 0.92);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
   font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 12px;
   font-weight: 800;
@@ -199,11 +201,11 @@
 /* ── Plain text prompt (non-email) ── */
 .simPrompt {
   white-space: pre-wrap;
-  border: 1px solid rgba(11, 28, 48, 0.12);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 14px;
-  background: rgba(255, 255, 255, 0.65);
-  color: rgba(11, 28, 48, 0.82);
+  background: var(--page-bg);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.55;
@@ -217,14 +219,14 @@
   gap: 10px;
   padding: 12px 14px;
   border-radius: 10px;
-  background: rgba(0, 106, 97, 0.04);
-  border: 1px solid rgba(0, 106, 97, 0.12);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-bg-hover);
   margin-bottom: 14px;
 }
 
 .simEducationBox .material-symbols-outlined {
   font-size: 20px;
-  color: rgba(0, 106, 97, 0.7);
+  color: var(--accent);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -235,12 +237,12 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(0, 106, 97, 0.7);
+  color: var(--accent);
   margin-bottom: 2px;
 }
 
 .simEducationText {
-  color: rgba(11, 28, 48, 0.72);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
   line-height: 1.5;
@@ -255,83 +257,19 @@
   font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   font-weight: 700;
-  color: #0b1c30;
+  color: var(--text-primary);
 }
 
 .simQuestionPrompt .material-symbols-outlined {
   font-size: 20px;
-  color: rgba(0, 106, 97, 0.65);
+  color: var(--accent);
+  opacity: 0.65;
 }
 
 /* ── Choice Action Buttons ── */
 .simChoices {
   display: grid;
   gap: 10px;
-}
-
-.simChoiceBtn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border: 1px solid rgba(11, 28, 48, 0.12);
-  border-radius: 12px;
-  background: #ffffff;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
-}
-
-.simChoiceBtn:hover:not(:disabled) {
-  border-color: rgba(0, 106, 97, 0.35);
-  background: rgba(0, 106, 97, 0.04);
-  box-shadow: 0 2px 8px rgba(0, 106, 97, 0.08);
-}
-
-.simChoiceBtn:active:not(:disabled) {
-  background: rgba(0, 106, 97, 0.08);
-}
-
-.simChoiceBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.simChoiceIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(0, 106, 97, 0.08);
-  flex-shrink: 0;
-}
-
-.simChoiceIcon .material-symbols-outlined {
-  font-size: 20px;
-  color: rgba(0, 106, 97, 0.7);
-}
-
-.simChoiceText {
-  flex: 1;
-  min-width: 0;
-  color: rgba(11, 28, 48, 0.85);
-  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.simChoiceArrow {
-  font-size: 20px;
-  color: rgba(11, 28, 48, 0.25);
-  flex-shrink: 0;
-  transition: color 0.15s;
-}
-
-.simChoiceBtn:hover:not(:disabled) .simChoiceArrow {
-  color: rgba(0, 106, 97, 0.5);
 }
 
 /* ── Continue button ── */
@@ -357,16 +295,16 @@
 .simOutcome {
   border-radius: 14px;
   padding: 16px 18px;
-  border: 1px solid rgba(0, 106, 97, 0.35);
-  background: rgba(0, 106, 97, 0.06);
-  color: rgba(11, 28, 48, 0.9);
+  border: 1px solid var(--accent-bg-hover);
+  background: var(--accent-bg);
+  color: var(--text-primary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 .simOutcome.bad {
-  border-color: rgba(186, 26, 26, 0.2);
-  background: rgba(186, 26, 26, 0.05);
-  border-left: 4px solid rgba(186, 26, 26, 0.6);
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 4px solid rgba(239, 68, 68, 0.6);
 }
 
 .simOutcomeHeader {
@@ -403,55 +341,15 @@
 .simOutcomeBadge .material-symbols-outlined { font-size: 15px; }
 
 .simOutcomeBadge.safe {
-  background: rgba(0, 106, 97, 0.12);
-  color: #006a61;
-  border: 1px solid rgba(0, 106, 97, 0.16);
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid var(--accent-bg-hover);
 }
 
 .simOutcomeBadge.unsafe {
-  background: rgba(186, 26, 26, 0.08);
-  color: rgba(186, 26, 26, 0.85);
-  border: 1px solid rgba(186, 26, 26, 0.18);
-}
-
-/* Explanation box in simulation outcome */
-.simOutcomeExplainBox {
-  margin-top: 12px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: rgba(0, 106, 97, 0.04);
-  border: 1px solid rgba(0, 106, 97, 0.12);
-}
-
-.simOutcomeExplainBox.warning {
-  background: rgba(186, 26, 26, 0.04);
-  border-color: rgba(186, 26, 26, 0.14);
-}
-
-.simOutcomeExplainHeader {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: rgba(0, 106, 97, 0.85);
-}
-
-.simOutcomeExplainBox.warning .simOutcomeExplainHeader {
-  color: rgba(186, 26, 26, 0.8);
-}
-
-.simOutcomeExplainHeader .material-symbols-outlined { font-size: 18px; }
-
-.simOutcomeExplainText {
-  margin: 0;
-  color: rgba(11, 28, 48, 0.72);
-  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.55;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.18);
 }
 
 /* Score delta indicator */
@@ -462,11 +360,11 @@
   margin-top: 10px;
   padding: 4px 10px;
   border-radius: 8px;
-  background: rgba(11, 28, 48, 0.04);
+  background: var(--border-color);
   font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
   font-weight: 700;
-  color: rgba(11, 28, 48, 0.7);
+  color: var(--text-secondary);
 }
 
 .simOutcomeScore .material-symbols-outlined { font-size: 16px; }
@@ -484,8 +382,8 @@
   margin-top: 14px;
   padding: 14px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 106, 97, 0.2);
-  background: rgba(0, 106, 97, 0.04);
+  border: 1px solid var(--accent-bg-hover);
+  background: var(--accent-bg);
 }
 
 .simAiFeedbackHeader {
@@ -502,7 +400,7 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(0, 106, 97, 0.85);
+  color: var(--accent);
 }
 
 .simAiBadge {
@@ -515,13 +413,13 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: rgba(0, 106, 97, 0.12);
-  color: #006a61;
-  border: 1px solid rgba(0, 106, 97, 0.16);
+  background: var(--accent-bg-hover);
+  color: var(--accent);
+  border: 1px solid var(--accent-bg-hover);
 }
 
 .simAiSummary {
-  color: rgba(11, 28, 48, 0.78);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.55;
   margin-bottom: 8px;
@@ -537,15 +435,15 @@
 
 .simAiRedFlag {
   padding-left: 12px;
-  border-left: 3px solid rgba(0, 106, 97, 0.35);
-  color: rgba(11, 28, 48, 0.72);
+  border-left: 3px solid var(--accent-bg-hover);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.45;
 }
 
 .simAiNextStep {
-  color: rgba(11, 28, 48, 0.78);
+  color: var(--text-secondary);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.55;
   margin-top: 8px;
@@ -559,14 +457,14 @@
   margin-top: 14px;
   padding: 14px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 106, 97, 0.18);
-  background: linear-gradient(110deg, rgba(0, 106, 97, 0.04) 0%, rgba(0, 106, 97, 0.10) 40%, rgba(0, 106, 97, 0.04) 60%);
-  background-size: 200% 100%;
-  animation: simAiShimmer 1.8s ease-in-out infinite;
-  color: rgba(0, 106, 97, 0.85);
+  border: 1px solid var(--accent-bg-hover);
+  background: var(--accent-bg);
+  color: var(--accent);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   font-weight: 600;
+  animation: simAiShimmer 1.8s ease-in-out infinite;
+  background-size: 200% 100%;
 }
 
 .simAiLoading .simAiIcon {
@@ -592,9 +490,9 @@
   margin-top: 14px;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px dashed rgba(11, 28, 48, 0.16);
-  background: rgba(11, 28, 48, 0.02);
-  color: rgba(11, 28, 48, 0.5);
+  border: 1px dashed var(--border-strong);
+  background: var(--page-bg);
+  color: var(--text-muted);
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
 }
@@ -612,9 +510,9 @@
   align-items: flex-start;
   gap: 14px;
   padding: 16px 18px;
-  border: 2px solid rgba(11, 28, 48, 0.1);
+  border: 2px solid var(--border-color);
   border-radius: 14px;
-  background: #ffffff;
+  background: var(--card-bg);
   cursor: pointer;
   text-align: left;
   width: 100%;
@@ -623,40 +521,31 @@
   position: relative;
   overflow: hidden;
 }
+
 .simChoiceCard::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 106, 97, 0.03), transparent);
+  background: linear-gradient(135deg, var(--accent-bg), transparent);
   opacity: 0;
   transition: opacity 0.2s;
 }
+
 .simChoiceCard:hover:not(:disabled)::before { opacity: 1; }
+
 .simChoiceCard:hover:not(:disabled) {
-  border-color: rgba(0, 106, 97, 0.35);
-  box-shadow: 0 4px 16px rgba(0, 106, 97, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   transform: translateY(-1px);
 }
+
 .simChoiceCard:active:not(:disabled) {
   transform: translateY(1px) scale(0.985);
-  box-shadow: 0 1px 4px rgba(0, 106, 97, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
-.simChoiceCard:disabled { opacity: 0.55; cursor: not-allowed; }
 
-.simChoiceCardIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 106, 97, 0.1), rgba(0, 106, 97, 0.04));
-  flex-shrink: 0;
-  font-size: 22px;
-  position: relative;
-  z-index: 1;
-}
+.simChoiceCard:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .simChoiceCardContent {
   flex: 1;
@@ -664,30 +553,34 @@
   position: relative;
   z-index: 1;
 }
+
 .simChoiceCardAction {
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 15px;
   font-weight: 800;
-  color: #0b1c30;
+  color: var(--text-primary);
   margin-bottom: 2px;
 }
+
 .simChoiceCardDesc {
   font-family: "Public Sans", system-ui, sans-serif;
   font-size: 13px;
-  color: rgba(11, 28, 48, 0.6);
+  color: var(--text-muted);
   line-height: 1.4;
 }
-.simChoiceCardArrow {
+
+.simChoiceCard .material-symbols-outlined {
   font-size: 20px;
-  color: rgba(11, 28, 48, 0.2);
+  color: var(--text-muted);
   flex-shrink: 0;
   transition: color 0.15s, transform 0.15s;
   align-self: center;
   position: relative;
   z-index: 1;
 }
-.simChoiceCard:hover:not(:disabled) .simChoiceCardArrow {
-  color: rgba(0, 106, 97, 0.6);
+
+.simChoiceCard:hover:not(:disabled) .material-symbols-outlined {
+  color: var(--accent);
   transform: translateX(3px);
 }
 
@@ -697,54 +590,62 @@
 .simDangerOverlay {
   border-radius: 16px;
   padding: 0;
-  border: 2px solid rgba(186, 26, 26, 0.25);
-  background: linear-gradient(180deg, rgba(186, 26, 26, 0.04) 0%, rgba(255, 255, 255, 0.95) 40%);
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  background: var(--card-bg);
   overflow: hidden;
   animation: simSlideInUp 0.35s ease-out;
 }
+
 .simDangerOverlayHeader {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(186, 26, 26, 0.08), rgba(186, 26, 26, 0.03));
-  border-bottom: 1px solid rgba(186, 26, 26, 0.1);
+  background: rgba(239, 68, 68, 0.08);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.15);
 }
+
 .simDangerBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(186, 26, 26, 0.1);
-  color: rgba(186, 26, 26, 0.9);
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
 .simDangerBadge .material-symbols-outlined { font-size: 18px; }
 
 .simDangerBody { padding: 20px; }
 
+/* ── Feedback Panels ── */
 .simFeedbackPanel {
   padding: 14px 16px;
   border-radius: 12px;
   margin-bottom: 14px;
-  border: 1px solid rgba(11, 28, 48, 0.06);
+  border: 1px solid var(--border-color);
+  background: var(--page-bg);
 }
+
 .simFeedbackPanel.what-you-did {
-  background: rgba(186, 26, 26, 0.03);
-  border-color: rgba(186, 26, 26, 0.1);
+  background: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.15);
 }
+
 .simFeedbackPanel.why-dangerous {
-  background: rgba(186, 26, 26, 0.02);
-  border-color: rgba(186, 26, 26, 0.12);
+  background: rgba(239, 68, 68, 0.03);
+  border-color: rgba(239, 68, 68, 0.12);
 }
+
 .simFeedbackPanel.what-to-do {
-  background: rgba(0, 106, 97, 0.03);
-  border-color: rgba(0, 106, 97, 0.12);
+  background: var(--accent-bg);
+  border-color: var(--accent-bg-hover);
 }
 
 .simFeedbackPanelTitle {
@@ -758,20 +659,23 @@
   text-transform: uppercase;
   margin-bottom: 8px;
 }
+
 .simFeedbackPanel.what-you-did .simFeedbackPanelTitle,
 .simFeedbackPanel.why-dangerous .simFeedbackPanelTitle {
-  color: rgba(186, 26, 26, 0.75);
+  color: #ef4444;
 }
+
 .simFeedbackPanel.what-to-do .simFeedbackPanelTitle {
-  color: rgba(0, 106, 97, 0.8);
+  color: var(--accent);
 }
+
 .simFeedbackPanelTitle .material-symbols-outlined { font-size: 16px; }
 
 .simFeedbackPanelText {
   font-family: "Public Sans", system-ui, sans-serif;
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(11, 28, 48, 0.78);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -783,28 +687,32 @@
   display: grid;
   gap: 8px;
 }
+
 .simRedFlagItem {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   padding: 8px 12px;
   border-radius: 8px;
-  background: rgba(186, 26, 26, 0.04);
-  border: 1px solid rgba(186, 26, 26, 0.08);
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.12);
   font-family: "Public Sans", system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.45;
-  color: rgba(11, 28, 48, 0.75);
+  color: var(--text-secondary);
   animation: simFadeInStagger 0.4s ease-out both;
 }
+
 .simRedFlagItem:nth-child(1) { animation-delay: 0.1s; }
 .simRedFlagItem:nth-child(2) { animation-delay: 0.25s; }
 .simRedFlagItem:nth-child(3) { animation-delay: 0.4s; }
 .simRedFlagItem:nth-child(4) { animation-delay: 0.55s; }
 .simRedFlagItem:nth-child(5) { animation-delay: 0.7s; }
+
 .simRedFlagItem .material-symbols-outlined {
   font-size: 16px;
-  color: rgba(186, 26, 26, 0.7);
+  color: #ef4444;
+  opacity: 0.75;
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -815,33 +723,36 @@
 .simSuccessOverlay {
   border-radius: 16px;
   padding: 0;
-  border: 2px solid rgba(0, 106, 97, 0.25);
-  background: linear-gradient(180deg, rgba(0, 106, 97, 0.04) 0%, rgba(255, 255, 255, 0.95) 40%);
+  border: 2px solid var(--accent-bg-hover);
+  background: var(--card-bg);
   overflow: hidden;
   animation: simSlideInUp 0.35s ease-out;
 }
+
 .simSuccessOverlayHeader {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(0, 106, 97, 0.08), rgba(0, 106, 97, 0.02));
-  border-bottom: 1px solid rgba(0, 106, 97, 0.1);
+  background: var(--accent-bg);
+  border-bottom: 1px solid var(--accent-bg-hover);
 }
+
 .simSuccessBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(0, 106, 97, 0.1);
-  color: #006a61;
+  background: var(--accent-bg-hover);
+  color: var(--accent);
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
 .simSuccessBadge .material-symbols-outlined { font-size: 18px; }
 .simSuccessBody { padding: 20px; }
 
@@ -850,8 +761,8 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes simFadeInStagger {
   from { opacity: 0; transform: translateX(-10px); }
   to { opacity: 1; transform: translateX(0); }
 }
-

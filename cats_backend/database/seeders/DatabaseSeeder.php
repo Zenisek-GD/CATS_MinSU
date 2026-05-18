@@ -455,6 +455,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SimulationEnhancedSeeder::class);
         $this->call(ModuleWithPostTestSeeder::class);
+        $this->call(SampleContentWithVideosSeeder::class);
+        $this->call(PreTestSeeder::class);
+        $this->call(PostTestSeeder::class);
+        $this->call(SimulationWithVideoSeeder::class);
+
     }
 
     /**

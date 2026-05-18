@@ -653,3 +653,173 @@
 .rptListBarFill { height: 100%; background: var(--accent); border-radius: 999px; }
 .rptListPct { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
 
+/* ═══════════════════════════════════════════
+   INSERT Toolbar — Topic Content Editor
+   ═══════════════════════════════════════════ */
+
+/* Content editor header row */
+.tcContentEditorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+/* INSERT trigger button */
+.tcInsertBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.12s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tcInsertBtn:hover {
+  background: var(--accent);
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Dropdown menu */
+.tcInsertMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 230px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  z-index: 500;
+  overflow: hidden;
+  animation: tcInsertMenuFade 0.15s ease;
+}
+
+@keyframes tcInsertMenuFade {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Menu items */
+.tcInsertMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tcInsertMenuItem:last-child {
+  border-bottom: none;
+}
+
+.tcInsertMenuItem:hover {
+  background: var(--accent-bg);
+}
+
+.tcInsertMenuIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+.tcInsertMenuLabel {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.tcInsertMenuSub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-family: "Public Sans", system-ui, sans-serif;
+}
+
+/* Sub-dialog (Link / URL panels) */
+.tcInsertSubDialog {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 320px;
+  max-width: 90vw;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  z-index: 500;
+  padding: 14px 16px;
+  animation: tcInsertMenuFade 0.15s ease;
+}
+
+.tcInsertSubDialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Topic modal — wider box for the two-column editor */
+.tcTopicModalBox {
+  max-width: 900px !important;
+}
+
+/* tcEmpty placeholder */
+.tcEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.tcEmpty p { margin: 0; font-size: 0.95rem; }
+
+@media (max-width: 700px) {
+  .tcTopicModalBox {
+    max-width: 100% !important;
+  }
+
+  .tcInsertSubDialog {
+    right: auto;
+    left: 0;
+    width: 290px;
+  }
+
+  .tcInsertMenu {
+    right: auto;
+    left: 0;
+  }
+}

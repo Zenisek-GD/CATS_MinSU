@@ -343,12 +343,22 @@ export default function QuizzesPage() {
 
             {/* Step 1: Pre-Tests */}
             {pretests.length > 0 && (
-              <SectionBlock
-                icon="assignment" title="Pre-Test" stepNum={1} variant="pretest"
-                subtitle="Take this BEFORE learning to establish your baseline knowledge."
-                locked={false}
-                quizzes={pretests} attempts={attempts} startingId={startingId} onStart={onStart}
-              />
+              <>
+                {/* ⚠️ Warning notice */}
+                <div className="qzPretestNotice" role="note" aria-label="Pre-test requirement notice">
+                  <span className="qzPretestNoticeIcon">⚠️</span>
+                  <span>
+                    <strong>Make sure to finish the Pre-Test</strong> before you can access the{' '}
+                    <strong>Learn</strong> module.
+                  </span>
+                </div>
+                <SectionBlock
+                  icon="assignment" title="Pre-Test" stepNum={1} variant="pretest"
+                  subtitle="Take this BEFORE learning to establish your baseline knowledge."
+                  locked={false}
+                  quizzes={pretests} attempts={attempts} startingId={startingId} onStart={onStart}
+                />
+              </>
             )}
 
             {/* Step 2: Practice */}

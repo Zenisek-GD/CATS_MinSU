@@ -1,202 +1,611 @@
-/* ─── Landing Page ─── */
+/* ─── Landing Page — Cyber Theme ─── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap');
 
-.landingPage { min-height: 100svh; background: #fff; overflow-x: hidden; }
+:root {
+  --cyber-bg:       #04111e;
+  --cyber-navy:     #06192b;
+  --cyber-card:     rgba(6,25,43,0.85);
+  --cyber-green:    #00ffb3;
+  --cyber-green2:   #00c896;
+  --cyber-teal:     #0af0c8;
+  --cyber-blue:     #0ea5e9;
+  --cyber-red:      #ff4d6d;
+  --cyber-amber:    #fbbf24;
+  --cyber-text:     #cce8ff;
+  --cyber-muted:    rgba(180,220,255,0.45);
+  --cyber-border:   rgba(0,255,179,0.15);
+  --cyber-glow:     0 0 24px rgba(0,255,179,0.25);
+}
+
+* { box-sizing: border-box; }
+
+.landingPage {
+  min-height: 100svh;
+  background: var(--cyber-bg);
+  color: var(--cyber-text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ─── Dot-Grid Background ─── */
+.landingPage::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(0,255,179,0.18) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+  animation: gridFade 6s ease-in-out infinite alternate;
+}
+
+@keyframes gridFade {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ─── Scanning Line ─── */
+.scanLine {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-green), var(--cyber-teal), var(--cyber-green), transparent);
+  box-shadow: 0 0 20px 4px rgba(0,255,179,0.45);
+  z-index: 5;
+  animation: scanDown 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanDown {
+  0%   { top: 0; opacity: 0.8; }
+  90%  { opacity: 0.8; }
+  100% { top: 100vh; opacity: 0; }
+}
+
+/* ─── Floating Background Icons ─── */
+.floatingBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floatIcon {
+  position: absolute;
+  color: var(--cyber-green);
+  animation: floatUpDown linear infinite;
+  font-variation-settings: 'FILL' 0, 'wght' 200;
+  filter: drop-shadow(0 0 6px rgba(0,255,179,0.3));
+  user-select: none;
+}
+
+/* Each icon gently bobs up and down with a slight rotate */
+@keyframes floatUpDown {
+  0%   { transform: translateY(0px)   rotate(-4deg); }
+  25%  { transform: translateY(-14px) rotate(2deg);  }
+  50%  { transform: translateY(-6px)  rotate(-2deg); }
+  75%  { transform: translateY(-18px) rotate(4deg);  }
+  100% { transform: translateY(0px)   rotate(-4deg); }
+}
+
+/* Subtle green pulse on the icon opacity */
+.floatIcon:nth-child(odd) {
+  animation-name: floatUpDown, iconPulse;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+@keyframes iconPulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(0,255,179,0.2)); }
+  50%       { filter: drop-shadow(0 0 14px rgba(0,255,179,0.5)); }
+}
 
 /* ─── Navbar ─── */
 .landingNav {
   position: sticky; top: 0; z-index: 30;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 40px; background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(12px); border-bottom: 1px solid rgba(11,28,48,0.05);
+  padding: 14px 40px;
+  background: rgba(4,17,30,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--cyber-border);
 }
-.landingNavBrand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+.landingNavBrand { display: flex; align-items: center; gap: 10px; }
 .landingNavLogo {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, #006a61, #00897b);
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, #004d44, #006a5a);
   display: grid; place-items: center;
+  border: 1px solid var(--cyber-border);
+  box-shadow: var(--cyber-glow);
 }
-.landingNavLogo .material-symbols-outlined { font-size: 20px; color: #fff; }
 .landingNavTitle {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 17px; font-weight: 800; color: #0b1c30;
+  font-size: 17px; font-weight: 800; color: var(--cyber-green);
+  letter-spacing: 0.5px; text-shadow: 0 0 12px rgba(0,255,179,0.4);
 }
-.landingNavCta {
-  padding: 10px 24px; border: none; border-radius: 10px;
-  background: linear-gradient(135deg, #006a61, #00897b);
-  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  transition: all 200ms; text-decoration: none;
+.landingNavSub {
+  font-size: 10px; color: var(--cyber-muted); margin-top: 1px; letter-spacing: 0.5px;
 }
-.landingNavCta:hover { box-shadow: 0 4px 16px rgba(0,106,97,0.3); transform: translateY(-1px); }
+.landingNavActions { display: flex; align-items: center; gap: 10px; }
+.landingNavBtn {
+  padding: 9px 22px; border-radius: 9px;
+  font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 200ms; letter-spacing: 0.3px;
+}
+.landingNavBtnOutline {
+  background: transparent;
+  border: 1px solid var(--cyber-border);
+  color: var(--cyber-text);
+}
+.landingNavBtnOutline:hover {
+  border-color: var(--cyber-green); color: var(--cyber-green);
+  box-shadow: 0 0 12px rgba(0,255,179,0.2);
+}
+.landingNavBtnSolid {
+  background: linear-gradient(135deg, #007a60, #00a07a);
+  border: 1px solid rgba(0,255,179,0.3);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(0,255,179,0.2);
+}
+.landingNavBtnSolid:hover { box-shadow: 0 0 28px rgba(0,255,179,0.4); transform: translateY(-1px); }
 
 /* ─── Hero ─── */
 .landingHero {
-  position: relative; padding: 80px 40px 100px; text-align: center;
-  background: linear-gradient(180deg, #f4f6fa 0%, #fff 100%);
+  position: relative; z-index: 1;
+  padding: 70px 40px 80px; text-align: center;
   overflow: hidden;
 }
-.landingHero::before {
-  content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
-  width: 800px; height: 800px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,106,97,0.07), transparent 70%);
-  pointer-events: none;
+
+/* Radial center glow */
+.landingHero::after {
+  content: '';
+  position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,179,0.07) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
 }
-.landingHeroInner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+.landingHeroInner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+/* Live badge */
 .landingBadge {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 8px;
   padding: 6px 16px; border-radius: 999px;
-  background: rgba(0,106,97,0.08); color: #006a61;
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 12px; font-weight: 700; margin-bottom: 24px;
+  background: rgba(0,255,179,0.08);
+  border: 1px solid rgba(0,255,179,0.2);
+  color: var(--cyber-green);
+  font-size: 12px; font-weight: 700; margin-bottom: 28px;
+  letter-spacing: 0.5px;
 }
-.landingBadge .material-symbols-outlined { font-size: 16px; }
+.liveDot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cyber-green);
+  box-shadow: 0 0 8px var(--cyber-green);
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+/* Hero title */
 .landingHeroTitle {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 52px; font-weight: 800; letter-spacing: -1.5px;
-  line-height: 1.1; color: #0b1c30; margin: 0 0 18px;
+  font-size: 54px; font-weight: 800;
+  line-height: 1.08; color: #e8f4ff;
+  margin: 0 0 6px;
+  letter-spacing: -1.5px;
 }
-.landingHeroTitleAccent { color: #006a61; }
+.landingHeroTitle2 {
+  font-size: 54px; font-weight: 800;
+  line-height: 1.08;
+  margin: 0 0 22px;
+  letter-spacing: -1.5px;
+  background: linear-gradient(90deg, var(--cyber-green), var(--cyber-teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 14px rgba(0,255,179,0.45));
+}
 .landingHeroSub {
-  font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 17px; line-height: 1.6; color: rgba(11,28,48,0.55);
-  max-width: 520px; margin: 0 auto 32px;
+  font-size: 16px; line-height: 1.65;
+  color: var(--cyber-muted);
+  max-width: 520px; margin: 0 auto 36px;
 }
-.landingHeroActions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── Shield Rings (pulsing) ─── */
+.shieldWrap {
+  position: relative; width: 200px; height: 200px;
+  margin: 0 auto 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.shieldRing {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(0,255,179,0.18);
+  animation: pulse 3s ease-in-out infinite;
+}
+.shieldRing:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+.shieldRing:nth-child(2) { width: 150px; height: 150px; animation-delay: 0.5s; }
+.shieldRing:nth-child(3) { width: 100px; height: 100px; animation-delay: 1s; border-color: rgba(0,255,179,0.3); }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.06); opacity: 1; box-shadow: 0 0 20px rgba(0,255,179,0.25); }
+}
+.shieldCenter {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, #004d44, #006060);
+  border: 2px solid var(--cyber-green);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 32px rgba(0,255,179,0.4), inset 0 0 20px rgba(0,255,179,0.1);
+  color: var(--cyber-green); font-size: 36px;
+  animation: shieldGlow 2.5s ease-in-out infinite alternate;
+}
+@keyframes shieldGlow {
+  0%   { box-shadow: 0 0 20px rgba(0,255,179,0.3), inset 0 0 10px rgba(0,255,179,0.1); }
+  100% { box-shadow: 0 0 50px rgba(0,255,179,0.6), inset 0 0 28px rgba(0,255,179,0.2); }
+}
+
+/* ─── CTA Buttons ─── */
+.landingHeroActions {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+}
 .landingCtaPrimary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 32px; border: none; border-radius: 14px;
-  background: linear-gradient(135deg, #006a61, #00897b);
-  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  padding: 14px 32px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #007a60, #00a07a);
+  color: #fff; font-family: 'Space Grotesk', sans-serif;
   font-size: 15px; font-weight: 700; cursor: pointer;
   transition: all 250ms; text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0,106,97,0.25);
+  box-shadow: 0 0 20px rgba(0,255,179,0.25);
+  border: 1px solid rgba(0,255,179,0.3);
 }
-.landingCtaPrimary:hover { box-shadow: 0 8px 32px rgba(0,106,97,0.35); transform: translateY(-2px); }
-.landingCtaPrimary .material-symbols-outlined { font-size: 20px; }
+.landingCtaPrimary:hover {
+  box-shadow: 0 0 40px rgba(0,255,179,0.45); transform: translateY(-2px);
+}
 .landingCtaSecondary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px; border: 1px solid rgba(11,28,48,0.12); border-radius: 14px;
-  background: #fff; color: #0b1c30; font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: all 200ms; text-decoration: none;
+  padding: 14px 28px; border: 1px solid var(--cyber-border); border-radius: 12px;
+  background: rgba(0,255,179,0.04); color: var(--cyber-text);
+  font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 200ms; text-decoration: none;
 }
-.landingCtaSecondary:hover { border-color: #006a61; color: #006a61; }
+.landingCtaSecondary:hover {
+  border-color: var(--cyber-green); color: var(--cyber-green);
+  box-shadow: 0 0 16px rgba(0,255,179,0.15);
+}
+.landingCtaPrimary .material-symbols-outlined,
 .landingCtaSecondary .material-symbols-outlined { font-size: 20px; }
 
 /* ─── Stats Strip ─── */
 .landingStats {
-  display: flex; justify-content: center; gap: 48px; padding: 40px 40px;
-  background: #fff; border-top: 1px solid rgba(11,28,48,0.04);
-  border-bottom: 1px solid rgba(11,28,48,0.04);
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; gap: 0;
+  border-top: 1px solid var(--cyber-border);
+  border-bottom: 1px solid var(--cyber-border);
+  background: rgba(6,25,43,0.7);
 }
-.landingStat { text-align: center; }
+.landingStat {
+  flex: 1; max-width: 200px; text-align: center;
+  padding: 24px 20px;
+  border-right: 1px solid var(--cyber-border);
+}
+.landingStat:last-child { border-right: none; }
 .landingStatValue {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 32px; font-weight: 800; color: #006a61;
+  font-size: 22px; font-weight: 800; color: var(--cyber-green);
+  text-shadow: 0 0 12px rgba(0,255,179,0.4);
 }
 .landingStatLabel {
-  font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 12px; color: rgba(11,28,48,0.45); margin-top: 2px;
+  font-size: 11px; color: var(--cyber-muted); margin-top: 3px; letter-spacing: 0.4px;
 }
 
 /* ─── Features ─── */
-.landingFeatures { padding: 80px 40px; background: #f4f6fa; }
-.landingFeaturesInner { max-width: 1000px; margin: 0 auto; }
+.landingFeatures { position: relative; z-index: 1; padding: 80px 40px; }
+.landingFeaturesInner { max-width: 1040px; margin: 0 auto; }
 .landingFeaturesTitle {
-  text-align: center; font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 32px; font-weight: 800; color: #0b1c30; margin: 0 0 8px;
+  text-align: center; font-size: 32px; font-weight: 800;
+  color: #e8f4ff; margin: 0 0 8px; letter-spacing: -0.5px;
+}
+.landingFeaturesTitleAccent {
+  background: linear-gradient(90deg, var(--cyber-green), var(--cyber-teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .landingFeaturesSub {
-  text-align: center; font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 15px; color: rgba(11,28,48,0.5); margin: 0 0 48px;
+  text-align: center; font-size: 14px; color: var(--cyber-muted); margin: 0 0 48px;
 }
 .landingFeaturesGrid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
 .landingFeatureCard {
-  background: #fff; border-radius: 16px; padding: 28px 24px;
-  border: 1px solid rgba(11,28,48,0.05);
-  box-shadow: 0 1px 6px rgba(15,23,42,0.04);
-  transition: all 250ms;
+  background: var(--cyber-card);
+  border: 1px solid var(--cyber-border);
+  border-radius: 16px; padding: 28px 22px;
+  transition: all 280ms;
+  backdrop-filter: blur(8px);
 }
-.landingFeatureCard:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(15,23,42,0.08); }
+.landingFeatureCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0,255,179,0.35);
+  box-shadow: 0 0 30px rgba(0,255,179,0.12), 0 8px 32px rgba(0,0,0,0.3);
+}
 .landingFeatureIcon {
   width: 48px; height: 48px; border-radius: 12px;
   display: grid; place-items: center; margin-bottom: 16px;
+  border: 1px solid transparent;
 }
 .landingFeatureIcon .material-symbols-outlined { font-size: 24px; }
-.landingFeatureIcon.teal { background: rgba(0,106,97,0.1); color: #006a61; }
-.landingFeatureIcon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
-.landingFeatureIcon.purple { background: rgba(139,92,246,0.1); color: #8b5cf6; }
-.landingFeatureIcon.amber { background: rgba(245,158,11,0.1); color: #f59e0b; }
-.landingFeatureIcon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
-.landingFeatureIcon.indigo { background: rgba(99,102,241,0.1); color: #6366f1; }
+.landingFeatureIcon.teal   { background: rgba(0,255,179,0.1); color: var(--cyber-green);  border-color: rgba(0,255,179,0.2); }
+.landingFeatureIcon.blue   { background: rgba(14,165,233,0.1); color: var(--cyber-blue);  border-color: rgba(14,165,233,0.2); }
+.landingFeatureIcon.purple { background: rgba(139,92,246,0.1); color: #a78bfa;            border-color: rgba(139,92,246,0.2); }
+.landingFeatureIcon.amber  { background: rgba(251,191,36,0.1); color: var(--cyber-amber); border-color: rgba(251,191,36,0.2); }
+.landingFeatureIcon.red    { background: rgba(255,77,109,0.1); color: var(--cyber-red);   border-color: rgba(255,77,109,0.2); }
+.landingFeatureIcon.indigo { background: rgba(99,102,241,0.1); color: #818cf8;            border-color: rgba(99,102,241,0.2); }
 .landingFeatureTitle {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 16px; font-weight: 700; color: #0b1c30; margin-bottom: 8px;
+  font-size: 15px; font-weight: 700; color: #e8f4ff; margin-bottom: 8px;
 }
 .landingFeatureDesc {
-  font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 13px; line-height: 1.6; color: rgba(11,28,48,0.5);
+  font-size: 13px; line-height: 1.6; color: var(--cyber-muted);
 }
 
 /* ─── CTA Section ─── */
-.landingCta {
-  padding: 80px 40px; text-align: center; background: #fff;
-}
+.landingCta { position: relative; z-index: 1; padding: 70px 40px; text-align: center; }
 .landingCtaBox {
-  max-width: 600px; margin: 0 auto; padding: 48px 40px;
-  background: linear-gradient(135deg, #0f172a, #1a2847);
-  border-radius: 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.15);
+  max-width: 620px; margin: 0 auto; padding: 52px 44px;
+  background: linear-gradient(135deg, #081a2f, #0a2440);
+  border: 1px solid var(--cyber-border);
+  border-radius: 24px;
+  box-shadow: 0 0 60px rgba(0,255,179,0.08), 0 16px 48px rgba(0,0,0,0.5);
+  position: relative; overflow: hidden;
+}
+.landingCtaBox::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,179,0.12), transparent 65%);
+  pointer-events: none;
 }
 .landingCtaBoxTitle {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 28px; font-weight: 800; color: #fff; margin: 0 0 10px;
+  font-size: 28px; font-weight: 800; color: #e8f4ff; margin: 0 0 10px;
 }
-.landingCtaBoxSub {
-  font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px;
-}
+.landingCtaBoxSub { font-size: 14px; color: var(--cyber-muted); margin: 0 0 28px; }
 .landingCtaBoxBtn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 36px; border: none; border-radius: 14px;
-  background: linear-gradient(135deg, #006a61, #00897b);
-  color: #fff; font-family: "Space Grotesk", system-ui, sans-serif;
+  padding: 14px 36px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #007a60, #00a07a);
+  color: #fff; font-family: 'Space Grotesk', sans-serif;
   font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: all 250ms; text-decoration: none;
+  transition: all 250ms;
+  border: 1px solid rgba(0,255,179,0.3);
+  box-shadow: 0 0 24px rgba(0,255,179,0.3);
 }
-.landingCtaBoxBtn:hover { box-shadow: 0 6px 24px rgba(0,106,97,0.4); transform: translateY(-2px); }
+.landingCtaBoxBtn:hover { box-shadow: 0 0 44px rgba(0,255,179,0.5); transform: translateY(-2px); }
 .landingCtaBoxBtn .material-symbols-outlined { font-size: 20px; }
+
+/* ─── Threat Ticker ─── */
+.threatTicker {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(4,17,30,0.96);
+  border-top: 1px solid rgba(255,77,109,0.3);
+  padding: 7px 0;
+  display: flex; align-items: center; overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+.tickerLabel {
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-size: 10px; font-weight: 800;
+  color: var(--cyber-red);
+  letter-spacing: 1.5px;
+  border-right: 1px solid rgba(255,77,109,0.3);
+  white-space: nowrap;
+}
+.tickerTrack {
+  display: flex; gap: 0; overflow: hidden; flex: 1;
+}
+.tickerInner {
+  display: flex; gap: 48px;
+  animation: tickerScroll 30s linear infinite;
+  white-space: nowrap;
+}
+.tickerInner span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; color: var(--cyber-muted);
+  white-space: nowrap;
+}
+.tickerInner span::before {
+  content: '▸ '; color: var(--cyber-red); margin-right: 4px;
+}
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 /* ─── Footer ─── */
 .landingFooter {
-  padding: 24px 40px; text-align: center;
-  border-top: 1px solid rgba(11,28,48,0.06);
-  font-family: "Public Sans", system-ui, sans-serif;
-  font-size: 12px; color: rgba(11,28,48,0.35);
+  position: relative; z-index: 1;
+  padding: 24px 40px 72px; text-align: center;
+  border-top: 1px solid var(--cyber-border);
+  font-size: 12px; color: var(--cyber-muted);
+}
+
+/* ─── Auth Modal ─── */
+.authModalOverlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.authModalBackdrop {
+  position: absolute; inset: 0;
+  background: rgba(4,17,30,0.85); backdrop-filter: blur(6px);
 }
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .landingNav { padding: 12px 16px; }
   .landingNavTitle { font-size: 15px; }
-  .landingHero { padding: 50px 20px 60px; }
-  .landingHeroTitle { font-size: 34px; }
-  .landingHeroSub { font-size: 15px; }
-  .landingStats { gap: 24px; flex-wrap: wrap; padding: 30px 20px; }
-  .landingStatValue { font-size: 24px; }
+  .landingHero { padding: 48px 20px 60px; }
+  .landingHeroTitle, .landingHeroTitle2 { font-size: 34px; }
+  .landingHeroSub { font-size: 14px; }
+  .landingStats { flex-wrap: wrap; gap: 0; }
+  .landingStat { flex: 1 1 50%; border-bottom: 1px solid var(--cyber-border); }
   .landingFeatures { padding: 50px 20px; }
-  .landingFeaturesGrid { grid-template-columns: 1fr; gap: 16px; }
+  .landingFeaturesGrid { grid-template-columns: 1fr; gap: 14px; }
   .landingFeaturesTitle { font-size: 24px; }
   .landingCta { padding: 50px 20px; }
-  .landingCtaBox { padding: 32px 24px; border-radius: 18px; }
+  .landingCtaBox { padding: 32px 22px; }
   .landingCtaBoxTitle { font-size: 22px; }
-  .landingFooter { padding: 20px 16px; }
+  .landingFooter { padding: 20px 16px 72px; }
+}
+@media (max-width: 480px) {
+  .landingHeroTitle, .landingHeroTitle2 { font-size: 28px; letter-spacing: -1px; }
+  .landingHeroActions { flex-direction: column; align-items: center; }
+  .landingCtaPrimary, .landingCtaSecondary { width: 100%; justify-content: center; }
+  .landingNavBtn { padding: 8px 14px; font-size: 12px; }
+}
+
+/* ─── START Button variant ─── */
+.landingCtaStart {
+  padding: 16px 52px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  border-radius: 14px;
+  box-shadow: 0 0 32px rgba(0,255,179,0.4), 0 0 64px rgba(0,255,179,0.15);
+  animation: startPulse 2.5s ease-in-out infinite;
+  gap: 12px;
+}
+
+@keyframes startPulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(0,255,179,0.35), 0 0 48px rgba(0,255,179,0.12); }
+  50%       { box-shadow: 0 0 48px rgba(0,255,179,0.55), 0 0 88px rgba(0,255,179,0.22); }
+}
+
+.landingCtaStart:hover {
+  transform: translateY(-3px) scale(1.02);
+  animation: none;
+  box-shadow: 0 0 60px rgba(0,255,179,0.65), 0 0 100px rgba(0,255,179,0.25);
+}
+
+/* ─── Role Picker Screen ─── */
+.landingRolePicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: rolePickerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 16px 0;
+}
+
+@keyframes rolePickerIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Back button */
+.landingRoleBack {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--cyber-border);
+  border-radius: 8px;
+  padding: 7px 14px;
+  color: var(--cyber-muted);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 8px;
+}
+
+.landingRoleBack:hover {
+  color: var(--cyber-green);
+  border-color: var(--cyber-green);
+  box-shadow: 0 0 10px rgba(0,255,179,0.15);
+}
+
+/* Title */
+.landingRoleTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #e8f4ff;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.landingRoleSub {
+  font-size: 15px;
+  color: var(--cyber-muted);
+  margin: 0 0 24px;
+}
+
+/* Cards row */
+.landingRoleCards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Individual role card */
+.landingRoleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 24px;
+  width: 160px;
+  background: var(--cyber-card);
+  border: 1.5px solid var(--cyber-border);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(8px);
+  animation: roleCardFadeIn 0.4s ease both;
+}
+
+.landingRoleCard:nth-child(1) { animation-delay: 0.05s; }
+.landingRoleCard:nth-child(2) { animation-delay: 0.12s; }
+.landingRoleCard:nth-child(3) { animation-delay: 0.19s; }
+
+@keyframes roleCardFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.landingRoleCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyber-green);
+  box-shadow: 0 0 28px rgba(0,255,179,0.25), 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.landingRoleCardIcon {
+  font-size: 2.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+
+.landingRoleCardLabel {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #e8f4ff;
+  letter-spacing: 0.02em;
+}
+
+.landingRoleCardDesc {
+  font-size: 11px;
+  color: var(--cyber-muted);
+  text-align: center;
+  line-height: 1.4;
 }
 
 @media (max-width: 480px) {
-  .landingHeroTitle { font-size: 28px; letter-spacing: -1px; }
-  .landingHeroActions { flex-direction: column; align-items: center; }
-  .landingCtaPrimary, .landingCtaSecondary { width: 100%; justify-content: center; }
-  .landingNavCta { padding: 8px 16px; font-size: 12px; }
+  .landingRoleTitle { font-size: 26px; }
+  .landingRoleCards { gap: 12px; }
+  .landingRoleCard { width: calc(50% - 6px); padding: 20px 14px; }
+  .landingRoleCard:last-child { width: 100%; }
+  .landingCtaStart { padding: 16px 36px; font-size: 16px; width: 100%; }
 }

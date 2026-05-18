@@ -435,6 +435,37 @@ class TeacherContentController extends Controller
         return response()->json(['message' => 'Choice deleted.']);
     }
 
+    // ─── Simulation Videos ───────────────────────────────────────────────────────
+
+    public function storeVideo(Request $request, Simulation $simulation)
+    {
+        abort_if($simulation->created_by !== $this->teacherId(), 403, 'Unauthorized');
+
+        $validated = $request->validate([
+            'title'       => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'video_url'   => ['nullable', 'string', 'max:1000'],
+            'sort_order'  => ['nullable', 'integer'],
+        ]);
+
+        $video = $simulation->videos()->create([
+            'title'       => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'video_url'   => $validated['video_url'] ?? null,
+            'sort_order'  => $validated['sort_order'] ?? 0,
+        ]);
+
+        return response()->json(['video' => $video], 201);
+    }
+
+    public function destroyVideo(\App\Models\SimulationVideo $video)
+    {
+        $sim = Simulation::findOrFail($video->simulation_id);
+        abort_if($sim->created_by !== $this->teacherId(), 403, 'Unauthorized');
+        $video->delete();
+        return response()->json(['message' => 'Video deleted.']);
+    }
+
     // Shared: categories list (read-only, reuse admin categories)
     public function categories()
     {

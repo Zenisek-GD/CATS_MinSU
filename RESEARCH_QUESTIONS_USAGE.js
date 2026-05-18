@@ -247,7 +247,7 @@ async function generateCompleteResearchReport() {
       rq4: '88.5% of participants showed behavioral readiness, with strong correlation between engagement and behavior change.',
     },
     recommendations: [
-      'Prioritize simulation-based learning for cybercrime awareness training',
+      'Prioritize simulation-based learning for cyber awareness training',
       'Improve quiz usability interface (rated 3.8 vs simulation 4.4)',
       'Expand simulation scenarios based on positive feedback',
       'Focus on support for participants in "Needs Support" category',

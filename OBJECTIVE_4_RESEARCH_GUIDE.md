@@ -4,7 +4,7 @@
 
 Objective 4 focuses on:
 
-> "Identify key themes and participant perceptions regarding the usability, relevance, and practicality of simulation-based learning in cybercrime awareness"
+> "Identify key themes and participant perceptions regarding the usability, relevance, and practicality of simulation-based learning in cyber awareness"
 
 This guide explains how to use the new `UserFeedback` model and API endpoints to collect, analyze, and report on participant feedback.
 
@@ -19,7 +19,7 @@ This guide explains how to use the new `UserFeedback` model and API endpoints to
 
 ### 2. **Relevance** (5-point Likert scale)
 
-- "This content was relevant to cybercrime awareness"
+- "This content was relevant to cyber awareness"
 - Measures alignment with learning objectives
 
 ### 3. **Practicality** (5-point Likert scale)
@@ -271,7 +271,7 @@ Response: {
 - Simulations rated higher: 4.4 vs Quizzes: 3.8
 - Implication: Interactive simulations easier to navigate
 
-## 2. RELEVANCE TO CYBERCRIME AWARENESS
+## 2. RELEVANCE TO CYBER AWARENESS
 
 - Average relevance score: 4.6/5 (92%)
 - Simulations: 5.0 (highest possible)
@@ -299,7 +299,7 @@ From participant comments:
 - Realistic scenarios (19 mentions)
 - Practical application (23 mentions)
 - Highly engaging (18 mentions)
-- Relevant to cybercrime (16 mentions)
+- Relevant to cyber (16 mentions)
 
 **Areas for Improvement:**
 
@@ -326,14 +326,14 @@ From participant comments:
 1. Simulation-based learning significantly outperforms traditional quizzes
    across all measured dimensions
 2. Participants perceive the interactive system as highly relevant
-   to real cybercrime scenarios
+   to real cyber scenarios
 3. Usability is strong, but could be improved in quiz interface
 4. Engagement is excellent, particularly with simulations
 5. Content difficulty is well-calibrated for target audience
 
 ## 9. RECOMMENDATIONS
 
-1. Prioritize simulation-based content for cybercrime awareness
+1. Prioritize simulation-based content for cyber awareness
 2. Investigate quiz UI improvements for better usability
 3. Maintain current difficulty levels
 4. Expand simulation scenarios based on participant feedback

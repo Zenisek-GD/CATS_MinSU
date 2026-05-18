@@ -57,9 +57,6 @@ class TeacherClassroomController extends Controller
             'status' => 'active',
         ]);
 
-        // Generate QR code
-        $this->generateQrCode($classroom);
-
         return response()->json([
             'message' => 'Classroom created successfully',
             'classroom' => $classroom->load('teacher'),

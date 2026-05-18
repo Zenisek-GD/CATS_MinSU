@@ -19,6 +19,7 @@ import TeacherClassroomDetailPage from './pages/TeacherClassroomDetailPage'
 import TeacherReportsPage from './pages/TeacherReportsPage'
 import TeacherResourcesPage from './pages/TeacherResourcesPage'
 import TeacherFeedbackPage from './pages/TeacherFeedbackPage'
+import TeacherManagePage from './pages/TeacherManagePage'
 import StudentClassroomsPage from './pages/StudentClassroomsPage'
 import StudentClassroomDetailPage from './pages/StudentClassroomDetailPage'
 import { PwaInstallBanner } from './components/PwaInstallBanner'
@@ -208,6 +209,14 @@ function AppRoutes() {
         element={
           <Guard allowed={['teacher', 'admin']}>
             <TeacherFeedbackPage />
+          </Guard>
+        }
+      />
+      <Route
+        path="/teacher/manage"
+        element={
+          <Guard allowed={['teacher', 'admin']}>
+            <TeacherManagePage />
           </Guard>
         }
       />

@@ -145,6 +145,9 @@ export default function ProfilePage() {
                 <Link className="modulesNavItem" to="/teacher/reports">
                   <Icon name="assessment" size={20} /><span>Reports</span>
                 </Link>
+                <Link className="modulesNavItem" to="/teacher/manage">
+                  <Icon name="edit_note" size={20} /><span>Content</span>
+                </Link>
                 <Link className="modulesNavItem" to="/teacher/feedback">
                   <Icon name="feedback" size={20} /><span>Feedback</span>
                 </Link>
@@ -617,6 +620,9 @@ export default function ProfilePage() {
                 </Link>
                 <Link className="bottomNavItem" to="/teacher/reports">
                   <Icon name="assessment" size={20} /><span>Reports</span>
+                </Link>
+                <Link className="bottomNavItem" to="/teacher/manage">
+                  <Icon name="edit_note" size={20} /><span>Content</span>
                 </Link>
                 <Link className="bottomNavItem" to="/teacher/feedback">
                   <Icon name="feedback" size={20} /><span>Feedback</span>

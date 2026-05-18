@@ -6,7 +6,7 @@ This guide explains how to use the CATS_MinSU system to answer the four core res
 
 ## Research Question 1
 
-### "How does the interactive cybercrime awareness training system affect participants' understanding of common cyber threats?"
+### "How does the interactive cyber awareness training system affect participants' understanding of common cyber threats?"
 
 **API Endpoint:**
 
@@ -27,7 +27,7 @@ Headers: Authorization: Bearer {admin_token}
 
 ```json
 {
-  "research_question": "How does the interactive cybercrime awareness training system affect participants' understanding of common cyber threats?",
+  "research_question": "How does the interactive cyber awareness training system affect participants' understanding of common cyber threats?",
   "total_participants": 156,
   "knowledge_gain_analysis": {
     "average_knowledge_gain": 2.3,
@@ -157,7 +157,7 @@ Headers: Authorization: Bearer {admin_token}
 
 ## Research Question 3
 
-### "What are the lived experiences and perceptions of users who undergo the interactive cybercrime awareness training?"
+### "What are the lived experiences and perceptions of users who undergo the interactive cyber awareness training?"
 
 **API Endpoint:**
 
@@ -179,7 +179,7 @@ Headers: Authorization: Bearer {admin_token}
 
 ```json
 {
-  "research_question": "What are the lived experiences and perceptions of users who undergo the interactive cybercrime awareness training?",
+  "research_question": "What are the lived experiences and perceptions of users who undergo the interactive cyber awareness training?",
   "quantitative_summary": {
     "total_responses": 156,
     "usability_avg": 4.1,

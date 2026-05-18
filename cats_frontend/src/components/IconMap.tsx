@@ -8,9 +8,11 @@ type IconProps = SVGProps<SVGElement> & { title?: string; className?: string; si
  */
 export const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   add: MdIcons.MdAdd,
+  add_circle: MdIcons.MdAddCircle,
   admin_panel_settings: MdIcons.MdAdminPanelSettings,
   archive: MdIcons.MdArchive,
   arrow_back: MdIcons.MdArrowBack,
+  arrow_downward: MdIcons.MdArrowDownward,
   arrow_forward: MdIcons.MdArrowForward,
   assessment: MdIcons.MdAssessment,
   assignment: MdIcons.MdAssignment,
@@ -89,6 +91,7 @@ export const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   radio_button_checked: MdIcons.MdRadioButtonChecked,
   radio_button_unchecked: MdIcons.MdRadioButtonUnchecked,
   refresh: MdIcons.MdRefresh,
+  rocket_launch: MdIcons.MdRocketLaunch,
   schedule: MdIcons.MdSchedule,
   school: MdIcons.MdSchool,
   search: MdIcons.MdSearch,

@@ -45,7 +45,7 @@ class SimulationRunController extends Controller
             'current_step_id' => $firstStep->id,
         ]);
 
-        $simulation->load(['category:id,slug,name']);
+        $simulation->load(['category:id,slug,name', 'videos']);
 
         return response()->json([
             'run' => $this->presentRun($run, $simulation, $firstStep),
@@ -61,7 +61,7 @@ class SimulationRunController extends Controller
             return response()->json(['message' => 'Not found.'], 404);
         }
 
-        $simulation = $run->simulation()->with('category:id,slug,name')->firstOrFail();
+        $simulation = $run->simulation()->with(['category:id,slug,name', 'videos'])->firstOrFail();
 
         /** @var SimulationStep|null $step */
         $step = null;
@@ -101,7 +101,7 @@ class SimulationRunController extends Controller
                 $run->current_step_id = null;
                 $run->save();
 
-                $simulation = $run->simulation()->with('category:id,slug,name')->firstOrFail();
+                $simulation = $run->simulation()->with(['category:id,slug,name', 'videos'])->firstOrFail();
 
                 return response()->json([
                     'run' => $this->presentRun($run, $simulation, null),
@@ -159,7 +159,7 @@ class SimulationRunController extends Controller
             $run->save();
         }
 
-        $simulation = $run->simulation()->with('category:id,slug,name')->firstOrFail();
+        $simulation = $run->simulation()->with(['category:id,slug,name', 'videos'])->firstOrFail();
 
         $aiFeedback = null;
         $coachCtx = [
@@ -193,6 +193,19 @@ class SimulationRunController extends Controller
         $safeCount = SimulationRunEvent::query()->where('run_id', $run->id)->where('is_safe', true)->count();
         $unsafeCount = SimulationRunEvent::query()->where('run_id', $run->id)->where('is_safe', false)->count();
 
+        $videos = $simulation->relationLoaded('videos')
+            ? $simulation->videos->map(fn($v) => [
+                'id' => $v->id,
+                'simulation_id' => $v->simulation_id,
+                'title' => $v->title,
+                'description' => $v->description,
+                'video_url' => $v->video_url,
+                'video_path' => $v->video_path,
+                'playback_url' => $v->playback_url,
+                'sort_order' => (int) $v->sort_order,
+            ])->values()
+            : [];
+
         return [
             'id' => $run->id,
             'status' => $run->status,
@@ -206,7 +219,10 @@ class SimulationRunController extends Controller
                 'title' => $simulation->title,
                 'description' => $simulation->description,
                 'difficulty' => $simulation->difficulty,
+                'time_limit_seconds' => $simulation->time_limit_seconds,
+                'max_score' => $simulation->max_score,
                 'category' => $simulation->category?->only(['id', 'slug', 'name']),
+                'videos' => $videos,
             ],
             'current_step' => $step ? $this->presentStep($step) : null,
             'stats' => [

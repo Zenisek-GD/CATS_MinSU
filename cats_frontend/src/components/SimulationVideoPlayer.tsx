@@ -10,10 +10,33 @@ interface Props {
 }
 
 function getYouTubeId(url: string): string | null {
-  const match = url.match(
-    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-  )
-  return match ? match[1] : null
+  try {
+    const u = new URL(url)
+    const host = u.hostname.replace(/^www\./, '')
+
+    if (host === 'youtu.be') {
+      const id = u.pathname.split('/').filter(Boolean)[0]
+      return id && /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null
+    }
+
+    if (host.endsWith('youtube.com')) {
+      const v = u.searchParams.get('v')
+      if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v
+
+      const parts = u.pathname.split('/').filter(Boolean)
+      // /embed/:id, /shorts/:id, /live/:id
+      const idx = parts.findIndex(p => p === 'embed' || p === 'shorts' || p === 'live')
+      if (idx >= 0 && parts[idx + 1] && /^[a-zA-Z0-9_-]{11}$/.test(parts[idx + 1])) return parts[idx + 1]
+    }
+
+    return null
+  } catch {
+    // Fallback to regex for non-URL-safe strings
+    const match = url.match(
+      /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+    )
+    return match ? match[1] : null
+  }
 }
 
 function isGoogleDrive(url: string): boolean {
@@ -21,10 +44,33 @@ function isGoogleDrive(url: string): boolean {
 }
 
 function getDriveEmbedUrl(url: string): string {
-  // Convert share link to embed link
-  const match = url.match(/\/d\/([^/]+)/)
-  if (match) return `https://drive.google.com/file/d/${match[1]}/preview`
-  return url
+  // Convert common share links to a preview embed.
+  // Supports:
+  // - https://drive.google.com/file/d/<id>/view
+  // - https://drive.google.com/open?id=<id>
+  // - https://drive.google.com/uc?id=<id>&export=download
+  try {
+    const u = new URL(url)
+    const fromQuery = u.searchParams.get('id')
+    if (fromQuery) return `https://drive.google.com/file/d/${fromQuery}/preview`
+
+    const match = u.pathname.match(/\/d\/([^/]+)/)
+    if (match?.[1]) return `https://drive.google.com/file/d/${match[1]}/preview`
+
+    return url
+  } catch {
+    const match = url.match(/\/d\/([^/]+)/)
+    if (match?.[1]) return `https://drive.google.com/file/d/${match[1]}/preview`
+    return url
+  }
+}
+
+function guessVideoMimeType(url: string): string | undefined {
+  const lower = url.toLowerCase()
+  if (lower.endsWith('.mp4')) return 'video/mp4'
+  if (lower.endsWith('.webm')) return 'video/webm'
+  if (lower.endsWith('.ogg') || lower.endsWith('.ogv')) return 'video/ogg'
+  return undefined
 }
 
 export function SimulationVideoPlayer({ video, index, total }: Props) {
@@ -34,6 +80,11 @@ export function SimulationVideoPlayer({ video, index, total }: Props) {
   const ytId = url ? getYouTubeId(url) : null
   const isDrive = url ? isGoogleDrive(url) : false
   const isLocal = !ytId && !isDrive && !!url
+  const mimeType = url ? guessVideoMimeType(url) : undefined
+  const ytOrigin = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : null
+  const ytSrc = ytId
+    ? `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1${ytOrigin ? `&origin=${ytOrigin}` : ''}`
+    : null
 
   return (
     <div className={`svpCard ${expanded ? 'expanded' : ''}`}>
@@ -61,7 +112,7 @@ export function SimulationVideoPlayer({ video, index, total }: Props) {
               {ytId ? (
                 <iframe
                   className="svpIframe"
-                  src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1`}
+                  src={ytSrc ?? undefined}
                   title={video.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -75,8 +126,8 @@ export function SimulationVideoPlayer({ video, index, total }: Props) {
                   allowFullScreen
                 />
               ) : isLocal ? (
-                <video className="svpVideo" controls>
-                  <source src={url} />
+                <video className="svpVideo" controls playsInline preload="metadata">
+                  <source src={url} type={mimeType} />
                   Your browser does not support the video tag.
                 </video>
               ) : (

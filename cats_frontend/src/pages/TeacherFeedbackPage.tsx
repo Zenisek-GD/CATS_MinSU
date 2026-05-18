@@ -120,6 +120,7 @@ export default function TeacherFeedbackPage() {
             <Link className="modulesNavItem" to="/teacher/classrooms"><Icon name="groups" size={20} /><span>Classrooms</span></Link>
             <Link className="modulesNavItem" to="/teacher/reports"><Icon name="assessment" size={20} /><span>Reports</span></Link>
             <Link className="modulesNavItem" to="/teacher/resources"><Icon name="video_library" size={20} /><span>Resources</span></Link>
+            <Link className="modulesNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="modulesNavItem active" to="/teacher/feedback" aria-current="page"><Icon name="feedback" size={20} /><span>Feedback</span></Link>
             <Link className="modulesNavItem" to="/profile"><Icon name="person" size={20} /><span>Profile</span></Link>
           </nav>
@@ -258,6 +259,7 @@ export default function TeacherFeedbackPage() {
           <nav className="modulesBottomNav" aria-label="Bottom navigation">
             <Link className="bottomNavItem" to="/teacher/classrooms"><Icon name="groups" size={20} /><span>Classes</span></Link>
             <Link className="bottomNavItem" to="/teacher/reports"><Icon name="assessment" size={20} /><span>Reports</span></Link>
+            <Link className="bottomNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="bottomNavItem active" to="/teacher/feedback" aria-current="page"><Icon name="feedback" size={20} /><span>Feedback</span></Link>
             <Link className="bottomNavItem" to="/profile"><Icon name="person" size={20} /><span>Profile</span></Link>
           </nav>

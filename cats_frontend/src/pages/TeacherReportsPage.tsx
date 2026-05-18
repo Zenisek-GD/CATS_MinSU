@@ -201,6 +201,10 @@ export default function TeacherReportsPage() {
               <Icon name="library_books" size={20} />
               <span>Resources</span>
             </Link>
+            <Link className="modulesNavItem" to="/teacher/manage">
+              <Icon name="edit_note" size={20} />
+              <span>Content</span>
+            </Link>
             <Link className="modulesNavItem" to="/teacher/feedback">
               <Icon name="feedback" size={20} />
               <span>Feedback</span>
@@ -491,6 +495,7 @@ export default function TeacherReportsPage() {
               <span>Classes</span>
             </Link>
             <Link className="bottomNavItem" to="/teacher/reports" aria-current="page"><Icon name="assessment" size={20} /><span>Reports</span></Link>
+            <Link className="bottomNavItem" to="/teacher/manage"><Icon name="edit_note" size={20} /><span>Content</span></Link>
             <Link className="bottomNavItem" to="/teacher/feedback"><Icon name="feedback" size={20} /><span>Feedback</span></Link>
             <Link className="bottomNavItem" to="/profile"><Icon name="person" size={20} /><span>Profile</span></Link>
           </nav>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CATS_MinSU system has been enhanced with comprehensive data collection and analysis capabilities to answer four core research questions about cybercrime awareness training effectiveness.
+The CATS_MinSU system has been enhanced with comprehensive data collection and analysis capabilities to answer four core research questions about cyber awareness training effectiveness.
 
 ---
 
@@ -94,7 +94,7 @@ Columns:
 
 ### RQ1: Understanding of Cyber Threats
 
-**Question:** "How does the interactive cybercrime awareness training system affect participants' understanding of common cyber threats?"
+**Question:** "How does the interactive cyber awareness training system affect participants' understanding of common cyber threats?"
 
 **Endpoint:** `GET /api/admin/research/rq1`
 
@@ -139,7 +139,7 @@ Behavioral Change Rate:     88.5%
 
 ### RQ3: Lived Experiences & Perceptions
 
-**Question:** "What are the lived experiences and perceptions of users who undergo the interactive cybercrime awareness training?"
+**Question:** "What are the lived experiences and perceptions of users who undergo the interactive cyber awareness training?"
 
 **Endpoint:** `GET /api/admin/research/rq3`
 

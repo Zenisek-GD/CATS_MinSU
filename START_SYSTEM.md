@@ -44,7 +44,7 @@ npm run build
 
 ### Step 3 — Copy Frontend Build into Backend
 ```powershell
-Copy-Item -Path "C:\Users\Gerald\Desktop\SysAdmin\CATS_MinSU\cats_frontend\dist\*" -Destination "C:\Users\Gerald\Desktop\SysAdmin\CATS_MinSU\cats_backend\public\dist\" -Recurse -Force
+Copy-Item -Path "C:\Users\Gerald\Desktop\SysAdmin\CATS_MinSU\cats_frontend\dist\*" -Destination "C:\Users\Gerald\Desktop\SysAdmin\CATS_MinSU\cats_backend\public\" -Recurse -Force
 ```
 
 ### Step 4 — Start ngrok Tunnel (new terminal)
@@ -78,7 +78,7 @@ FRONTEND_URL=https://xxxx.ngrok-free.dev
 ```powershell
 cd C:\Users\Gerald\Desktop\SysAdmin\CATS_MinSU\cats_frontend
 npm run build
-Copy-Item -Path "dist\*" -Destination "..\cats_backend\public\dist\" -Recurse -Force
+Copy-Item -Path "dist\*" -Destination "..\cats_backend\public\" -Recurse -Force
 ```
 
 ### Step 9 — Clear Laravel Config Cache
@@ -179,7 +179,7 @@ php artisan cache:clear
 ```powershell
 cd cats_frontend
 npm run build
-Copy-Item -Path "dist\*" -Destination "..\cats_backend\public\dist\" -Recurse -Force
+Copy-Item -Path "dist\*" -Destination "..\cats_backend\public\" -Recurse -Force
 ```
 
 ---

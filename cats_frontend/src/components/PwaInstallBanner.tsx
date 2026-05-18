@@ -3,23 +3,17 @@ import { usePwaInstall } from './usePwaInstall'
 import { Icon } from './IconMap'
 import './PwaInstallBanner.css'
 
-/** Only show on touch / mobile devices */
-function isMobileDevice() {
-  return (
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0 ||
-    window.innerWidth <= 768
-  )
-}
-
 export function PwaInstallBanner() {
   const { canInstall, triggerInstall, dismiss } = usePwaInstall()
   const [visible, setVisible] = useState(false)
 
-  // Delay appearance by 3 s so it doesn't startle on first load
+  // Small delay so it doesn't appear instantly on first render
   useEffect(() => {
-    if (!canInstall || !isMobileDevice()) return
-    const t = setTimeout(() => setVisible(true), 3000)
+    if (!canInstall) return
+    const t = setTimeout(() => {
+      console.log('[PWA Banner] Showing install prompt')
+      setVisible(true)
+    }, 1500)
     return () => clearTimeout(t)
   }, [canInstall])
 
@@ -27,47 +21,32 @@ export function PwaInstallBanner() {
 
   async function handleInstall() {
     setVisible(false)
+    console.log('[PWA Banner] Install clicked')
     await triggerInstall()
   }
 
   function handleDismiss() {
     setVisible(false)
+    console.log('[PWA Banner] Dismissed')
     dismiss()
   }
 
   return (
-    <div className="pwaBackdrop" role="dialog" aria-modal="true" aria-label="Install app prompt">
-      <div className="pwaBanner">
-        {/* Close button */}
-        <button className="pwaClose" onClick={handleDismiss} aria-label="Dismiss">
-          <Icon name="close" size={18} />
-        </button>
+    <div className="pwaToast" role="dialog" aria-label="Install app">
+      <button className="pwaClose" onClick={handleDismiss} aria-label="Dismiss">
+        <Icon name="close" size={18} />
+      </button>
 
-        {/* App icon */}
-        <div className="pwaIconWrap">
-          <img src="/cats logo.png" alt="CyberAware" className="pwaIcon" />
+      <div className="pwaRow">
+        <div className="pwaText">
+          <div className="pwaTitle">Install CyberAware</div>
+          <div className="pwaSubtitle">Add to your home screen or install as an app.</div>
         </div>
 
-        {/* Text */}
-        <h2 className="pwaTitle">Install CyberAware</h2>
-        <p className="pwaSubtitle">
-          Add to your home screen for faster access — works offline too!
-        </p>
-
-        {/* Feature chips */}
-        <div className="pwaFeatures">
-          <span className="pwaChip"><Icon name="bolt" size={14} /> Faster access</span>
-          <span className="pwaChip"><Icon name="wifi_off" size={14} /> Works offline</span>
-          <span className="pwaChip"><Icon name="notifications" size={14} /> Push alerts</span>
-        </div>
-
-        {/* Actions */}
         <div className="pwaActions">
-          <button className="pwaBtnSecondary" onClick={handleDismiss}>
-            Not now
-          </button>
+          <button className="pwaBtnSecondary" onClick={handleDismiss}>Not now</button>
           <button className="pwaBtnPrimary" onClick={handleInstall}>
-            <Icon name="download" size={16} /> Install App
+            <Icon name="download" size={16} /> Install
           </button>
         </div>
       </div>

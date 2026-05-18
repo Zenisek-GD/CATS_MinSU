@@ -3,7 +3,7 @@
  * 
  * This document explains how to collect and analyze feedback for:
  * - Usability of the system
- * - Relevance to cybercrime awareness
+ * - Relevance to cyber awareness
  * - Practicality of simulation-based learning
  * - Participant perceptions and key themes
  */
@@ -212,7 +212,7 @@ const generateResearchReport = async () => {
       quiz: quizData.averages.relevance,
       simulation: simData.averages.relevance,
       module: moduleData.averages.relevance,
-      insight: 'Simulations perceived as most relevant to real cybercrime scenarios',
+      insight: 'Simulations perceived as most relevant to real cyber scenarios',
     },
 
     // PRACTICALITY
@@ -294,7 +294,7 @@ export function FeedbackDashboard() {
 
       {/* Relevance & Practicality */}
       <section className="dashboardSection">
-        <h2>Cybercrime Awareness Effectiveness</h2>
+        <h2>Cyber Awareness Effectiveness</h2>
         <div className="metricGrid">
           <div className="metric">
             <span className="label">Relevance</span>

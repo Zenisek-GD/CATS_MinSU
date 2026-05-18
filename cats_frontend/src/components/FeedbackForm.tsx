@@ -145,7 +145,7 @@ export function FeedbackForm({ activityType, activityId, onSubmit, onCancel }: F
                   onChange={(val) => handleScoreChange('usability', val)}
                 />
                 <LikertScale
-                  label="This content was relevant to cybercrime awareness"
+                  label="This content was relevant to cyber awareness"
                   value={scores.relevance}
                   onChange={(val) => handleScoreChange('relevance', val)}
                 />

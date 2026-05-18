@@ -8,12 +8,16 @@ export default defineConfig(({ mode }) => {
   const backendUrl = env.VITE_BACKEND_URL || 'http://127.0.0.1:8000'
 
   return {
-    base: '/dist/',
+    base: '/',
     plugins: [
       react(),
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'icon.svg'],
+        devOptions: {
+          enabled: true,
+          type: 'module',
+        },
         manifest: {
           name: 'MinSU CyberAware',
           short_name: 'CyberAware',
@@ -21,19 +25,40 @@ export default defineConfig(({ mode }) => {
           theme_color: '#0f172a',
           background_color: '#0b1c30',
           display: 'standalone',
+          start_url: '/',
+          scope: '/',
+          categories: ['education', 'productivity'],
+          screenshots: [
+            {
+              src: '/icon.svg',
+              sizes: '192x192',
+              type: 'image/svg+xml',
+              form_factor: 'narrow'
+            }
+          ],
           icons: [
             {
-              src: 'icon.svg',
+              src: '/cats logo.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: '/cats logo.png',
+              sizes: '512x512',
+              type: 'image/png'
+            },
+            {
+              src: '/icon.svg',
               sizes: '192x192',
               type: 'image/svg+xml'
             },
             {
-              src: 'icon.svg',
+              src: '/icon.svg',
               sizes: '512x512',
               type: 'image/svg+xml'
             },
             {
-              src: 'icon.svg',
+              src: '/icon.svg',
               sizes: '512x512',
               type: 'image/svg+xml',
               purpose: 'any maskable'
