@@ -73,6 +73,7 @@ export default function AuthPage() {
         throw new Error('Password must be at least 8 characters.')
       }
 
+      console.log('Submitting registration with role:', role, 'name:', name, 'email:', safeEmail)
       const resp = await registerWithEmail({
         name: name.trim() || undefined,
         email: safeEmail,
