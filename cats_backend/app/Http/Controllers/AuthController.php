@@ -15,16 +15,12 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        \Log::info('Register request received', $request->all());
-        
         $validated = $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'name' => ['nullable', 'string', 'max:255'],
             'role' => ['nullable', 'string', Rule::in(['teacher', 'student', 'user'])],
         ]);
-
-        \Log::info('Validated data', $validated);
 
         $request->validate([
             'email' => [Rule::unique('users', 'email')],
@@ -37,8 +33,6 @@ class AuthController extends Controller
             'role' => $validated['role'] ?? 'user',
             'participant_code' => null,
         ]);
-
-        \Log::info('User created with role: ' . $user->role);
 
         return $this->tokenResponse($user);
     }
