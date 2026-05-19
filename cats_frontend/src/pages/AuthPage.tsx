@@ -21,6 +21,7 @@ export default function AuthPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [role, setRole] = useState<'teacher' | 'student' | 'user'>('user')
 
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -33,7 +34,13 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (isReady && token && user) {
-      navigate(user.role === 'admin' ? '/admin/dashboard' : '/modules', { replace: true })
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard', { replace: true })
+      } else if (user.role === 'teacher') {
+        navigate('/teacher/classrooms', { replace: true })
+      } else {
+        navigate('/modules', { replace: true })
+      }
     }
   }, [isReady, token, user, navigate])
 
@@ -51,7 +58,9 @@ export default function AuthPage() {
       if (mode === 'login') {
         const resp = await loginWithEmail(safeEmail, password)
         setSession(resp)
-        const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
+        const dest = resp.user.role === 'admin' ? '/admin/dashboard' 
+                   : resp.user.role === 'teacher' ? '/teacher/classrooms'
+                   : '/modules'
         navigate(dest, { replace: true })
         return
       }
@@ -64,9 +73,12 @@ export default function AuthPage() {
         name: name.trim() || undefined,
         email: safeEmail,
         password,
+        role: role !== 'user' ? role : undefined,
       })
       setSession(resp)
-      const dest = resp.user.role === 'admin' ? '/admin/dashboard' : '/modules'
+      const dest = resp.user.role === 'admin' ? '/admin/dashboard'
+                 : resp.user.role === 'teacher' ? '/teacher/classrooms'
+                 : '/modules'
       navigate(dest, { replace: true })
     } catch (err: unknown) {
       setError(getAuthErrorMessage(err, mode))
@@ -110,7 +122,7 @@ export default function AuthPage() {
             type="button"
             role="tab"
             aria-selected={mode === 'login'}
-            onClick={() => { setMode('login'); setError(null); setMessage(null) }}
+            onClick={() => { setMode('login'); setError(null); setMessage(null); setRole('user') }}
           >
             Sign In
           </button>
@@ -119,7 +131,7 @@ export default function AuthPage() {
             type="button"
             role="tab"
             aria-selected={mode === 'register'}
-            onClick={() => { setMode('register'); setError(null); setMessage(null) }}
+            onClick={() => { setMode('register'); setError(null); setMessage(null); setRole('user') }}
           >
             Register
           </button>
@@ -132,18 +144,35 @@ export default function AuthPage() {
         {/* Form */}
         <form className="authForm" onSubmit={onSubmit}>
           {mode === 'register' && (
-            <div className="authField">
-              <label className="authLabel" htmlFor="auth-name">Full Name</label>
-              <input
-                className="authInput"
-                id="auth-name"
-                placeholder="Enter your full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="name"
-                disabled={busy}
-              />
-            </div>
+            <>
+              <div className="authField">
+                <label className="authLabel" htmlFor="auth-name">Full Name</label>
+                <input
+                  className="authInput"
+                  id="auth-name"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                  disabled={busy}
+                />
+              </div>
+
+              <div className="authField">
+                <label className="authLabel" htmlFor="auth-role">Account Type</label>
+                <select
+                  className="authInput"
+                  id="auth-role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as 'teacher' | 'student' | 'user')}
+                  disabled={busy}
+                >
+                  <option value="user">Learner / User</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="student">Student</option>
+                </select>
+              </div>
+            </>
           )}
 
           <div className="authField">

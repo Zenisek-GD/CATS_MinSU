@@ -19,6 +19,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'name' => ['nullable', 'string', 'max:255'],
+            'role' => ['nullable', 'string', Rule::in(['teacher', 'student', 'user'])],
         ]);
 
         $request->validate([
@@ -29,7 +30,7 @@ class AuthController extends Controller
             'name' => $validated['name'] ?? 'User',
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'user',
+            'role' => $validated['role'] ?? 'user',
             'participant_code' => null,
         ]);
 

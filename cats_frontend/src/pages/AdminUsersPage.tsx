@@ -106,6 +106,8 @@ export default function AdminUsersPage() {
           <select className="adminFilterSelect" value={roleFilter} onChange={e => setRoleFilter(e.target.value)}>
             <option value="">All Roles</option>
             <option value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
             <option value="user">User</option>
           </select>
           <select className="adminFilterSelect" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
@@ -184,6 +186,8 @@ export default function AdminUsersPage() {
               <label className="adminFormLabel">Role</label>
               <select className="adminFormSelect" value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}>
                 <option value="user">User</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
                 <option value="admin">Admin</option>
               </select>
             </div>

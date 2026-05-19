@@ -45,7 +45,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['nullable', 'string', Rule::in(['user', 'admin'])],
+            'role' => ['nullable', 'string', Rule::in(['user', 'student', 'teacher', 'admin'])],
         ]);
 
         $user = User::query()->create([
@@ -68,7 +68,7 @@ class AdminUserController extends Controller
             'name' => ['sometimes', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['sometimes', 'string', 'min:8'],
-            'role' => ['sometimes', 'string', Rule::in(['user', 'admin'])],
+            'role' => ['sometimes', 'string', Rule::in(['user', 'student', 'teacher', 'admin'])],
         ]);
 
         if (array_key_exists('name', $validated)) $user->name = $validated['name'];

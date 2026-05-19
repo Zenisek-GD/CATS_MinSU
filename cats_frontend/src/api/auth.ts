@@ -29,6 +29,7 @@ export async function registerWithEmail(payload: {
   name?: string
   email: string
   password: string
+  role?: 'teacher' | 'student' | 'user'
 }) {
   const { data } = await api.post<AuthResponse>('/api/auth/register', payload)
   return data
