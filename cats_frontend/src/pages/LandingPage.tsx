@@ -98,6 +98,7 @@ export default function LandingPage() {
         name: name.trim() || undefined,
         email: safeEmail,
         password,
+        role: registerRole || 'user',
       })
       setSession(resp)
       navigate(roleHome(resp.user.role), { replace: true })
