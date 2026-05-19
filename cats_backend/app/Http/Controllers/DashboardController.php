@@ -147,7 +147,7 @@ class DashboardController extends Controller
         // User growth (last 12 months)
         $userGrowth = DB::table('users')
             ->where('created_at', '>=', now()->subMonths(12))
-            ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('COUNT(*) as count'))
+            ->select(DB::raw("TO_CHAR(created_at, 'YYYY-MM') as month"), DB::raw('COUNT(*) as count'))
             ->groupBy('month')
             ->orderBy('month')
             ->get();
@@ -158,7 +158,7 @@ class DashboardController extends Controller
             ->where('max_score', '>', 0)
             ->where('updated_at', '>=', now()->subMonths(12))
             ->select(
-                DB::raw("DATE_FORMAT(updated_at, '%Y-%m') as month"),
+                DB::raw("TO_CHAR(updated_at, 'YYYY-MM') as month"),
                 DB::raw('ROUND(AVG(score * 100.0 / max_score), 1) as avg_score')
             )
             ->groupBy('month')
@@ -173,7 +173,7 @@ class DashboardController extends Controller
             ->select(
                 'qc.name as category',
                 DB::raw('COUNT(*) as total'),
-                DB::raw('SUM(CASE WHEN qaa.is_correct = 1 THEN 1 ELSE 0 END) as correct')
+                DB::raw('SUM(CASE WHEN qaa.is_correct = true THEN 1 ELSE 0 END) as correct')
             )
             ->groupBy('qc.name')
             ->get()
@@ -186,20 +186,18 @@ class DashboardController extends Controller
 
         // Daily activity (last 30 days)
         $dailyActivity = DB::select("
-            SELECT d.date,
+            SELECT d.date::text,
                    COALESCE(qa.count, 0) as quiz_attempts,
                    COALESCE(sr.count, 0) as simulation_runs
             FROM (
-                SELECT DATE(DATE_SUB(CURDATE(), INTERVAL n DAY)) as date
-                FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4
-                      UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
-                      UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14
-                      UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19
-                      UNION SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23 UNION SELECT 24
-                      UNION SELECT 25 UNION SELECT 26 UNION SELECT 27 UNION SELECT 28 UNION SELECT 29) nums
+                SELECT generate_series(
+                    CURRENT_DATE - INTERVAL '29 days',
+                    CURRENT_DATE,
+                    INTERVAL '1 day'
+                )::date as date
             ) d
-            LEFT JOIN (SELECT DATE(created_at) as dt, COUNT(*) as count FROM quiz_attempts GROUP BY dt) qa ON qa.dt = d.date
-            LEFT JOIN (SELECT DATE(started_at) as dt, COUNT(*) as count FROM simulation_runs GROUP BY dt) sr ON sr.dt = d.date
+            LEFT JOIN (SELECT created_at::date as dt, COUNT(*) as count FROM quiz_attempts GROUP BY dt) qa ON qa.dt = d.date
+            LEFT JOIN (SELECT started_at::date as dt, COUNT(*) as count FROM simulation_runs GROUP BY dt) sr ON sr.dt = d.date
             ORDER BY d.date
         ");
 
