@@ -54,7 +54,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # Debug: show installed PHP extensions before composer install
-RUN php -m && composer install --no-dev --optimize-autoloader --no-scripts --no-interaction --verbose
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
 # Copy the rest of the application
 COPY . .
