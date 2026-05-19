@@ -11,17 +11,16 @@ class Cors
     public function handle(Request $request, Closure $next)
     {
         $origin = $request->header('Origin');
-        Log::debug('CORS Request', [
-            'method' => $request->getMethod(),
-            'path' => $request->path(),
-            'origin' => $origin,
-            'host' => $request->host(),
-        ]);
+        $frontendUrl = rtrim((string) env('FRONTEND_URL', '*'), '/');
+
+        // Allow the configured frontend origin, or any origin if not set
+        $allowedOrigin = ($frontendUrl && $frontendUrl !== '*' && $origin === $frontendUrl)
+            ? $origin
+            : '*';
 
         if ($request->isMethod('OPTIONS')) {
-            Log::debug('Preflight request received', ['origin' => $origin]);
             $preflight = response()->noContent();
-            $preflight->headers->set('Access-Control-Allow-Origin', '*');
+            $preflight->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
             $preflight->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
             $preflight->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
             $preflight->headers->set('Access-Control-Expose-Headers', 'Authorization');
@@ -31,8 +30,7 @@ class Cors
 
         $response = $next($request);
 
-        // Use the headers bag so this works for all response types
-        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
         $response->headers->set('Access-Control-Expose-Headers', 'Authorization');
