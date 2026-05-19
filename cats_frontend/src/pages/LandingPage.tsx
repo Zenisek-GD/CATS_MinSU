@@ -31,11 +31,13 @@ export default function LandingPage() {
 
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<AuthMode>('login')
-  const [landingStep, setLandingStep] = useState<'hero' | 'roles'>('hero')
+  const [loginRole, setLoginRole] = useState<'admin' | 'teacher' | 'student' | null>(null)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [registerRole, setRegisterRole] = useState<'student' | 'teacher' | null>(null)
+  const [teacherCode, setTeacherCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -50,6 +52,9 @@ export default function LandingPage() {
 
   function openAuth(mode: AuthMode) {
     setAuthMode(mode)
+    if (mode === 'login') {
+      setLoginRole(null)
+    }
     setError(null)
     setMessage(null)
     setAuthModalOpen(true)
@@ -57,6 +62,7 @@ export default function LandingPage() {
 
   function closeAuth() {
     setAuthModalOpen(false)
+    setLoginRole(null)
   }
 
   async function onAuthSubmit(e: React.FormEvent) {
@@ -78,6 +84,14 @@ export default function LandingPage() {
 
       if (authMode === 'register' && !name.trim()) {
         throw new Error('Name is required for registration.')
+      }
+
+      if (authMode === 'register' && !registerRole) {
+        throw new Error('Please select a role.')
+      }
+
+      if (authMode === 'register' && registerRole === 'teacher' && !teacherCode.trim()) {
+        throw new Error('Teacher verification code is required.')
       }
 
       const resp = await registerWithEmail({
@@ -190,7 +204,13 @@ export default function LandingPage() {
           </button>
           <button
             id="landing-register-btn"
-            onClick={() => openAuth('register')}
+            onClick={() => {
+              setAuthMode('register')
+              setRegisterRole(null)
+              setError(null)
+              setMessage(null)
+              setAuthModalOpen(true)
+            }}
             className="landingNavBtn landingNavBtnSolid"
           >
             Get started
@@ -201,100 +221,59 @@ export default function LandingPage() {
       {/* ─── Hero ─── */}
       <section className="landingHero">
         <div className="landingHeroInner">
+          {/* Live badge */}
+          <div className="landingBadge">
+            <span className="liveDot" />
+            Interactive cyber awareness training
+          </div>
 
-          {/* ─── STEP: Role Picker (slides in after START) ─── */}
-          {landingStep === 'roles' ? (
-            <div className="landingRolePicker" aria-label="Choose your role">
-              <button
-                className="landingRoleBack"
-                onClick={() => setLandingStep('hero')}
-                aria-label="Back"
-              >
-                <Icon name="arrow_back" size={18} />
-                Back
-              </button>
-              <h2 className="landingRoleTitle">Who are you?</h2>
-              <p className="landingRoleSub">Choose your role to get started.</p>
-              <div className="landingRoleCards">
-                <button
-                  id="role-student-btn"
-                  className="landingRoleCard"
-                  onClick={() => { openAuth('register') }}
-                >
-                  <span className="landingRoleCardIcon">🎓</span>
-                  <span className="landingRoleCardLabel">Student</span>
-                  <span className="landingRoleCardDesc">Learn, simulate &amp; assess</span>
-                </button>
-                <button
-                  id="role-teacher-btn"
-                  className="landingRoleCard"
-                  onClick={() => { openAuth('login') }}
-                >
-                  <span className="landingRoleCardIcon">👩‍🏫</span>
-                  <span className="landingRoleCardLabel">Teacher</span>
-                  <span className="landingRoleCardDesc">Manage classrooms &amp; content</span>
-                </button>
-                <button
-                  id="role-admin-btn"
-                  className="landingRoleCard"
-                  onClick={() => { openAuth('login') }}
-                >
-                  <span className="landingRoleCardIcon">🛡️</span>
-                  <span className="landingRoleCardLabel">Admin</span>
-                  <span className="landingRoleCardDesc">System administration</span>
-                </button>
-              </div>
+          {/* Pulsing shield rings */}
+          <div className="shieldWrap">
+            <div className="shieldRing" />
+            <div className="shieldRing" />
+            <div className="shieldRing" />
+            <div className="shieldCenter">
+              <span className="material-symbols-outlined" style={{ fontSize: 36 }}>shield</span>
             </div>
-          ) : (
-            <>
-              {/* Live badge */}
-              <div className="landingBadge">
-                <span className="liveDot" />
-                Interactive cyber awareness training
-              </div>
+          </div>
 
-              {/* Pulsing shield rings */}
-              <div className="shieldWrap">
-                <div className="shieldRing" />
-                <div className="shieldRing" />
-                <div className="shieldRing" />
-                <div className="shieldCenter">
-                  <span className="material-symbols-outlined" style={{ fontSize: 36 }}>shield</span>
-                </div>
-              </div>
+          {/* Headline */}
+          <h1 className="landingHeroTitle">Be aware.</h1>
+          <p className="landingHeroTitle2">Be cyber-safe.</p>
 
-              {/* Headline */}
-              <h1 className="landingHeroTitle">Be aware.</h1>
-              <p className="landingHeroTitle2">Be cyber-safe.</p>
+          <p className="landingHeroSub">
+            Learn to recognize phishing, malware, and social engineering through
+            hands-on simulations and guided modules — built for MinSU students
+            and educators.
+          </p>
 
-              <p className="landingHeroSub">
-                Learn to recognize phishing, malware, and social engineering through
-                hands-on simulations and guided modules — built for MinSU students
-                and educators.
-              </p>
-
-              {/* Single START CTA */}
-              <div className="landingHeroActions">
-                <button
-                  id="hero-start-btn"
-                  className="landingCtaPrimary landingCtaStart"
-                  onClick={() => setLandingStep('roles')}
-                >
-                  <Icon name="rocket_launch" size={20} />
-                  START
-                  <Icon name="arrow_forward" size={20} />
-                </button>
-              </div>
-            </>
-          )}
+          {/* CTA Buttons */}
+          <div className="landingHeroActions">
+            <button
+              id="hero-login-btn"
+              className="landingCtaPrimary"
+              onClick={() => openAuth('login')}
+            >
+              <Icon name="login" size={20} />
+              Sign In
+            </button>
+            <button
+              id="hero-register-btn"
+              className="landingCtaSecondary"
+              onClick={() => openAuth('register')}
+            >
+              <Icon name="person_add" size={20} />
+              Get Started
+            </button>
+          </div>
         </div>
       </section>
 
       {/* ─── Stats Strip ─── */}
       <section className="landingStats">
         <div className="landingStat">
-          <div className="landingStatValue">3 Roles</div>
-          <div className="landingStatLabel">Student · Teacher · Admin</div>
+          <div className="landingStatValue">2 Roles</div>
+          <div className="landingStatLabel">Student · Teacher</div>
         </div>
         <div className="landingStat">
           <div className="landingStatValue">Interactive</div>
@@ -435,34 +414,103 @@ export default function LandingPage() {
               <p className="authBrandSub">Cyber Awareness Training System — MinSU</p>
             </div>
 
-            {/* Tabs */}
-            <div className="authTabs" role="tablist" aria-label="Auth mode">
-              <button
-                className={`authTab ${authMode === 'login' ? 'active' : ''}`}
-                type="button"
-                role="tab"
-                aria-selected={authMode === 'login'}
-                onClick={() => { setAuthMode('login'); setError(null); setMessage(null) }}
-              >
-                Sign In
-              </button>
-              <button
-                className={`authTab ${authMode === 'register' ? 'active' : ''}`}
-                type="button"
-                role="tab"
-                aria-selected={authMode === 'register'}
-                onClick={() => { setAuthMode('register'); setError(null); setMessage(null) }}
-              >
-                Register
-              </button>
-            </div>
+            {/* Show role selector for login mode when no role selected */}
+            {authMode === 'login' && !loginRole ? (
+              <>
+                <h2 style={{ marginTop: 24, marginBottom: 8, fontSize: 18, fontWeight: 600, textAlign: 'center' }}>Who are you?</h2>
+                <p style={{ marginBottom: 20, fontSize: 14, color: '#666', textAlign: 'center' }}>Choose your role to sign in.</p>
+                <div className="landingRoleCards" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <button
+                    id="role-student-btn"
+                    className="landingRoleCard"
+                    onClick={() => setLoginRole('student')}
+                    style={{ width: '100%' }}
+                  >
+                    <span className="landingRoleCardIcon">🎓</span>
+                    <span className="landingRoleCardLabel">Student</span>
+                    <span className="landingRoleCardDesc">Learn, simulate &amp; assess</span>
+                  </button>
+                  <button
+                    id="role-teacher-btn"
+                    className="landingRoleCard"
+                    onClick={() => setLoginRole('teacher')}
+                    style={{ width: '100%' }}
+                  >
+                    <span className="landingRoleCardIcon">👩‍🏫</span>
+                    <span className="landingRoleCardLabel">Teacher</span>
+                    <span className="landingRoleCardDesc">Manage classrooms &amp; content</span>
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Tabs */}
+                <div className="authTabs" role="tablist" aria-label="Auth mode">
+                  <button
+                    className={`authTab ${authMode === 'login' ? 'active' : ''}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={authMode === 'login'}
+                    onClick={() => { setAuthMode('login'); setLoginRole(null); setError(null); setMessage(null) }}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    className={`authTab ${authMode === 'register' ? 'active' : ''}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={authMode === 'register'}
+                    onClick={() => { setAuthMode('register'); setRegisterRole(null); setLoginRole(null); setError(null); setMessage(null) }}
+                  >
+                    Register
+                  </button>
+                </div>
 
-            {/* Messages */}
-            {error && <div className="authError">{error}</div>}
-            {message && <div className="authSuccess">{message}</div>}
+                {/* Messages */}
+                {error && <div className="authError">{error}</div>}
+                {message && <div className="authSuccess">{message}</div>}
 
-            {/* Form */}
-            <form className="authForm" onSubmit={onAuthSubmit}>
+                {/* Register role selector */}
+                {authMode === 'register' && !registerRole ? (
+                  <div style={{ marginTop: 20 }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, textAlign: 'center' }}>Choose your role:</p>
+                    <div style={{ display: 'flex', gap: 10 }}>
+                      <button
+                        type="button"
+                        onClick={() => setRegisterRole('student')}
+                        style={{
+                          flex: 1,
+                          padding: '12px',
+                          border: '2px solid #ddd',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: 14,
+                          fontWeight: 500,
+                        }}
+                      >
+                        🎓 Student
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRegisterRole('teacher')}
+                        style={{
+                          flex: 1,
+                          padding: '12px',
+                          border: '2px solid #ddd',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: 14,
+                          fontWeight: 500,
+                        }}
+                      >
+                        👩‍🏫 Teacher
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                {/* Form */}
+                <form className="authForm" onSubmit={onAuthSubmit}>
               {authMode === 'register' && (
                 <div className="authField">
                   <label className="authLabel" htmlFor="auth-name">Full Name</label>
@@ -507,6 +555,21 @@ export default function LandingPage() {
                 />
               </div>
 
+              {authMode === 'register' && registerRole === 'teacher' && (
+                <div className="authField">
+                  <label className="authLabel" htmlFor="auth-teacher-code">Teacher Verification Code</label>
+                  <input
+                    className="authInput"
+                    id="auth-teacher-code"
+                    placeholder="Enter your teacher code"
+                    value={teacherCode}
+                    onChange={(e) => setTeacherCode(e.target.value)}
+                    disabled={busy}
+                  />
+                  <p style={{ fontSize: 12, color: '#666', marginTop: 4 }}>Please enter your teacher verification code provided by the admin.</p>
+                </div>
+              )}
+
               <div className="authActions">
                 <button className="authSubmitBtn" type="submit" disabled={busy}>
                   {busy ? 'Please wait…' : submitLabel}
@@ -524,6 +587,10 @@ export default function LandingPage() {
                 )}
               </div>
             </form>
+              </>
+            )}
+              </>
+            )}
           </div>
         </div>
       )}
