@@ -12,13 +12,26 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libgmp-dev \
-    libcurl4-openssl-dev \
     libicu-dev \
     zip \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd xml zip gmp curl intl fileinfo \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions (curl, fileinfo, etc. are already in php:8.3-apache base)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) \
+    pdo \
+    pdo_pgsql \
+    pgsql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    xml \
+    zip \
+    gmp \
+    intl
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -39,7 +52,9 @@ WORKDIR /var/www/html
 
 # Copy composer files first for better caching
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
+
+# Debug: show installed PHP extensions before composer install
+RUN php -m && composer install --no-dev --optimize-autoloader --no-scripts --no-interaction --verbose
 
 # Copy the rest of the application
 COPY . .
