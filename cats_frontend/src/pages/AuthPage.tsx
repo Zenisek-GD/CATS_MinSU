@@ -69,6 +69,10 @@ export default function AuthPage() {
         throw new Error('Name is required for registration.')
       }
 
+      if (mode === 'register' && password.length < 8) {
+        throw new Error('Password must be at least 8 characters.')
+      }
+
       const resp = await registerWithEmail({
         name: name.trim() || undefined,
         email: safeEmail,
