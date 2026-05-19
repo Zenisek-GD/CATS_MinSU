@@ -73,7 +73,7 @@ export default function AuthPage() {
         name: name.trim() || undefined,
         email: safeEmail,
         password,
-        role: role !== 'user' ? role : undefined,
+        role,
       })
       setSession(resp)
       const dest = resp.user.role === 'admin' ? '/admin/dashboard'
