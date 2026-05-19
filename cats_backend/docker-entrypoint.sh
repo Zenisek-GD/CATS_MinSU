@@ -24,5 +24,12 @@ php artisan storage:link --force 2>/dev/null || true
 echo "Running migrations..."
 php artisan migrate --force
 
+# Seed database if RUN_SEED is set (remove env var after first deploy)
+if [ "$RUN_SEED" = "true" ]; then
+    echo "Seeding database..."
+    php artisan db:seed --force
+    echo "Seeding complete! Remove RUN_SEED env var to prevent re-seeding."
+fi
+
 echo "=== Starting Apache ==="
 exec apache2-foreground
